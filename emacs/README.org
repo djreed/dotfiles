@@ -4,9 +4,28 @@
 
 * Configuration
 ** Basics
+*** Defaults
+		Default options
+#+BEGIN_SRC emacs-lisp :tangle yes
+;; Lets start with a smattering of sanity
+(require 'sane-defaults)
+#+END_SRC
+
 *** Visual
 		Basic visual changes, mostly disabling the UI
 #+BEGIN_SRC emacs-lisp :tangle yes
+
+;; Don't defer screen updates when performing operations
+(setq redisplay-dont-pause t)
+
+;; Highlight matching parentheses when the point is on them.
+(show-paren-mode 1)
+
+;; Sweet window-splits
+(defadvice split-window-right (after balance activate) (balance-windows))
+(defadvice delete-window (after balance activate) (balance-windows))
+
+;; Existing options
 (setq-default initial-scratch-message "")
 (setq-default inhibit-startup-message t)
 (setq-default visible-bell t)
@@ -15,12 +34,25 @@
 (scroll-bar-mode 0)
 (blink-cursor-mode 0)
 (setq-default truncate-lines t)
+
+;; Highlight line, modify line bg
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#3e4446")
+(set-face-foreground 'highlight nil)
+
+;; Make zooming affect frame instead of buffers
+(require 'zoom-frm)
+
 #+END_SRC
 
 *** Font
 #+BEGIN_SRC emacs-lisp :tangle yes
-(set-face-font 'default "Fantasque Sans Mono-16")
+
+;;(set-face-font 'default "Fantasque Sans Mono-16")
+(set-default-font "DejaVu Sans Mono")
+(set-face-attribute 'default nil :height 105)
 (global-prettify-symbols-mode)
+
 #+END_SRC
 
 *** Custom file
@@ -48,7 +80,21 @@
 		This makes the mark popping command repeat when hit multiple times in
 		succession
 #+BEGIN_SRC emacs-lisp :tangle yes
+
 (setq-default set-mark-command-repeat-pop t)
+
+#+END_SRC
+
+*** Blink modeline on err
+    		Remove the obnoxious bell, and just blink a line on an error.
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+;; Don't beep. Don't visible-bell (fails on el capitan).
+;; Just blink the modeline on errors.
+(setq visible-bell nil)
+(setq ring-bell-function (lambda ()
+                           (invert-face 'mode-line)
+                           (run-with-timer 0.05 nil 'invert-face 'mode-line)))
 #+END_SRC
 
 ** Packaging
@@ -60,7 +106,9 @@
 		These contain the packages that I install later.
 #+BEGIN_SRC emacs-lisp :tangle yes
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;;(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/") t)
 
@@ -104,6 +152,14 @@
 ;;(load-theme 'kaolin t)
 (use-package tao-theme :ensure t)
 (load-theme 'tao-yang t)
+
+(defun use-default-theme ()
+  (interactive)
+  (load-theme 'better-tango-dark)
+  (when (boundp 'magnars/default-font)
+    (set-face-attribute 'default nil :font magnars/default-font)))
+
+(use-default-theme)
 #+END_SRC
 
 ** Packages and Modes
@@ -291,6 +347,23 @@
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 #+END_SRC
 
+*** diminish and unicode-mode
+#+BEGIN_SRC emacs-lisp :tangle yes
+(require 'diminish)
+
+(require 'unicode-mode)
+#+END_SRC
+
+*** smex
+#+BEGIN_SRC emacs-lisp :tangle yes
+(require 'smex)
+(smex-initialize)
+#+END_SRC
+*** delete-selection-mode
+#+BEGIN_SRC emacs-lisp :tangle yes
+(delete-selection-mode 1)
+#+END_SRC
+
 *** Programming languages
 		This is where all of my programming-language-specific configuration lives
 
@@ -398,7 +471,8 @@
 ** Global Keybinds
 *** Quit
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "C-c q") 'save-buffers-kill-emacs)
+;; REALLY QUIT
+(global-set-key (kbd "C-c r q") 'save-buffers-kill-emacs)
 #+END_SRC
 
 *** M-x replacement
@@ -413,12 +487,19 @@
 (global-set-key (kbd "C-c w F") 'make-frame)
 (global-set-key (kbd "C-c w x") 'delete-frame)
 (global-set-key (kbd "C-c w f") 'other-frame)
+
+(global-set-key (kbd "C-x C-o") 'other-window)
+(global-set-key (kbd "C-x o") 'other-window)
 #+END_SRC
 
 *** File Finding
 #+BEGIN_SRC emacs-lisp :tangle yes
 (global-set-key (kbd "C-c f f") 'counsel-find-file)
 (global-set-key (kbd "C-c f g") 'counsel-git)
+
+;; Find file in project
+(global-set-key (kbd "C-x o") 'find-file-in-project)
+
 #+END_SRC
 
 *** Swiper
@@ -451,12 +532,74 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
 (global-set-key (kbd "C-c b b") 'ivy-switch-buffer)
 (global-set-key (kbd "C-c b k") 'kill-buffer)
+
+;; Eval buffer
+(global-set-key (kbd "C-c C-k") 'eval-buffer)
+
+;; Display and edit occurances of regexp in buffer
+(global-set-key (kbd "C-c o") 'occur)
+
+;; View occurrence in occur mode
+(define-key occur-mode-map (kbd "v") 'occur-mode-display-occurrence)
+(define-key occur-mode-map (kbd "n") 'next-line)
+(define-key occur-mode-map (kbd "p") 'previous-line)
+
+;; Ethan's additions...
+(global-set-key (kbd "C-.") 'end-of-buffer)
+(global-set-key (kbd "C-,") 'beginning-of-buffer)
+(global-set-key (kbd "C-'") 'indent-region)
+
+(global-set-key (kbd "M-{") '(lambda ()
+                               (interactive)
+                               (if (search-forward "{" nil t)
+                                   (backward-char 1))))
+
+(global-set-key (kbd "M-}") '(lambda ()
+                               (interactive)
+                               (if (search-forward "}" nil t)
+                                   (backward-char 1))))
 #+END_SRC
 
 *** Editing
 #+BEGIN_SRC emacs-lisp :tangle yes
 (global-set-key (kbd "C-S-k") 'kill-whole-line)
 (global-set-key (kbd "C-w") 'kill-region-or-backward-kill-word)
+
+;; Smart M-x
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+
+;; Perform general cleanup.
+(global-set-key (kbd "C-c n") 'cleanup-buffer)
+(global-set-key (kbd "C-c C-n") 'cleanup-buffer)
+(global-set-key (kbd "C-c C-<return>") 'delete-blank-lines)
+
+;; Use M-w for copy-line if no active region
+(global-set-key (kbd "M-w") 'save-region-or-current-line)
+(global-set-key (kbd "s-w") 'save-region-or-current-line)
+(global-set-key (kbd "M-W") (λ (save-region-or-current-line 1)))
+
+;; Change word separators
+(global-unset-key (kbd "C-x +")) ;; used to be balance-windows
+(global-set-key (kbd "C-x + -") (λ (replace-region-by 's-dashed-words)))
+(global-set-key (kbd "C-x + _") (λ (replace-region-by 's-snake-case)))
+(global-set-key (kbd "C-x + c") (λ (replace-region-by 's-lower-camel-case)))
+(global-set-key (kbd "C-x + C") (λ (replace-region-by 's-upper-camel-case)))
+
+;; Font size
+(define-key global-map (kbd "C-+") 'zoom-frm-in)
+(define-key global-map (kbd "C--") 'zoom-frm-out)
+
+(global-set-key (kbd "s-i") 'copy-inner)
+(global-set-key (kbd "s-o") 'copy-outer)
+
+;; Edit file with sudo
+(global-set-key (kbd "M-s e") 'sudo-edit)
+
+;; Comment/uncomment block
+(global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
+(global-set-key (kbd "C-c u") 'uncomment-region)
 #+END_SRC
 
 **** Nicer Ergonomics
@@ -476,6 +619,42 @@
 	 This is used to load custimizations that I don't want to track in git.
 #+BEGIN_SRC emacs-lisp :tangle yes
 (if (file-exists-p "~/.emacs.d/local.el") (load-file "~/.emacs.d/local.el"))
+#+END_SRC
+
+** Etc.
+		Rando commando changes that don't have a proper place.
+#+BEGIN_SRC emacs-lisp :tangle yes
+;; Seed the RNG
+(random t)
+
+(defun count-buffers (&optional display-anyway)
+  "Display or return the number of buffers."
+  (interactive)
+  (let ((buf-count (length (buffer-list))))
+    (if (or (interactive-p) display-anyway)
+        (message "%d buffers in this Emacs" buf-count)) buf-count))
+
+;; Unfill paragraph
+(defun unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil region)))
+
+(global-set-key (kbd "M-U") 'unfill-paragraph)
+
+
+;; Keep region when undoing in region
+(defadvice undo-tree-undo (around keep-region activate)
+  (if (use-region-p)
+      (let ((m (set-marker (make-marker) (mark)))
+            (p (set-marker (make-marker) (point))))
+        ad-do-it
+        (goto-char p)
+        (set-mark m)
+        (set-marker p nil)
+        (set-marker m nil))
+    ad-do-it))
 #+END_SRC
 
 * The End
