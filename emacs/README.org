@@ -1,22 +1,40 @@
 * Introduction
 	This is my Emacs configuration. The main features are:
-	- More ergonomic binds for Dvorak
+	- Uh, all of it
 
 * Configuration
-** Basics
-*** Defaults
-		Default options
+** Theme
 #+BEGIN_SRC emacs-lisp :tangle yes
-;; Lets start with a smattering of sanity
-(require 'sane-defaults)
+;; (use-package challenger-deep-theme :ensure t :init (load-theme 'challenger-deep t))
+;; (use-package espresso-theme :ensure t :init (load-theme 'espresso t))
+;; (use-package plan9-theme :ensure t :init (load-theme 'plan9 t))
+;; (use-package color-theme-solarized :ensure t
+;;   :init (load-theme 'solarized t)
+;;   :config (setq-default frame-background-mode 'light))
+;;(vendor-and-load-remote-file "https://raw.githubusercontent.com/zovt/emacs-simple-theme/master/simple-theme.el" "simple-theme.el")
+;;(use-package leuven-theme :ensure t)
+;;(use-package kaolin-theme :ensure t)
+;;(load-theme 'kaolin t)
+;;(use-package tao-theme :ensure t)
+;;(load-theme 'tao-yang t)
+
+(defun use-default-theme ()
+  (interactive)
+  (load-theme 'better-tango-dark))
+
+(use-default-theme)
 #+END_SRC
 
+** Basics
 *** Visual
 		Basic visual changes, mostly disabling the UI
 #+BEGIN_SRC emacs-lisp :tangle yes
 
 ;; Don't defer screen updates when performing operations
 (setq redisplay-dont-pause t)
+
+;; No splash screen please ... jeez
+(setq inhibit-startup-message t)
 
 ;; Highlight matching parentheses when the point is on them.
 (show-paren-mode 1)
@@ -25,24 +43,21 @@
 (defadvice split-window-right (after balance activate) (balance-windows))
 (defadvice delete-window (after balance activate) (balance-windows))
 
-;; Existing options
+;; No error bell
 (setq-default initial-scratch-message "")
 (setq-default inhibit-startup-message t)
 (setq-default visible-bell t)
+
+;; Turn off obnoxious bars
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
 (blink-cursor-mode 0)
-(setq-default truncate-lines t)
 
 ;; Highlight line, modify line bg
 (global-hl-line-mode 1)
 (set-face-background 'hl-line "#3e4446")
 (set-face-foreground 'highlight nil)
-
-;; Make zooming affect frame instead of buffers
-(require 'zoom-frm)
-
 #+END_SRC
 
 *** Font
@@ -88,13 +103,130 @@
 *** Blink modeline on err
     		Remove the obnoxious bell, and just blink a line on an error.
 #+BEGIN_SRC emacs-lisp :tangle yes
-
 ;; Don't beep. Don't visible-bell (fails on el capitan).
 ;; Just blink the modeline on errors.
 (setq visible-bell nil)
 (setq ring-bell-function (lambda ()
                            (invert-face 'mode-line)
                            (run-with-timer 0.05 nil 'invert-face 'mode-line)))
+#+END_SRC
+
+*** Sane defaults
+	 This is used to load customizations that I don't want to track in git.
+#+BEGIN_SRC emacs-lisp :tangle yes
+;; Allow pasting selection outside of Emacs
+(setq x-select-enable-clipboard t)
+
+;; Auto refresh buffers
+(global-auto-revert-mode 1)
+
+;; Also auto refresh dired, but be quiet about it
+(setq global-auto-revert-non-file-buffers t)
+(setq auto-revert-verbose nil)
+
+;; Show keystrokes in progress
+(setq echo-keystrokes 0.1)
+
+;; Move files to trash when deleting
+(setq delete-by-moving-to-trash t)
+
+;; Real emacs knights don't use shift to mark things
+(setq shift-select-mode nil)
+
+;; Transparently open compressed files
+(auto-compression-mode t)
+
+;; Enable syntax highlighting for older Emacsen that have it off
+(global-font-lock-mode t)
+
+;; Answering just 'y' or 'n' will do
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+;; Undo/redo window configuration with C-c <left>/<right>
+(winner-mode 1)
+
+;; UTF-8 please
+(setq locale-coding-system 'utf-8) ; pretty
+(set-terminal-coding-system 'utf-8) ; pretty
+(set-keyboard-coding-system 'utf-8) ; pretty
+(set-selection-coding-system 'utf-8) ; please
+(prefer-coding-system 'utf-8) ; with sugar on top
+
+;; Show active region
+(transient-mark-mode 1)
+(make-variable-buffer-local 'transient-mark-mode)
+(put 'transient-mark-mode 'permanent-local t)
+(setq-default transient-mark-mode t)
+
+;; Don't highlight matches with jump-char - it's distracting
+(setq jump-char-lazy-highlight-face nil)
+
+;; Always display line and column numbers
+(setq line-number-mode t)
+(setq column-number-mode t)
+
+;; Lines should be 80 characters wide, not 72
+(setq fill-column 80)
+
+;; Save minibuffer history
+(savehist-mode 1)
+(setq history-length 1000)
+
+;; DO insert tabs
+(set-default 'indent-tabs-mode t)
+
+;; Show me empty lines after buffer end
+(set-default 'indicate-empty-lines t)
+
+;; Easily navigate sillycased words
+(global-subword-mode 1)
+
+;; Don't break lines for me, please
+(setq-default truncate-lines nil)
+
+;; Allow recursive minibuffers
+(setq enable-recursive-minibuffers t)
+
+;; Don't be so stingy on the memory, we have lots now. It's the distant future.
+(setq gc-cons-threshold 20000000)
+
+;; org-mode: Don't ruin S-arrow to switch windows please (use M-+ and M-- instead to toggle)
+(setq org-replace-disputed-keys t)
+
+;; Fontify org-mode code blocks
+(setq org-src-fontify-natively t)
+
+;; Sentences do not need double spaces to end. Period.
+(set-default 'sentence-end-double-space nil)
+
+;; 100 chars is a good width.
+(set-default 'fill-column 100)
+
+;; A saner ediff
+(setq ediff-diff-options "-w")
+(setq ediff-split-window-function 'split-window-horizontally)
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+;; No electric indent
+(setq electric-indent-mode nil)
+
+;; Nic says eval-expression-print-level needs to be set to nil (turned off) so
+;; that you can always see what's happening.
+(setq eval-expression-print-level nil)
+
+;; When popping the mark, continue popping until the cursor actually moves
+;; Also, if the last command was a copy - skip past all the expand-region cruft.
+(defadvice pop-to-mark-command (around ensure-new-position activate)
+  (let ((p (point)))
+    (when (eq last-command 'save-region-or-current-line)
+      ad-do-it
+      ad-do-it
+      ad-do-it)
+    (dotimes (i 10)
+      (when (= p (point)) ad-do-it))))
+
+(setq set-mark-command-repeat-pop t)
+
 #+END_SRC
 
 ** Packaging
@@ -106,7 +238,7 @@
 		These contain the packages that I install later.
 #+BEGIN_SRC emacs-lisp :tangle yes
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
-;;(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
@@ -138,33 +270,30 @@
     (load-file local-file)))
 #+END_SRC
 
-** Theme
-#+BEGIN_SRC emacs-lisp :tangle yes
-;; (use-package challenger-deep-theme :ensure t :init (load-theme 'challenger-deep t))
-;; (use-package espresso-theme :ensure t :init (load-theme 'espresso t))
-;; (use-package plan9-theme :ensure t :init (load-theme 'plan9 t))
-;; (use-package color-theme-solarized :ensure t
-;;   :init (load-theme 'solarized t)
-;;   :config (setq-default frame-background-mode 'light))
-;;(vendor-and-load-remote-file "https://raw.githubusercontent.com/zovt/emacs-simple-theme/master/simple-theme.el" "simple-theme.el")
-;;(use-package leuven-theme :ensure t)
-;;(use-package kaolin-theme :ensure t)
-;;(load-theme 'kaolin t)
-(use-package tao-theme :ensure t)
-(load-theme 'tao-yang t)
-
-(defun use-default-theme ()
-  (interactive)
-  (load-theme 'better-tango-dark)
-  (when (boundp 'magnars/default-font)
-    (set-face-attribute 'default nil :font magnars/default-font)))
-
-(use-default-theme)
-#+END_SRC
-
 ** Packages and Modes
 	 This is where most of the magic happens. Here I load various packages and
 	 modes and configure them.
+*** ace-window
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package ace-window :ensure t :config (setq-default aw-dispatch-always t))
+#+END_SRC
+
+*** all-the-icons
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package all-the-icons :ensure t
+  :config
+  (setq all-the-icons-color-icons nil))
+#+END_SRC
+
+**** all-the-icons-dired
+		 
+**** 
+**** 
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package all-the-icons-dired :ensure t
+  :config
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+#+END_SRC
 
 *** auto-fill-mode for comments
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -172,24 +301,6 @@
                             (interactive)
                             (auto-fill-mode 1)
                             (setq comment-auto-fill-only-comments t)))
-#+END_SRC
-
-*** whitespace-mode
-#+BEGIN_SRC emacs-lisp :tangle yes
-(require 'whitespace)
-(setq-default whitespace-line-column 80
-              whitespace-style '(face lines-tail))
-(global-whitespace-mode 1)
-#+END_SRC
-
-*** electric-pair-mode
-#+BEGIN_SRC emacs-lisp :tangle yes
-(electric-pair-mode)
-#+END_SRC
-
-*** undo-tree
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package undo-tree :ensure t)
 #+END_SRC
 
 *** company
@@ -202,52 +313,14 @@
   (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 
-*** flycheck
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package flycheck :ensure t :init (global-flycheck-mode))
-#+END_SRC
-
-*** smart-tabs
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package smart-tabs-mode :ensure t :config (smart-tabs-insinuate 'c 'c++ 'javascript))
-#+END_SRC
-
-*** smooth scrolling
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package smooth-scrolling :ensure t :config (smooth-scrolling-mode 1))
-#+END_SRC
-
-*** ivy
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package ivy :ensure t :init (ivy-mode)
-  :config
-  (setq-default ivy-use-virtual-buffers t
-                ivy-count-format "%d/%d"))
-#+END_SRC
-
-*** swiper
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package swiper :ensure t)
-#+END_SRC
-
 *** counsel
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package counsel :ensure t)
 #+END_SRC
 
-*** ripgrep
+*** delete-selection-mode
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package ripgrep :ensure t)
-#+END_SRC
-
-*** magit
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package magit :ensure t)
-#+END_SRC
-
-*** rest client
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package restclient :ensure t)
+(delete-selection-mode 1)
 #+END_SRC
 
 *** diff-hl
@@ -258,14 +331,69 @@
   (global-diff-hl-mode))
 #+END_SRC
 
-*** rainbow-delimiters
+*** diminish
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package rainbow-delimiters :ensure t
-  :config
-  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
+(use-package diminish :ensure t)
 #+END_SRC
 
-*** Multiple cursors
+*** electric-pair-mode
+#+BEGIN_SRC emacs-lisp :tangle yes
+(electric-pair-mode)
+#+END_SRC
+
+*** exec path from shell
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package exec-path-from-shell :ensure t :init (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize)))
+#+END_SRC
+
+*** flycheck
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package flycheck :ensure t :init (global-flycheck-mode))
+#+END_SRC
+
+*** ido-mode
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package ido
+  :ensure t
+  :config
+  (setq ido-enable-prefix t
+        ido-enable-flex-matching t
+        ido-create-new-buffer 'always
+        ido-use-filename-at-point 'guess
+        ido-max-prospects 10
+        ido-default-file-method 'selected-window
+        ido-auto-merge-work-directories-length -1)
+  (ido-mode +1))
+
+(use-package ido-completing-read+
+  :ensure t
+  :config
+  (ido-ubiquitous-mode +1))
+#+END_SRC
+
+*** ivy
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package ivy :ensure t :init (ivy-mode)
+  :config
+  (setq-default ivy-use-virtual-buffers t
+                ivy-count-format "%d/%d"))
+#+END_SRC
+
+*** ledger
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package ledger-mode :ensure t
+  :config
+  (setq-default ledger-mode-should-check-version nil
+                ledger-report-links-in-register nil
+                ledger-binary-path "hledger"))
+#+END_SRC
+
+*** magit
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package magit :ensure t)
+#+END_SRC
+
+*** multiple cursors
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package multiple-cursors :ensure t
   :config
@@ -273,6 +401,18 @@
   (global-set-key (kbd "C-<") 'mc/mark-all-symbols-like-this))
 #+END_SRC
 
+*** neotree
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package neotree :ensure t
+  :config
+  (setq neo-theme 'icons))
+#+END_SRC
+*** nlinum
+#+BEGIN_SRC emacs-lisp :tangle yes
+	(use-package nlinum :ensure t
+		:config
+		(global-nlinum-mode))
+#+END_SRC
 *** org mode
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package org-plus-contrib :ensure t)
@@ -294,23 +434,60 @@
 (ox-extras-activate '(ignore-headlines))
 #+END_SRC
 
-*** exec path from shell
+*** rainbow-delimiters
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package exec-path-from-shell :ensure t :init (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize)))
-#+END_SRC
-
-*** ledger
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package ledger-mode :ensure t
+(use-package rainbow-delimiters :ensure t
   :config
-  (setq-default ledger-mode-should-check-version nil
-                ledger-report-links-in-register nil
-                ledger-binary-path "hledger"))
+  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
 
-*** ace-window
+*** recent-file-mode
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package ace-window :ensure t :config (setq-default aw-dispatch-always t))
+;; Save a list of recent files visited. (open recent file with C-x f)
+(recentf-mode 1)
+(setq recentf-max-saved-items 100) ;; just 20 is too recent
+#+END_SRC
+
+*** rest client
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package restclient :ensure t)
+#+END_SRC
+
+*** ripgrep
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package ripgrep :ensure t)
+#+END_SRC
+
+*** smart-tabs
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package smart-tabs-mode :ensure t :config (smart-tabs-insinuate 'c 'c++ 'javascript))
+#+END_SRC
+
+*** smex
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package smex :ensure t)
+(smex-initialize)
+#+END_SRC
+
+*** smooth scrolling
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package smooth-scrolling :ensure t :config (smooth-scrolling-mode 1))
+
+;; scroll one line at a time (less "jumpy" than defaults)
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+(setq scroll-step 1) ;; keyboard scroll one line at a time
+#+END_SRC
+
+*** swiper
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package swiper :ensure t)
+#+END_SRC
+
+*** undo-tree
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package undo-tree :ensure t :init (global-undo-tree-mode))
 #+END_SRC
 
 *** which-key
@@ -318,63 +495,47 @@
 (use-package which-key :ensure t :config (which-key-mode))
 #+END_SRC
 
-*** nlinum
+*** whitespace-mode
 #+BEGIN_SRC emacs-lisp :tangle yes
-	(use-package nlinum :ensure t
-		:config
-		(global-nlinum-mode))
+(require 'whitespace)
+(setq-default whitespace-line-column 80
+              whitespace-style '(face lines-tail))
+(global-whitespace-mode 1)
 #+END_SRC
-*** neotree
+
+*** zoom
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package neotree :ensure t
+;; Zoom affect frame instead of buffer
+(use-package zoom-frm :ensure t)
+#+END_SRC
+
+** Programming languages
+		This is where all of my programming-language-specific configuration
+		lives
+*** Elixir
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package elixir-mode :ensure t
   :config
-  (setq neo-theme 'icons))
+  (add-hook 'elixir-mode #'subword-mode))
 #+END_SRC
-*** all-the-icons
+
+*** Ruby
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package all-the-icons :ensure t
+(use-package ruby-mode :ensure t
   :config
-  (setq all-the-icons-color-icons nil))
+  (add-hook 'ruby-mode-hook #'subword-mode))
+(setq ruby-indent-tabs-mode t)
+(defvaralias 'ruby-indent-level 'tab-width)
 #+END_SRC
 
-**** all-the-icons-dired
-		 
-**** 
-**** 
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package all-the-icons-dired :ensure t
-  :config
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
-#+END_SRC
-
-*** diminish and unicode-mode
-#+BEGIN_SRC emacs-lisp :tangle yes
-(require 'diminish)
-
-(require 'unicode-mode)
-#+END_SRC
-
-*** smex
-#+BEGIN_SRC emacs-lisp :tangle yes
-(require 'smex)
-(smex-initialize)
-#+END_SRC
-*** delete-selection-mode
-#+BEGIN_SRC emacs-lisp :tangle yes
-(delete-selection-mode 1)
-#+END_SRC
-
-*** Programming languages
-		This is where all of my programming-language-specific configuration lives
-
-**** Lisp and Emacs-Lisp
+*** Lisp and Emacs-Lisp
 #+BEGIN_SRC emacs-lisp :tangle yes
 (defun disable-tabs () "Disable tabs locally in a buffer." (setq-local indent-tabs-mode nil))
 (add-hook 'lisp-mode-hook 'disable-tabs)
 (add-hook 'emacs-lisp-mode-hook 'disable-tabs)
 #+END_SRC
 
-**** Go
+*** Go
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package go-mode :ensure t
   :config
@@ -397,7 +558,7 @@
 (use-package company-go :ensure t :config (add-to-list 'company-backends 'company-go))
 #+END_SRC
 
-**** Rust
+*** Rust
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package flycheck-rust :ensure t
   :config
@@ -416,11 +577,11 @@
 	(define-key racer-mode-map (kbd "C-c t D") 'racer-describe))
 #+END_SRC
 
-**** MIPS Assembly
+*** MIPS Assembly
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package mips-mode :ensure t)
 #+END_SRC
-**** Prose (the written word)
+*** Prose (the written word)
 #+BEGIN_SRC emacs-lisp :tangle yes
 (vendor-and-load-remote-file "https://raw.githubusercontent.com/amperser/proselint/master/plugins/flycheck/flycheck-proselint.el"
                              "flycheck-proselint.el")
@@ -430,14 +591,14 @@
 (add-to-list 'flycheck-checkers 'vale 'proselint)
 #+END_SRC
 
-**** C / C++ / CMake
+*** C / C++ / CMake
 #+BEGIN_SRC emacs-lisp :tangle yes
-	(use-package cmake-mode :ensure t)
-	(use-package company-cmake :ensure t)
-	(use-package cmake-ide :ensure t :config (cmake-ide-setup))
+(use-package cmake-mode :ensure t)
+(use-package company-cmake :ensure t)
+(use-package cmake-ide :ensure t :config (cmake-ide-setup))
 #+END_SRC
 
-**** Markdown
+*** Markdown
 #+BEGIN_SRC emacs-lisp :tangle yes
 	(use-package markdown-mode
 		:ensure t
@@ -447,9 +608,11 @@
 					 ("\\.markdown\\'" . markdown-mode))
 		:init (setq markdown-command "pandoc -f markdown_github -t html"))
 #+END_SRC
-**** Code Visuals
+*** Code Visuals
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq-default tab-width 2)
+(setq-default indent-tabs-mode t)
+(setq-default tab-width 4) ; Assuming you want your tabs to be four spaces wide
+(defvaralias 'c-basic-offset 'tab-width)
 (add-hook 'prog-mode-hook 'show-paren-mode)
 #+END_SRC
 
@@ -466,6 +629,20 @@
   (interactive (list (prefix-numeric-value current-prefix-arg) (use-region-p)))
   (if region (kill-region (region-beginning) (region-end))
     (backward-kill-word arg)))
+
+(defun replace-region-by (fn)
+  (let* ((beg (region-beginning))
+         (end (region-end))
+         (contents (buffer-substring beg end)))
+    (delete-region beg end)
+    (insert (funcall fn contents))))
+
+(defun save-region-or-current-line (arg)
+  (interactive "P")
+  (if (region-active-p)
+      (kill-ring-save (region-beginning) (region-end))
+    (copy-line arg)))
+
 #+END_SRC
 
 ** Global Keybinds
@@ -474,7 +651,7 @@
 ;; REALLY QUIT
 (global-set-key (kbd "C-c r q") 'save-buffers-kill-emacs)
 #+END_SRC
-
+    
 *** M-x replacement
 #+BEGIN_SRC emacs-lisp :tangle yes
 (global-set-key (kbd "C-c x") 'counsel-M-x)
@@ -496,15 +673,6 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
 (global-set-key (kbd "C-c f f") 'counsel-find-file)
 (global-set-key (kbd "C-c f g") 'counsel-git)
-
-;; Find file in project
-(global-set-key (kbd "C-x o") 'find-file-in-project)
-
-#+END_SRC
-
-*** Swiper
-#+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "C-c C-c") 'swiper)
 #+END_SRC
 
 *** Ripgrep
@@ -530,14 +698,8 @@
 
 *** Buffers
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "C-c b b") 'ivy-switch-buffer)
-(global-set-key (kbd "C-c b k") 'kill-buffer)
-
 ;; Eval buffer
 (global-set-key (kbd "C-c C-k") 'eval-buffer)
-
-;; Display and edit occurances of regexp in buffer
-(global-set-key (kbd "C-c o") 'occur)
 
 ;; View occurrence in occur mode
 (define-key occur-mode-map (kbd "v") 'occur-mode-display-occurrence)
@@ -570,22 +732,16 @@
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
-;; Perform general cleanup.
-(global-set-key (kbd "C-c n") 'cleanup-buffer)
-(global-set-key (kbd "C-c C-n") 'cleanup-buffer)
-(global-set-key (kbd "C-c C-<return>") 'delete-blank-lines)
-
 ;; Use M-w for copy-line if no active region
 (global-set-key (kbd "M-w") 'save-region-or-current-line)
 (global-set-key (kbd "s-w") 'save-region-or-current-line)
-(global-set-key (kbd "M-W") (λ (save-region-or-current-line 1)))
 
 ;; Change word separators
 (global-unset-key (kbd "C-x +")) ;; used to be balance-windows
-(global-set-key (kbd "C-x + -") (λ (replace-region-by 's-dashed-words)))
-(global-set-key (kbd "C-x + _") (λ (replace-region-by 's-snake-case)))
-(global-set-key (kbd "C-x + c") (λ (replace-region-by 's-lower-camel-case)))
-(global-set-key (kbd "C-x + C") (λ (replace-region-by 's-upper-camel-case)))
+(global-set-key (kbd "C-x + -") (lambda (replace-region-by 's-dashed-words)))
+(global-set-key (kbd "C-x + _") (lambda (replace-region-by 's-snake-case)))
+(global-set-key (kbd "C-x + c") (lambda (replace-region-by 's-lower-camel-case)))
+(global-set-key (kbd "C-x + C") (lambda (replace-region-by 's-upper-camel-case)))
 
 ;; Font size
 (define-key global-map (kbd "C-+") 'zoom-frm-in)
@@ -602,17 +758,17 @@
 (global-set-key (kbd "C-c u") 'uncomment-region)
 #+END_SRC
 
-**** Nicer Ergonomics
+**** Dvorak Ergonomics
 		 These keys are easier to hit on Dvorak
 #+BEGIN_SRC emacs-lisp :tangle yes
-(define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
-(define-key key-translation-map (kbd "C-t") (kbd "C-c"))
-(define-key key-translation-map (kbd "C-.") (kbd "C-x"))
+;;(define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
+;;(define-key key-translation-map (kbd "C-t") (kbd "C-c"))
+;;(define-key key-translation-map (kbd "C-.") (kbd "C-x"))
 
-(global-set-key (kbd "C-c h") 'help)
-(global-set-key (kbd "M-g") 'goto-line)
-(global-set-key (kbd "C--") 'save-buffer)
-(global-set-key (kbd "C-,") 'transpose-chars)
+;;(global-set-key (kbd "C-c h") 'help)
+;;(global-set-key (kbd "M-g") 'goto-line)
+;;(global-set-key (kbd "C--") 'save-buffer)
+;(global-set-key (kbd "C-,") 'transpose-chars)
 #+END_SRC
 
 ** Load Local Customizations
@@ -626,35 +782,6 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; Seed the RNG
 (random t)
-
-(defun count-buffers (&optional display-anyway)
-  "Display or return the number of buffers."
-  (interactive)
-  (let ((buf-count (length (buffer-list))))
-    (if (or (interactive-p) display-anyway)
-        (message "%d buffers in this Emacs" buf-count)) buf-count))
-
-;; Unfill paragraph
-(defun unfill-paragraph (&optional region)
-  "Takes a multi-line paragraph and makes it into a single line of text."
-  (interactive (progn (barf-if-buffer-read-only) '(t)))
-  (let ((fill-column (point-max)))
-    (fill-paragraph nil region)))
-
-(global-set-key (kbd "M-U") 'unfill-paragraph)
-
-
-;; Keep region when undoing in region
-(defadvice undo-tree-undo (around keep-region activate)
-  (if (use-region-p)
-      (let ((m (set-marker (make-marker) (mark)))
-            (p (set-marker (make-marker) (point))))
-        ad-do-it
-        (goto-char p)
-        (set-mark m)
-        (set-marker p nil)
-        (set-marker m nil))
-    ad-do-it))
 #+END_SRC
 
 * The End

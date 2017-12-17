@@ -1,10 +1,88 @@
-## Options ##
-autoload -Uz compinit
-compinit
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-zstyle ':completion:*' menu select
+# Path to your oh-my-zsh installation.
+export ZSH=/home/djreed/.oh-my-zsh
 
-setopt COMPLETE_ALIASES
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(bundler cp git git-extras github history)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+export SSH_KEY_PATH="~/.ssh/rsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # History
 export HISTFILE=~/.history
@@ -14,42 +92,107 @@ setopt inc_append_history
 setopt hist_ignore_dups
 setopt hist_ignore_space
 
-# Prompt
-autoload -Uz promptinit
-promptinit
-prompt suse
+export GIT_HOME="~/Code/src/github.com/djreed/"
 
-## Aliases ##
-# Git
-alias g='git'
-compdef g='git'
+export NOTES="~/Notes/"
 
-# FZF
-alias cdz='cd $(find . | fzf)'
-alias cz='c $(fzf)'
-alias clz='c $(fzf) | less'
+export CODE="~/Code/"
 
-# Colorized cat
-alias c='highlight -O ansi'
+# export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
 
-# NVIM aliases
-alias e='nvim'
-alias ez='nvim $(fzf)'
+export NVM_DIR="/home/djreed/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# Golang
+export GOPATH=~/Code/
+
+export PATH=$PATH:$GOROOT/bin
+export PATH=$PATH:$GOPATH/bin
+
+# Ruby
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
+# navigation shortcuts
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+if [[ $(uname) == "Darwin" ]]; then
+  alias l="ls -lAhG"
+  alias la="ls -lAGh"
+  alias ll="ls -lGh"
+  alias ls="ls -Gh"
+fi
+if [[ $(uname) == "FreeBSD" ]]; then
+  alias l="ls -lAhG"
+  alias la="ls -lAGh"
+  alias ll="ls -lGh"
+  alias ls="ls -Gh"
+fi
+if [[ $(uname -a | grep Ubuntu) ]]; then
+  alias l="ls -lah --color"
+  alias la="ls -la --color"
+  alias ll="ls -l --color"
+  alias ls="ls --color"
+fi
+
+# git
+alias g="git"
+alias ga='git add'
+alias gb='git branch'
+alias gbs='git-branches'
+alias gc='git commit -S'
+alias gcb='git checkout -b'
+alias gco='git checkout'
+alias gcp='git cherry-pick'
+alias gd='git diff'
+alias gf='git fetch'
+alias gl='git pull'
+alias glog="git log --graph --pretty=format:'%Cred%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%aN>%Creset' --abbrev-commit"
+alias glr='git pull --rebase'
+alias gm='git merge'
+alias gp='git push'
+alias gr='git remote'
+alias gs='git status'
+alias gsl='git stash list'
+alias gsp='git stash pop'
+alias gss='git stash save'
+
+alias gp='git push'
+alias gpo='git push origin'
+
+# golang
+alias gob="go build"
+alias gof="go fmt"
+alias gog="go get"
+alias goi="go install"
+
+# party parrot
+alias celebrate="terminal-parrot -delay 50 -loops 3"
+alias parrot="terminal-parrot"
+
+# docker-compose
+alias dc="docker-compose"
+alias dcd="docker-compose down"
+alias dcl="docker-compose pull"
+alias dcu="docker-compose up"
+alias dcud="docker-compose up -d"
+
+# docker
+alias d="docker"
+alias dim="docker images"
+alias dps="docker ps"
 
 # Tree
 alias t='tree'
 alias tl='tree | less'
 
-# Ripgrep FZF
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+# Colorized cat
+alias c='highlight -O ansi'
 
-# NVIM as Editor
-export EDITOR=nvim
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
 
-# Source zshenv
-source ~/.zshenv
-
-## Other (probably autoappended) ##
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-export PATH=$PATH:$HOME/.cargo/bin/
+# RVM
+source /home/djreed/.rvm/scripts/rvm
