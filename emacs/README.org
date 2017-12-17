@@ -5,24 +5,14 @@
 * Configuration
 ** Theme
 #+BEGIN_SRC emacs-lisp :tangle yes
-;; (use-package challenger-deep-theme :ensure t :init (load-theme 'challenger-deep t))
-;; (use-package espresso-theme :ensure t :init (load-theme 'espresso t))
-;; (use-package plan9-theme :ensure t :init (load-theme 'plan9 t))
-;; (use-package color-theme-solarized :ensure t
-;;   :init (load-theme 'solarized t)
-;;   :config (setq-default frame-background-mode 'light))
-;;(vendor-and-load-remote-file "https://raw.githubusercontent.com/zovt/emacs-simple-theme/master/simple-theme.el" "simple-theme.el")
-;;(use-package leuven-theme :ensure t)
-;;(use-package kaolin-theme :ensure t)
-;;(load-theme 'kaolin t)
-;;(use-package tao-theme :ensure t)
-;;(load-theme 'tao-yang t)
 
-(defun use-default-theme ()
-  (interactive)
-  (load-theme 'better-tango-dark))
+;;(defun use-default-theme ()
+;;(interactive)
+;;(load-theme 'better-tango-dark))
+;;(use-default-theme)
 
-(use-default-theme)
+(load-theme 'tango-dark t)
+
 #+END_SRC
 
 ** Basics
@@ -356,19 +346,23 @@
 (use-package ido
   :ensure t
   :config
-  (setq ido-enable-prefix t
+  (setq ido-enable-prefix nil
         ido-enable-flex-matching t
-        ido-create-new-buffer 'always
-        ido-use-filename-at-point 'guess
-        ido-max-prospects 10
-        ido-default-file-method 'selected-window
-        ido-auto-merge-work-directories-length -1)
-  (ido-mode +1))
+		ido-case-fold t
+		ido-auto-merge-work-directories-length -1
+		ido-create-new-buffer 'always
+		ido-use-filename-at-point nil
+		ido-max-prospects 10)
+  (ido-mode t))
 
+(set-default 'imenu-auto-rescan t)
+
+;; Use ido everywhere
 (use-package ido-completing-read+
   :ensure t
   :config
   (ido-ubiquitous-mode +1))
+
 #+END_SRC
 
 *** ivy
