@@ -41,7 +41,7 @@
 ;; Turn off obnoxious bars
 (tool-bar-mode 0)
 (menu-bar-mode 0)
-(scroll-bar-mode 0)
+(scroll-bar-mode -1)
 (blink-cursor-mode 0)
 
 ;; Highlight line, modify line bg
@@ -54,7 +54,7 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
 
 ;;(set-face-font 'default "Fantasque Sans Mono-16")
-(set-default-font "DejaVu Sans Mono")
+;;(set-default-font "DejaVu Sans Mono")
 (set-face-attribute 'default nil :height 105)
 (global-prettify-symbols-mode)
 
@@ -409,7 +409,7 @@
 #+END_SRC
 *** org mode
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package org-plus-contrib :ensure t)
+(use-package org :ensure org-plus-contrib :ensure t)
 (add-hook 'org-mode-hook (lambda ()
                            (auto-fill-mode)
                            (setq-local fill-column 80)))
