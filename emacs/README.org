@@ -303,11 +303,6 @@
   (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 
-*** counsel
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package counsel :ensure t)
-#+END_SRC
-
 *** delete-selection-mode
 #+BEGIN_SRC emacs-lisp :tangle yes
 (delete-selection-mode 1)
@@ -537,6 +532,13 @@
 (defvaralias 'ruby-indent-level 'tab-width)
 #+END_SRC
 
+*** Haml
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package haml-mode :ensure t
+  :config
+  (define-key haml-mode-map "\C-m" 'newline-and-ni))
+#+END_SRC
+
 *** Lisp and Emacs-Lisp
 #+BEGIN_SRC emacs-lisp :tangle yes
 (defun disable-tabs () "Disable tabs locally in a buffer." (setq-local indent-tabs-mode nil))
@@ -618,8 +620,8 @@
 		:init (setq markdown-command "pandoc -f markdown_github -t html"))
 #+END_SRC
 ** Useful Functions
+*** Editing
 #+BEGIN_SRC emacs-lisp :tangle yes
-;; editing
 (defun scratch () "Create a new scratch buffer."
        (interactive)
        (switch-to-buffer "*scratch*")
@@ -643,7 +645,103 @@
   (if (region-active-p)
       (kill-ring-save (region-beginning) (region-end))
     (copy-line arg)))
+#+END_SRC
 
+*** Files
+#+BEGIN_SRC emacs-lisp :tangle yes
+(defun rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting."
+  (interactive)
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
+
+(defun delete-current-buffer-file ()
+  "Removes file connected to current buffer and kills buffer."
+  (interactive)
+  (let ((filename (buffer-file-name))
+        (buffer (current-buffer))
+        (name (buffer-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (ido-kill-buffer)
+      (when (yes-or-no-p "Are you sure you want to remove this file? ")
+        (delete-file filename)
+        (kill-buffer buffer)
+        (message "File '%s' successfully removed" filename)))))
+
+(defun copy-current-file-path ()
+  "Add current file path to kill ring. Limits the filename to project root if possible."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (kill-new (if eproject-mode
+                  (s-chop-prefix (eproject-root) filename)
+                filename))))
+
+(defun find-or-create-file-at-point ()
+  "Guesses what parts of the buffer under point is a file name and opens it."
+  (interactive)
+  (find-file (file-name-at-point)))
+
+(defun find-or-create-file-at-point-other-window ()
+  "Guesses what parts of the buffer under point is a file name and opens it."
+  (interactive)
+  (find-file-other-window (file-name-at-point)))
+
+(defun file-name-at-point ()
+  (save-excursion
+    (let* ((file-name-regexp "[./a-zA-Z0-9\-_~]")
+           (start (progn
+                    (while (looking-back file-name-regexp)
+                      (forward-char -1))
+                    (point)))
+           (end (progn
+                  (while (looking-at file-name-regexp)
+                    (forward-char 1))
+                  (point))))
+      (buffer-substring start end))))
+(defun touch-buffer-file ()
+  (interactive)
+  (insert " ")
+  (backward-delete-char 1)
+  (save-buffer))
+#+END_SRC
+
+*** Buffers
+#+BEGIN_SRC emacs-lisp :tangle yes
+(defun create-scratch-buffer nil
+  "create a new scratch buffer to work in. (could be *scratch* - *scratchX*)"
+  (interactive)
+  (let ((n 0)
+        bufname)
+    (while (progn
+             (setq bufname (concat "*scratch"
+                                   (if (= n 0) "" (int-to-string n))
+                                   "*"))
+             (setq n (1+ n))
+             (get-buffer bufname)))
+    (switch-to-buffer (get-buffer-create bufname))
+    (emacs-lisp-mode)
+    ))
+
+(defun split-window-right-and-move-there-dammit ()
+  (interactive)
+  (split-window-right)
+  (windmove-right))
+
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 #+END_SRC
 
 ** Global Keybinds
@@ -652,44 +750,46 @@
 ;; REALLY QUIT
 (global-set-key (kbd "C-c r q") 'save-buffers-kill-emacs)
 #+END_SRC
-    
+
 *** M-x replacement
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "C-c x") 'counsel-M-x)
-(global-set-key (kbd "M-x") 'counsel-M-x)
+;; Smart M-x
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 #+END_SRC
 
 *** Window management
 #+BEGIN_SRC emacs-lisp :tangle yes
+
+;; Frame management
 (global-set-key (kbd "C-c w o") 'ace-window)
 (global-set-key (kbd "C-c w F") 'make-frame)
 (global-set-key (kbd "C-c w x") 'delete-frame)
 (global-set-key (kbd "C-c w f") 'other-frame)
 
+;; Move windows with or without C-x
 (global-set-key (kbd "C-x C-o") 'other-window)
 (global-set-key (kbd "C-x o") 'other-window)
+
+(global-set-key (kbd "C-x 3") 'split-window-right-and-move-there-dammit)
+
 #+END_SRC
 
 *** File Finding
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "C-c f f") 'counsel-find-file)
-(global-set-key (kbd "C-c f g") 'counsel-git)
+;; Find files by name and display results in dired
+(global-set-key (kbd "M-s f") 'find-name-dired)
 #+END_SRC
 
 *** Ripgrep
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "C-c r") 'counsel-rg)
-(global-set-key (kbd "C-c R") 'ripgrep-regexp)
+(global-set-key (kbd "C-c r") 'ripgrep-regexp)
 #+END_SRC
 
 *** Magit
 #+BEGIN_SRC emacs-lisp :tangle yes
 (global-set-key (kbd "C-c G") 'magit-status)
-#+END_SRC
-
-*** Compile
-#+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "C-c c") 'compile)
 #+END_SRC
 
 *** undo-tree
@@ -701,6 +801,20 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; Eval buffer
 (global-set-key (kbd "C-c C-k") 'eval-buffer)
+
+;; Delete buffer file
+(global-set-key (kbd "C-x C-k") `delete-current-buffer-file)
+
+;; Multi-occur
+(global-set-key (kbd "M-s m") 'multi-occur)
+(global-set-key (kbd "M-s M") 'multi-occur-in-matching-buffers)
+
+;; Display and edit occurances of regexp in buffer
+(global-set-key (kbd "C-c o") 'occur)
+
+;; Like isearch-*-use-region, but doesn't fuck with the active region
+(global-set-key (kbd "C-S-s") 'isearch-forward)
+(global-set-key (kbd "C-S-r") 'isearch-backward)
 
 ;; View occurrence in occur mode
 (define-key occur-mode-map (kbd "v") 'occur-mode-display-occurrence)
@@ -728,11 +842,6 @@
 (global-set-key (kbd "C-S-k") 'kill-whole-line)
 (global-set-key (kbd "C-w") 'kill-region-or-backward-kill-word)
 
-;; Smart M-x
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-
 ;; Use M-w for copy-line if no active region
 (global-set-key (kbd "M-w") 'save-region-or-current-line)
 (global-set-key (kbd "s-w") 'save-region-or-current-line)
@@ -757,19 +866,11 @@
 ;; Comment/uncomment block
 (global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
 (global-set-key (kbd "C-c u") 'uncomment-region)
-#+END_SRC
 
-**** Dvorak Ergonomics
-		 These keys are easier to hit on Dvorak
-#+BEGIN_SRC emacs-lisp :tangle yes
-;;(define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
-;;(define-key key-translation-map (kbd "C-t") (kbd "C-c"))
-;;(define-key key-translation-map (kbd "C-.") (kbd "C-x"))
-
-;;(global-set-key (kbd "C-c h") 'help)
-;;(global-set-key (kbd "M-g") 'goto-line)
-;;(global-set-key (kbd "C--") 'save-buffer)
-;(global-set-key (kbd "C-,") 'transpose-chars)
+;; View occurrence in occur mode
+(define-key occur-mode-map (kbd "v") 'occur-mode-display-occurrence)
+(define-key occur-mode-map (kbd "n") 'next-line)
+(define-key occur-mode-map (kbd "p") 'previous-line)
 #+END_SRC
 
 ** Load Local Customizations
