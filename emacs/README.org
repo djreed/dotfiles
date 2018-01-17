@@ -303,6 +303,11 @@
   (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 
+*** counsel
+#+BEGIN_SRC emacs-list :tangle yes
+(use-package counsel :ensure t)
+#+END_SRC
+
 *** delete-selection-mode
 #+BEGIN_SRC emacs-lisp :tangle yes
 (delete-selection-mode 1)
@@ -338,17 +343,20 @@
 
 *** ido-mode
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package ido
-  :ensure t
+(use-package ido :ensure t 
   :config
   (setq ido-enable-prefix nil
-        ido-enable-flex-matching t
-		ido-case-fold t
-		ido-auto-merge-work-directories-length -1
-		ido-create-new-buffer 'always
-		ido-use-filename-at-point nil
-		ido-max-prospects 10)
-  (ido-mode t))
+  ido-enable-flex-matching t
+	ido-case-fold t
+	ido-auto-merge-work-directories-length -1
+	ido-create-new-buffer 'always
+	ido-use-filename-at-point nil
+	ido-max-prospects 10)
+  (ido-mode 1))
+
+(use-package flx-ido :ensure t
+  :config 
+  (flx-ido-mode 1))
 
 (set-default 'imenu-auto-rescan t)
 
@@ -539,6 +547,13 @@
   (define-key haml-mode-map "\C-m" 'newline-and-ni))
 #+END_SRC
 
+*** Yaml
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package yaml-mode :ensure t
+  :config
+  (define-key yaml-mode-map "\C-m" 'newline-and-indent))
+#+END_SRC
+
 *** Lisp and Emacs-Lisp
 #+BEGIN_SRC emacs-lisp :tangle yes
 (defun disable-tabs () "Disable tabs locally in a buffer." (setq-local indent-tabs-mode nil))
@@ -619,6 +634,13 @@
 					 ("\\.markdown\\'" . markdown-mode))
 		:init (setq markdown-command "pandoc -f markdown_github -t html"))
 #+END_SRC
+*** Terraform
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package terraform-mode :ensure t)
+(custom-set-variables
+ '(terraform-indent-level 2))
+#+END_SRC
+
 ** Useful Functions
 *** Editing
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -756,6 +778,7 @@
 ;; Smart M-x
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; This is your old M-x.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 #+END_SRC
 
