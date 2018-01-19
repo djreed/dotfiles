@@ -118,6 +118,8 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
+
+# listing shortcuts
 if [[ $(uname) == "Darwin" ]]; then
   alias l="ls -lAhG"
   alias la="ls -lAGh"
