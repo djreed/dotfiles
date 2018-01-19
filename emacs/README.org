@@ -237,7 +237,7 @@
 (package-initialize)
 #+END_SRC
 
-*** use-package
+*** Use-package
 		I use use-package to install and configure my packages. This checks if
 		use-package is installed and if not, installs it.
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -263,12 +263,12 @@
 ** Packages and Modes
 	 This is where most of the magic happens. Here I load various packages and
 	 modes and configure them.
-*** ace-window
+*** Ace-window
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ace-window :ensure t :config (setq-default aw-dispatch-always t))
 #+END_SRC
 
-*** all-the-icons
+*** All-the-icons
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package all-the-icons :ensure t
   :config
@@ -285,7 +285,7 @@
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 #+END_SRC
 
-*** auto-fill-mode for comments
+*** Auto-fill-mode for comments
 #+BEGIN_SRC emacs-lisp :tangle yes
 (add-hook 'prog-mode-hook (lambda ()
                             (interactive)
@@ -293,7 +293,19 @@
                             (setq comment-auto-fill-only-comments t)))
 #+END_SRC
 
-*** company
+*** Auto-complete
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package auto-complete :ensure t
+  :config
+  (add-to-list 'ac-dictionary-directories
+    "~/.emacs.d/.cask/24.3.50.1/elpa/auto-complete-20130724.1750/dict")
+  (ac-config-default)
+  (setq ac-ignore-case nil)
+  (add-to-list 'ac-modes 'enh-ruby-mode)
+  (add-to-list 'ac-modes 'web-mode))
+#+END_SRC
+
+*** Company
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package company :ensure t
   :config
@@ -308,12 +320,12 @@
 (use-package counsel :ensure t)
 #+END_SRC
 
-*** delete-selection-mode
+*** Delete-selection-mode
 #+BEGIN_SRC emacs-lisp :tangle yes
 (delete-selection-mode 1)
 #+END_SRC
 
-*** diff-hl
+*** Diff-hl
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package diff-hl :ensure t
   :config
@@ -321,27 +333,27 @@
   (global-diff-hl-mode))
 #+END_SRC
 
-*** diminish
+*** Diminish
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package diminish :ensure t)
 #+END_SRC
 
-*** electric-pair-mode
+*** Electric-pair-mode
 #+BEGIN_SRC emacs-lisp :tangle yes
 (electric-pair-mode)
 #+END_SRC
 
-*** exec path from shell
+*** Exec path from shell
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package exec-path-from-shell :ensure t :init (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize)))
 #+END_SRC
 
-*** flycheck
+*** Flycheck
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package flycheck :ensure t :init (global-flycheck-mode))
 #+END_SRC
 
-*** ido-mode
+*** Ido-mode
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ido :ensure t 
   :config
@@ -368,7 +380,7 @@
 
 #+END_SRC
 
-*** ivy
+*** Ivy
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ivy :ensure t :init (ivy-mode)
   :config
@@ -376,7 +388,7 @@
                 ivy-count-format "%d/%d"))
 #+END_SRC
 
-*** ledger
+*** Ledger
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ledger-mode :ensure t
   :config
@@ -385,12 +397,12 @@
                 ledger-binary-path "hledger"))
 #+END_SRC
 
-*** magit
+*** Magit
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package magit :ensure t)
 #+END_SRC
 
-*** multiple cursors
+*** Multiple cursors
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package multiple-cursors :ensure t
   :config
@@ -398,19 +410,19 @@
   (global-set-key (kbd "C-<") 'mc/mark-all-symbols-like-this))
 #+END_SRC
 
-*** neotree
+*** Neotree
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package neotree :ensure t
   :config
   (setq neo-theme 'icons))
 #+END_SRC
-*** nlinum
+*** Nlinum
 #+BEGIN_SRC emacs-lisp :tangle yes
 	(use-package nlinum :ensure t
 		:config
 		(global-nlinum-mode))
 #+END_SRC
-*** org mode
+*** Org mode
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package org :ensure org-plus-contrib :ensure t)
 (add-hook 'org-mode-hook (lambda ()
@@ -431,42 +443,42 @@
 (ox-extras-activate '(ignore-headlines))
 #+END_SRC
 
-*** rainbow-delimiters
+*** Rainbow-delimiters
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package rainbow-delimiters :ensure t
   :config
   (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
 
-*** recent-file-mode
+*** Recent-file-mode
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; Save a list of recent files visited. (open recent file with C-x f)
 (recentf-mode 1)
 (setq recentf-max-saved-items 100) ;; just 20 is too recent
 #+END_SRC
 
-*** rest client
+*** Rest client
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package restclient :ensure t)
 #+END_SRC
 
-*** ripgrep
+*** Ripgrep
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ripgrep :ensure t)
 #+END_SRC
 
-*** smart-tabs
+*** Smart-tabs
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package smart-tabs-mode :ensure t :config (smart-tabs-insinuate 'c 'c++ 'javascript))
 #+END_SRC
 
-*** smex
+*** Smex
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package smex :ensure t)
 (smex-initialize)
 #+END_SRC
 
-*** smooth scrolling
+*** Smooth scrolling
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package smooth-scrolling :ensure t :config (smooth-scrolling-mode 1))
 
@@ -477,22 +489,22 @@
 (setq scroll-step 1) ;; keyboard scroll one line at a time
 #+END_SRC
 
-*** swiper
+*** Swiper
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package swiper :ensure t)
 #+END_SRC
 
-*** undo-tree
+*** Undo-tree
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package undo-tree :ensure t :init (global-undo-tree-mode))
 #+END_SRC
 
-*** which-key
+*** Which-key
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package which-key :ensure t :config (which-key-mode))
 #+END_SRC
 
-*** whitespace-mode
+*** Whitespace-mode
 #+BEGIN_SRC emacs-lisp :tangle yes
 (require 'whitespace)
 (setq-default whitespace-line-column 80
@@ -500,7 +512,7 @@
 (global-whitespace-mode -1) ;; 1 to enable
 #+END_SRC
 
-*** zoom
+*** Zoom
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; Zoom affect frame instead of buffer
 (use-package zoom-frm :ensure t)
@@ -533,11 +545,26 @@
 
 *** Ruby
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package ruby-mode :ensure t
+(use-package enh-ruby-mode :ensure t
   :config
-  (add-hook 'ruby-mode-hook #'subword-mode))
+  (add-hook 'enh-ruby-mode-hook #'subword-mode))
 (setq ruby-indent-tabs-mode nil) ;; or "t"
+(setq enh-ruby-indent-tabs-mode nil) ;; or "t"
+
 (defvaralias 'ruby-indent-level 'tab-width)
+(defvaralias 'enh-ruby-indent-level 'tab-width)
+
+;; Use enh-ruby-mode for all common ruby files
+(add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.rake$" . enh-ruby-mode))
+(add-to-list 'auto-mode-alist '("Rakefile$" . enh-ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.gemspec$" . enh-ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.ru$" . enh-ruby-mode))
+(add-to-list 'auto-mode-alist '("Gemfile$" . enh-ruby-mode))
+
+(add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
+
+
 #+END_SRC
 
 *** Haml
