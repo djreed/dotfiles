@@ -315,7 +315,7 @@
   (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 
-*** counsel
+*** Counsel
 #+BEGIN_SRC emacs-list :tangle yes
 (use-package counsel :ensure t)
 #+END_SRC
@@ -355,26 +355,17 @@
 
 *** Ido-mode
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package ido :ensure t 
+(use-package ido :ensure t
   :config
-  (setq ido-enable-prefix nil
-  ido-enable-flex-matching t
-	ido-case-fold t
-	ido-auto-merge-work-directories-length -1
-	ido-create-new-buffer 'always
-	ido-use-filename-at-point nil
-	ido-max-prospects 10)
+  (setq ido-enable-prefix nil)
+  (setq ido-create-new-buffer 'always)
+  (setq ido-auto-merge-work-directories-length -1)
+  (setq ido-enable-flex-matching t)
+  (setq ido-everywhere t)
   (ido-mode 1))
 
-(use-package flx-ido :ensure t
-  :config 
-  (flx-ido-mode 1))
-
-(set-default 'imenu-auto-rescan t)
-
 ;; Use ido everywhere
-(use-package ido-completing-read+
-  :ensure t
+(use-package ido-completing-read+ :ensure t
   :config
   (ido-ubiquitous-mode +1))
 
@@ -382,10 +373,14 @@
 
 *** Ivy
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package ivy :ensure t :init (ivy-mode)
+(use-package ivy :ensure t
+  :init
+  (ivy-mode 1)
   :config
   (setq-default ivy-use-virtual-buffers t
-                ivy-count-format "%d/%d"))
+                ivy-count-format "(%d/%d) "
+                ivy-display-style nil
+                ivy-buffer-max-buffer-display-length 40))
 #+END_SRC
 
 *** Ledger
@@ -465,6 +460,28 @@
 *** Ripgrep
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ripgrep :ensure t)
+#+END_SRC
+
+*** Robe
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package robe :ensure t)
+
+(add-hook 'ruby-mode-hook 'robe-mode)
+(eval-after-load 'company
+  '(push 'company-robe company-backends))
+(add-hook 'robe-mode-hook 'ac-robe-setup)
+#+END_SRC
+
+*** Smartparens
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package smartparens :ensure t)
+(require 'smartparens-config)
+(require 'smartparens-ruby)
+(smartparens-global-mode)
+(show-smartparens-global-mode t)
+(sp-with-modes '(rhtml-mode)
+  (sp-local-pair "<" ">")
+  (sp-local-pair "<%" "%>"))
 #+END_SRC
 
 *** Smart-tabs
@@ -871,7 +888,7 @@
 (define-key occur-mode-map (kbd "n") 'next-line)
 (define-key occur-mode-map (kbd "p") 'previous-line)
 
-;; Ethan's additions...
+;; Ethan's additions
 (global-set-key (kbd "C-.") 'end-of-buffer)
 (global-set-key (kbd "C-,") 'beginning-of-buffer)
 (global-set-key (kbd "C-'") 'indent-region)
@@ -921,6 +938,7 @@
 (define-key occur-mode-map (kbd "v") 'occur-mode-display-occurrence)
 (define-key occur-mode-map (kbd "n") 'next-line)
 (define-key occur-mode-map (kbd "p") 'previous-line)
+
 #+END_SRC
 
 ** Load Local Customizations
