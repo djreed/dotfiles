@@ -55,7 +55,7 @@
 
 ;;(set-face-font "Fantastique Sans Mono-16")
 ;;(set-default-font "DejaVu Sans Mono")
-(set-default-font "Roboto Mono 11")
+(set-default-font "Roboto Mono 12")
 (set-face-attribute 'default nil :family "Roboto Mono" :height 110)
 (global-prettify-symbols-mode)
 #+END_SRC
@@ -868,6 +868,7 @@
 *** Ripgrep
 #+BEGIN_SRC emacs-lisp :tangle yes
 (bind-key "C-c r" 'ripgrep-regexp)
+(bind-key "C-x r g" 'ripgrep-regexp)
 #+END_SRC
 
 *** Magit
@@ -887,6 +888,10 @@
 
 ;; Delete buffer file
 (bind-key "C-x C-k" `delete-current-buffer-file)
+
+;; Use Ivy for buffer switch
+;; (bind-key "C-x b" 'ido-switch-buffer) ;; Or dont
+(bind-key "C-x b" 'ivy-switch-buffer)
 
 ;; Multi-occur
 (bind-key "M-s m" 'multi-occur)
