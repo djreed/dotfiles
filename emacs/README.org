@@ -348,6 +348,11 @@
 (use-package exec-path-from-shell :ensure t :init (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize)))
 #+END_SRC
 
+*** Find file in project
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package find-file-in-project :ensure t)
+#+END_SRC
+
 *** Flycheck
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package flycheck :ensure t :init (global-flycheck-mode))
@@ -780,6 +785,8 @@
   (insert " ")
   (backward-delete-char 1)
   (save-buffer))
+
+(require 'find-file-in-project)
 #+END_SRC
 
 *** Buffers
@@ -847,6 +854,10 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; Find files by name and display results in dired
 (global-set-key (kbd "M-s f") 'find-name-dired)
+
+(global-set-key (kbd "C-x   C-f") 'find-file)
+(global-set-key (kbd "C-x x C-f") 'find-file-in-project-by-selected)
+(global-set-key (kbd "C-x   s-f") 'find-file-in-project)
 #+END_SRC
 
 *** Ripgrep
