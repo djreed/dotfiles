@@ -894,6 +894,10 @@
 (global-set-key (kbd "C-S-s") 'isearch-forward)
 (global-set-key (kbd "C-S-r") 'isearch-backward)
 
+;; Replace i-search with swiper
+(global-set-key (kbd "C-s") 'swiper)
+(global-set-key (kbd "C-r") 'swiper)
+
 ;; View occurrence in occur mode
 (define-key occur-mode-map (kbd "v") 'occur-mode-display-occurrence)
 (define-key occur-mode-map (kbd "n") 'next-line)
@@ -944,11 +948,6 @@
 ;; Comment/uncomment block
 (global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
 (global-set-key (kbd "C-c u") 'uncomment-region)
-
-;; View occurrence in occur mode
-(define-key occur-mode-map (kbd "v") 'occur-mode-display-occurrence)
-(define-key occur-mode-map (kbd "n") 'next-line)
-(define-key occur-mode-map (kbd "p") 'previous-line)
 
 #+END_SRC
 
