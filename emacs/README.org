@@ -873,7 +873,13 @@
 
 *** Magit
 #+BEGIN_SRC emacs-lisp :tangle yes
-(bind-key "C-c G" 'magit-status)
+(bind-key "C-c g s" 'magit-status)
+(bind-key "C-c g c m" 'magit-commit)
+(bind-key "C-c g c o" 'magit-checkout)
+(bind-key "C-c g l" 'magit-pull)
+(bind-key "C-c g p" 'magit-pull)
+(bind-key "C-c g d" 'magit-diff)
+
 #+END_SRC
 
 *** undo-tree
