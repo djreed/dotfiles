@@ -305,6 +305,11 @@
   (add-to-list 'ac-modes 'web-mode))
 #+END_SRC
 
+*** Bind-key
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package bind-key :ensure t)
+#+END_SRC
+
 *** Company
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package company :ensure t
@@ -505,10 +510,10 @@
 (use-package smooth-scrolling :ensure t :config (smooth-scrolling-mode 1))
 
 ;; scroll one line at a time (less "jumpy" than defaults)
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
-(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
-(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
-(setq scroll-step 1) ;; keyboard scroll one line at a time
+;; (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+;; (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+;; (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+;; (setq scroll-step 1) ;; keyboard scroll one line at a time
 #+END_SRC
 
 *** Swiper
@@ -821,78 +826,78 @@
 *** Quit
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; REALLY QUIT
-(global-set-key (kbd "C-c r q") 'save-buffers-kill-emacs)
+(bind-key "C-c r q" 'save-buffers-kill-emacs)
 #+END_SRC
 
 *** M-x replacement
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; Smart M-x
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(bind-key "M-x" 'smex)
+(bind-key "M-X" 'smex-major-mode-commands)
 ;; This is your old M-x.
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+(bind-key "C-c C-c M-x" 'execute-extended-command)
 #+END_SRC
 
 *** Window management
 #+BEGIN_SRC emacs-lisp :tangle yes
 
 ;; Frame management
-(global-set-key (kbd "C-c w o") 'ace-window)
-(global-set-key (kbd "C-c w F") 'make-frame)
-(global-set-key (kbd "C-c w x") 'delete-frame)
-(global-set-key (kbd "C-c w f") 'other-frame)
+(bind-key "C-c w o" 'ace-window)
+(bind-key "C-c w F" 'make-frame)
+(bind-key "C-c w x" 'delete-frame)
+(bind-key "C-c w f" 'other-frame)
 
 ;; Move windows with or without C-x
-(global-set-key (kbd "C-x C-o") 'other-window)
-(global-set-key (kbd "C-x o") 'other-window)
+(bind-key "C-x C-o" 'other-window)
+(bind-key "C-x o" 'other-window)
 
-(global-set-key (kbd "C-x 3") 'split-window-right-and-move-there-dammit)
+(bind-key "C-x 3" 'split-window-right-and-move-there-dammit)
 
 #+END_SRC
 
 *** File Finding
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; Find files by name and display results in dired
-(global-set-key (kbd "M-s f") 'find-name-dired)
+(bind-key "M-s f" 'find-name-dired)
 
-(global-set-key (kbd "C-x   C-f") 'find-file)
-(global-set-key (kbd "C-x x C-f") 'find-file-in-project-by-selected)
-(global-set-key (kbd "C-x   s-f") 'find-file-in-project)
+(bind-key "C-x   C-f" 'find-file)
+(bind-key "C-x x C-f" 'find-file-in-project-by-selected)
+(bind-key "C-x   s-f" 'find-file-in-project)
 #+END_SRC
 
 *** Ripgrep
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "C-c r") 'ripgrep-regexp)
+(bind-key "C-c r" 'ripgrep-regexp)
 #+END_SRC
 
 *** Magit
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "C-c G") 'magit-status)
+(bind-key "C-c G" 'magit-status)
 #+END_SRC
 
 *** undo-tree
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "C-c U") 'undo-tree-visualize)
+(bind-key "C-c U" 'undo-tree-visualize)
 #+END_SRC
 
 *** Buffers
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; Eval buffer
-(global-set-key (kbd "C-c C-k") 'eval-buffer)
+(bind-key "C-c C-k" 'eval-buffer)
 
 ;; Delete buffer file
-(global-set-key (kbd "C-x C-k") `delete-current-buffer-file)
+(bind-key "C-x C-k" `delete-current-buffer-file)
 
 ;; Multi-occur
-(global-set-key (kbd "M-s m") 'multi-occur)
-(global-set-key (kbd "M-s M") 'multi-occur-in-matching-buffers)
+(bind-key "M-s m" 'multi-occur)
+(bind-key "M-s M" 'multi-occur-in-matching-buffers)
 
 ;; Display and edit occurances of regexp in buffer
-(global-set-key (kbd "C-c o") 'occur)
+(bind-key "C-c o" 'occur)
 
 ;; Like isearch-*-use-region, but doesn't fuck with the active region
-(global-set-key (kbd "C-S-s") 'isearch-forward)
-(global-set-key (kbd "C-S-r") 'isearch-backward)
+(bind-key "C-S-s" 'isearch-forward)
+(bind-key "C-S-r" 'isearch-backward)
 
 ;; View occurrence in occur mode
 (define-key occur-mode-map (kbd "v") 'occur-mode-display-occurrence)
@@ -900,54 +905,48 @@
 (define-key occur-mode-map (kbd "p") 'previous-line)
 
 ;; Replace i-search with swiper
-(global-set-key (kbd "C-s") 'swiper)
-(global-set-key (kbd "C-r") 'swiper)
+(bind-key "C-s" 'swiper)
+(bind-key "C-r" 'swiper)
 
 ;; Ethan's additions
-(global-set-key (kbd "C-.") 'end-of-buffer)
-(global-set-key (kbd "C-,") 'beginning-of-buffer)
-(global-set-key (kbd "C-'") 'indent-region)
+(bind-key* "C-." 'end-of-buffer)
+(bind-key* "C-," 'beginning-of-buffer)
+(bind-key* "C-'" 'indent-region)
 
-(global-set-key (kbd "M-{") '(lambda ()
-                               (interactive)
-                               (if (search-forward "{" nil t)
-                                   (backward-char 1))))
+(bind-key "M-{" '(lambda () (interactive) (if (search-forward "{" nil t) (backward-char 1))))
 
-(global-set-key (kbd "M-}") '(lambda ()
-                               (interactive)
-                               (if (search-forward "}" nil t)
-                                   (backward-char 1))))
+(bind-key "M-}" '(lambda () (interactive) (if (search-forward "}" nil t) (backward-char 1))))
 #+END_SRC
 
 *** Editing
 #+BEGIN_SRC emacs-lisp :tangle yes
-(global-set-key (kbd "C-S-k") 'kill-whole-line)
-(global-set-key (kbd "C-w") 'kill-region-or-backward-kill-word)
+(bind-key "C-S-k" 'kill-whole-line)
+(bind-key "C-w" 'kill-region-or-backward-kill-word)
 
 ;; Use M-w for copy-line if no active region
-(global-set-key (kbd "M-w") 'save-region-or-current-line)
-(global-set-key (kbd "s-w") 'save-region-or-current-line)
+(bind-key "M-w" 'save-region-or-current-line)
+(bind-key "s-w" 'save-region-or-current-line)
 
 ;; Change word separators
-(global-unset-key (kbd "C-x +")) ;; used to be balance-windows
-(global-set-key (kbd "C-x + -") (lambda (replace-region-by 's-dashed-words)))
-(global-set-key (kbd "C-x + _") (lambda (replace-region-by 's-snake-case)))
-(global-set-key (kbd "C-x + c") (lambda (replace-region-by 's-lower-camel-case)))
-(global-set-key (kbd "C-x + C") (lambda (replace-region-by 's-upper-camel-case)))
+(unbind-key "C-x +") ;; used to be balance-windows
+(bind-key "C-x + -" (lambda (replace-region-by 's-dashed-words)))
+(bind-key "C-x + _" (lambda (replace-region-by 's-snake-case)))
+(bind-key "C-x + c" (lambda (replace-region-by 's-lower-camel-case)))
+(bind-key "C-x + C" (lambda (replace-region-by 's-upper-camel-case)))
 
 ;; Font size
-(define-key global-map (kbd "C-+") 'zoom-frm-in)
-(define-key global-map (kbd "C--") 'zoom-frm-out)
+(bind-key "C-+" 'zoom-frm-in)
+(bind-key "C--" 'zoom-frm-out)
 
-(global-set-key (kbd "s-i") 'copy-inner)
-(global-set-key (kbd "s-o") 'copy-outer)
+(bind-key "s-i" 'copy-inner)
+(bind-key "s-o" 'copy-outer)
 
 ;; Edit file with sudo
-(global-set-key (kbd "M-s e") 'sudo-edit)
+(bind-key "M-s e" 'sudo-edit)
 
 ;; Comment/uncomment block
-(global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
-(global-set-key (kbd "C-c u") 'uncomment-region)
+(bind-key "C-c c" 'comment-or-uncomment-region)
+(bind-key "C-c u" 'uncomment-region)
 
 #+END_SRC
 
