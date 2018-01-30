@@ -229,7 +229,6 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/") t)
@@ -321,7 +320,7 @@
 #+END_SRC
 
 *** Counsel
-#+BEGIN_SRC emacs-list :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle yes
 (use-package counsel :ensure t)
 #+END_SRC
 
@@ -353,11 +352,6 @@
 (use-package exec-path-from-shell :ensure t :init (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize)))
 #+END_SRC
 
-*** Find file in project
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package find-file-in-project :ensure t)
-#+END_SRC
-
 *** Flycheck
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package flycheck :ensure t :init (global-flycheck-mode))
@@ -378,6 +372,14 @@
 (use-package ido-completing-read+ :ensure t
   :config
   (ido-ubiquitous-mode +1))
+
+(use-package flx-ido :ensure t
+  :config
+  (flx-ido-mode 1)
+  ;; disable ido faces to see flx highlights.
+  (setq ido-enable-flex-matching t)
+  (setq ido-use-faces nil)
+  (setq flx-ido-use-faces nil))
 
 #+END_SRC
 
@@ -411,8 +413,8 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package multiple-cursors :ensure t
   :config
-  (global-set-key (kbd "C-S-t") 'mc/mark-next-like-this-symbol)
-  (global-set-key (kbd "C-<") 'mc/mark-all-symbols-like-this))
+  (bind-key "C-S-t" 'mc/mark-next-like-this-symbol)
+  (bind-key "C-<" 'mc/mark-all-symbols-like-this))
 #+END_SRC
 
 *** Neotree
@@ -446,6 +448,34 @@
 (require 'org-element nil t)
 (require 'ox-extra nil t)
 (ox-extras-activate '(ignore-headlines))
+#+END_SRC
+
+*** Popwin
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package popwin :ensure t
+  :config
+  (popwin-mode 1))
+(setq display-buffer-function 'popwin:display-buffer)
+(push '("^\\*.*\\*$" :regexp t 
+                 :height 25
+                 :position bottom)
+  popwin:special-display-config)
+#+END_SRC
+
+*** Projectile & Friends
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package projectile :ensure t
+  :config
+  (projectile-mode))
+
+(use-package counsel-projectile :ensure t
+  :config
+  (counsel-projectile-mode))
+
+(use-package projectile-rails :ensure t
+  :config
+  (projectile-rails-global-mode))
+
 #+END_SRC
 
 *** Rainbow-delimiters
@@ -577,6 +607,8 @@
   (add-hook 'enh-ruby-mode-hook #'subword-mode))
 (setq ruby-indent-tabs-mode nil) ;; or "t"
 (setq enh-ruby-indent-tabs-mode nil) ;; or "t"
+
+(use-package rspec-mode :ensure t)
 
 (defvaralias 'ruby-indent-level 'tab-width)
 (defvaralias 'enh-ruby-indent-level 'tab-width)
@@ -858,11 +890,17 @@
 *** File Finding
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; Find files by name and display results in dired
-(bind-key "M-s f" 'find-name-dired)
+(bind-key "M-s f" 'counsel-projectile-find-dir)
 
-(bind-key "C-x   C-f" 'find-file)
-(bind-key "C-x x C-f" 'find-file-in-project-by-selected)
-(bind-key "C-x   s-f" 'find-file-in-project)
+(bind-key "C-x f" 'find-file)
+(bind-key "C-x C-f" 'find-file)
+(bind-key "C-x x C-f" 'counsel-projectile-find-file)
+(bind-key "C-x r C-f" 'counsel-projectile-rg)
+
+;; Directory viewer like we all love
+(push '(direx:direx-mode :position left :width 25 :dedicated t)
+      popwin:special-display-config)
+(bind-key "C-x C-j" 'direx:jump-to-directory-other-window)
 #+END_SRC
 
 *** Ripgrep
