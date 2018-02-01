@@ -222,6 +222,14 @@
 ** Packaging
 #+BEGIN_SRC emacs-lisp :tangle yes
 (require 'package)
+
+;;----------------------------------------------------------------------------
+;; Handier way to add modes to auto-mode-alist
+;;----------------------------------------------------------------------------
+(defun add-auto-mode (mode &rest patterns)
+  "Add entries to `auto-mode-alist' to use `MODE' for all given file `PATTERNS'."
+  (dolist (pattern patterns)
+    (add-to-list 'auto-mode-alist (cons pattern mode))))
 #+END_SRC
 
 *** Repositories
@@ -604,22 +612,25 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package enh-ruby-mode :ensure t
   :config
-  (add-hook 'enh-ruby-mode-hook #'subword-mode))
-(setq ruby-indent-tabs-mode nil) ;; or "t"
-(setq enh-ruby-indent-tabs-mode nil) ;; or "t"
-
+  (add-hook 'enh-ruby-mode-hook #'subword-mode)
+  (add-hook 'enh-ruby-mode-hook 'robe-mode)
+  (setq ruby-indent-tabs-mode nil) ;; or "t"
+  (setq enh-ruby-indent-tabs-mode nil) ;; or "t"
+  )
+  
 (use-package rspec-mode :ensure t)
 
 (defvaralias 'ruby-indent-level 'tab-width)
 (defvaralias 'enh-ruby-indent-level 'tab-width)
 
 ;; Use enh-ruby-mode for all common ruby files
-(add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.rake$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("Rakefile$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.gemspec$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.ru$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("Gemfile$" . enh-ruby-mode))
+(add-auto-mode 'enh-ruby-mode
+               "\\.rb\\" "rake\\"  "Rakefile\\'" "\\.rake\\'" "\\.rxml\\'"
+               "\\.rjs\\'" "\\.irbrc\\'" "\\.pryrc\\'" "\\.builder\\'" "\\.ru\\'"
+               "\\.gemspec\\'" "Gemfile\\'" "Kirkfile\\'")
+(add-auto-mode 'enh-ruby-mode
+             "\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'")
+(add-auto-mode 'conf-mode "Gemfile\\.lock\\'")
 
 (add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
 
@@ -753,6 +764,21 @@
   (if (region-active-p)
       (kill-ring-save (region-beginning) (region-end))
     (copy-line arg)))
+
+(defun move-line-up ()
+  "Move up the current line."
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2)
+  (indent-according-to-mode))
+
+(defun move-line-down ()
+  "Move down the current line."
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1)
+  (indent-according-to-mode))
 #+END_SRC
 
 *** Files
@@ -928,6 +954,9 @@
 ;; Delete buffer file
 (bind-key "C-x C-k" `delete-current-buffer-file)
 
+;; Rename buffer file
+(bind-key "C-x C-r" `rename-current-buffer-file)
+
 ;; Use Ivy for buffer switch
 ;; (bind-key "C-x b" 'ido-switch-buffer) ;; Or dont
 (bind-key "C-x b" 'ivy-switch-buffer)
@@ -966,6 +995,10 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
 (bind-key "C-S-k" 'kill-whole-line)
 (bind-key "C-w" 'kill-region-or-backward-kill-word)
+
+;; Move line up/down
+(bind-key "s-S-<up>" 'move-line-up)
+(bind-key "s-S-<down>"  'move-line-down)
 
 ;; Use M-w for copy-line if no active region
 (bind-key "M-w" 'save-region-or-current-line)
