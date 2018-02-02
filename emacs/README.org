@@ -222,14 +222,6 @@
 ** Packaging
 #+BEGIN_SRC emacs-lisp :tangle yes
 (require 'package)
-
-;;----------------------------------------------------------------------------
-;; Handier way to add modes to auto-mode-alist
-;;----------------------------------------------------------------------------
-(defun add-auto-mode (mode &rest patterns)
-  "Add entries to `auto-mode-alist' to use `MODE' for all given file `PATTERNS'."
-  (dolist (pattern patterns)
-    (add-to-list 'auto-mode-alist (cons pattern mode))))
 #+END_SRC
 
 *** Repositories
@@ -614,9 +606,8 @@
   :config
   (add-hook 'enh-ruby-mode-hook #'subword-mode)
   (add-hook 'enh-ruby-mode-hook 'robe-mode)
-  (setq ruby-indent-tabs-mode nil) ;; or "t"
-  (setq enh-ruby-indent-tabs-mode nil) ;; or "t"
-  )
+  (setq ruby-indent-tabs-mode nil)
+  (setq enh-ruby-indent-tabs-mode nil))
   
 (use-package rspec-mode :ensure t)
 
@@ -624,16 +615,13 @@
 (defvaralias 'enh-ruby-indent-level 'tab-width)
 
 ;; Use enh-ruby-mode for all common ruby files
-(add-auto-mode 'enh-ruby-mode
-               "\\.rb\\" "rake\\"  "Rakefile\\'" "\\.rake\\'" "\\.rxml\\'"
-               "\\.rjs\\'" "\\.irbrc\\'" "\\.pryrc\\'" "\\.builder\\'" "\\.ru\\'"
-               "\\.gemspec\\'" "Gemfile\\'" "Kirkfile\\'")
-(add-auto-mode 'enh-ruby-mode
-             "\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'")
-(add-auto-mode 'conf-mode "Gemfile\\.lock\\'")
-
+(add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))		 
+(add-to-list 'auto-mode-alist '("\\.rake$" . enh-ruby-mode))	
+(add-to-list 'auto-mode-alist '("Rakefile$" . enh-ruby-mode))	
+(add-to-list 'auto-mode-alist '("\\.gemspec$" . enh-ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.ru$" . enh-ruby-mode))		 
+(add-to-list 'auto-mode-alist '("Gemfile$" . enh-ruby-mode))
 (add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
-
 
 #+END_SRC
 
@@ -786,19 +774,20 @@
 (defun rename-current-buffer-file ()
   "Renames current buffer and file it is visiting."
   (interactive)
-  (let ((name (buffer-name))
-        (filename (buffer-file-name)))
-    (if (not (and filename (file-exists-p filename)))
-        (error "Buffer '%s' is not visiting a file!" name)
-      (let ((new-name (read-file-name "New name: " filename)))
-        (if (get-buffer new-name)
+  (let* ((name (buffer-name))
+        (filename (buffer-file-name))
+        (basename (file-name-nondirectory filename)))
+        (if (not (and filename (file-exists-p filename)))
+    (error "Buffer '%s' is not visiting a file!" name)
+        (let ((new-name (read-file-name "New name: " (file-name-directory filename) basename nil basename)))
+      (if (get-buffer new-name)
             (error "A buffer named '%s' already exists!" new-name)
-          (rename-file filename new-name 1)
+            (rename-file filename new-name 1)
           (rename-buffer new-name)
           (set-visited-file-name new-name)
           (set-buffer-modified-p nil)
           (message "File '%s' successfully renamed to '%s'"
-                   name (file-name-nondirectory new-name)))))))
+          name (file-name-nondirectory new-name)))))))
 
 (defun delete-current-buffer-file ()
   "Removes file connected to current buffer and kills buffer."
@@ -931,7 +920,7 @@
 
 *** Ripgrep
 #+BEGIN_SRC emacs-lisp :tangle yes
-(bind-key "C-c r" 'ripgrep-regexp)
+(bind-key* "C-c r" 'ripgrep-regexp)
 (bind-key "C-x r g" 'ripgrep-regexp)
 #+END_SRC
 
