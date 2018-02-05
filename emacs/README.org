@@ -284,14 +284,6 @@
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 #+END_SRC
 
-*** Auto-fill-mode for comments
-#+BEGIN_SRC emacs-lisp :tangle yes
-(add-hook 'prog-mode-hook (lambda ()
-                            (interactive)
-                            (auto-fill-mode 1)
-                            (setq comment-auto-fill-only-comments t)))
-#+END_SRC
-
 *** Auto-complete
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package auto-complete :ensure t
