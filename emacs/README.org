@@ -502,16 +502,6 @@
 (use-package ripgrep :ensure t)
 #+END_SRC
 
-*** Robe
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package robe :ensure t)
-
-(add-hook 'ruby-mode-hook 'robe-mode)
-(eval-after-load 'company
-  '(push 'company-robe company-backends))
-(add-hook 'robe-mode-hook 'ac-robe-setup)
-#+END_SRC
-
 *** Smartparens
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package smartparens :ensure t)
