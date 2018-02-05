@@ -458,7 +458,11 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package projectile :ensure t
   :config
-  (projectile-mode))
+  (projectile-mode)
+  (projectile-global-mode)
+  (setq projectile-enable-caching t)
+  (setq projectile-completion-system 'ivy)
+)
 
 (use-package counsel-projectile :ensure t
   :config
@@ -492,6 +496,15 @@
 *** Ripgrep
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ripgrep :ensure t)
+#+END_SRC
+
+*** Robe mode
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package robe :ensure t)
+(add-hook 'ruby-mode-hook 'robe-mode)
+(eval-after-load 'company
+  '(push 'company-robe company-backends))
+(add-hook 'robe-mode-hook 'ac-robe-setup)
 #+END_SRC
 
 *** Smartparens
