@@ -263,6 +263,7 @@
 	 This is where most of the magic happens. Here I load various packages and
 	 modes and configure them.
 *** Ace-window
+    Window management made a little easier
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ace-window :ensure t :config (setq-default aw-dispatch-always t))
 #+END_SRC
@@ -275,9 +276,6 @@
 #+END_SRC
 
 **** all-the-icons-dired
-		 
-**** 
-**** 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package all-the-icons-dired :ensure t
   :config
@@ -285,6 +283,7 @@
 #+END_SRC
 
 *** Auto-complete
+    Thank god almighty for this beloved gift
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package auto-complete :ensure t
   :config
@@ -297,6 +296,7 @@
 #+END_SRC
 
 *** Bind-key
+    Easier macro for keybinds
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package bind-key :ensure t)
 #+END_SRC
@@ -317,6 +317,7 @@
 #+END_SRC
 
 *** Delete-selection-mode
+    When I type with a selection, overwrite the selection please
 #+BEGIN_SRC emacs-lisp :tangle yes
 (delete-selection-mode 1)
 #+END_SRC
@@ -330,8 +331,13 @@
 #+END_SRC
 
 *** Diminish
+    Show abbreviated minor modes
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package diminish :ensure t)
+(use-package abbrev :ensure t
+  :diminish abbrev-mode
+  :config
+  (if (file-exists-p abbrev-file-name)
+      (quietly-read-abbrev-file)))
 #+END_SRC
 
 *** Electric-pair-mode
@@ -409,12 +415,6 @@
   (bind-key "C-<" 'mc/mark-all-symbols-like-this))
 #+END_SRC
 
-*** Neotree
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package neotree :ensure t
-  :config
-  (setq neo-theme 'icons))
-#+END_SRC
 *** Nlinum
 #+BEGIN_SRC emacs-lisp :tangle yes
 	(use-package nlinum :ensure t
@@ -443,6 +443,7 @@
 #+END_SRC
 
 *** Popwin
+    Popup window manager, allows `C-g` to get rid of greps, scratch, results, etc.
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package popwin :ensure t
   :config
@@ -509,14 +510,15 @@
 
 *** Smartparens
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package smartparens :ensure t)
-(require 'smartparens-config)
-(require 'smartparens-ruby)
-(smartparens-global-mode)
-(show-smartparens-global-mode t)
-(sp-with-modes '(rhtml-mode)
-  (sp-local-pair "<" ">")
-  (sp-local-pair "<%" "%>"))
+;;(use-package smartparens :ensure t)
+;;(use-package smartparens-config)
+;;(use-package smartparens-ruby)
+
+;;(smartparens-global-mode)
+
+;;(sp-with-modes '(rhtml-mode)
+;;  (sp-local-pair "<" ">")
+;;  (sp-local-pair "<%" "%>"))
 #+END_SRC
 
 *** Smart-tabs
@@ -622,9 +624,8 @@
   (add-hook 'enh-ruby-mode-hook #'subword-mode)
   (add-hook 'enh-ruby-mode-hook 'robe-mode)
   (setq ruby-indent-tabs-mode nil)
-  (setq enh-ruby-indent-tabs-mode nil))
-  
-(use-package rspec-mode :ensure t)
+  (setq enh-ruby-indent-tabs-mode nil)
+)
 
 (defvaralias 'ruby-indent-level 'tab-width)
 (defvaralias 'enh-ruby-indent-level 'tab-width)
