@@ -41,7 +41,13 @@
 ;; Turn off obnoxious bars
 (tool-bar-mode 0)
 (menu-bar-mode 0)
-(scroll-bar-mode -1)
+
+(defun my/disable-scroll-bars (frame)
+  (modify-frame-parameters frame
+                           '((vertical-scroll-bars . nil)
+                             (horizontal-scroll-bars . nil))))
+(add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
+
 (blink-cursor-mode 0)
 
 ;; Highlight line, modify line bg
@@ -505,16 +511,15 @@
 #+END_SRC
 
 *** Smartparens
+    Doesn't use `use-package`, but I just want this to work
 #+BEGIN_SRC emacs-lisp :tangle yes
-;;(use-package smartparens :ensure t)
-;;(use-package smartparens-config)
-;;(use-package smartparens-ruby)
-
-;;(smartparens-global-mode)
-
-;;(sp-with-modes '(rhtml-mode)
-;;  (sp-local-pair "<" ">")
-;;  (sp-local-pair "<%" "%>"))
+(require 'smartparens-config)
+(require 'smartparens-ruby)
+(smartparens-global-mode t)
+(show-smartparens-global-mode t)
+(sp-with-modes '(rhtml-mode)
+  (sp-local-pair "<" ">")
+  (sp-local-pair "<%" "%>"))
 #+END_SRC
 
 *** Smart-tabs
