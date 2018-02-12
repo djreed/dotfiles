@@ -1,0 +1,21 @@
+"*":
+  core:
+    telemetryConsent: "no"
+    themes: [
+      "one-dark-ui"
+      "solarized-dark-syntax"
+    ]
+  editor:
+    fontSize: 12
+    invisibles: {}
+    preferredLineLength: 100
+    showIndentGuide: true
+    showInvisibles: true
+    softWrap: true
+    zoomFontWhenCtrlScrolling: true
+  "exception-reporting":
+    userId: "86c92ee3-52e7-4de5-ba8b-fad388245b3f"
+  "fuzzy-finder": {}
+  "linter-ui-default": {}
+  welcome:
+    showOnStartup: false
