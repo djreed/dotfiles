@@ -193,6 +193,8 @@ alias tl='tree | less'
 # Colorized cat
 alias c='highlight -O ansi'
 
+alias 'ssh-jenkins'='ssh -L8080:10.15.30.214:8080 alignabledev@34.235.205.232'
+
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 

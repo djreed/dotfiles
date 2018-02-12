@@ -357,6 +357,11 @@
 (use-package flycheck :ensure t :init (global-flycheck-mode))
 #+END_SRC
 
+*** Hideshow
+#+BEGIN_SRC emacs-lisp :tangle yes
+(hs-minor-mode)
+#+END_SRC
+
 *** Ido-mode
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ido :ensure t
@@ -627,6 +632,23 @@
   (setq ruby-indent-tabs-mode nil)
   (setq enh-ruby-indent-tabs-mode nil)
 )
+
+(require 'hideshow)
+
+;; Set up hs-mode (HideShow) for Ruby
+(add-to-list 'hs-special-modes-alist
+             `(enh-ruby-mode
+	       ,(rx (or "def" "class" "module" "do")) ; Block start
+               ,(rx (or "end"))                       ; Block end
+               ,(rx (or "#" "=begin"))                ; Comment start
+               enh-ruby-forward-sexp nil))
+
+(add-hook 'enh-ruby-mode-hook 'hs-minor-mode)
+
+(bind-key "C-c s" 'hs-show-block)
+(bind-key "C-c h" 'hs-hide-block)
+(bind-key "C-c x C-h" 'hs-hide-all)
+(bind-key "C-c x C-s" 'hs-show-all)
 
 (defvaralias 'ruby-indent-level 'tab-width)
 (defvaralias 'enh-ruby-indent-level 'tab-width)
