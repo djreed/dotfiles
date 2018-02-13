@@ -1,0 +1,14 @@
+atom-beautify@0.30.9
+atom-fuzzy-grep@0.17.2
+atomic-emacs@0.12.1
+autocomplete-json@5.5.2
+autocomplete-modules@1.10.0
+busy-signal@1.4.3
+intentions@1.1.5
+language-haml@0.25.2
+linter@2.2.0
+linter-haml@2.0.2
+linter-ruby@1.2.6
+linter-sass-lint@1.8.3
+linter-ui-default@1.6.10
+
