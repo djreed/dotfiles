@@ -3,20 +3,19 @@
     ruby:
       beautify_on_save: true
       default_beautifier: "Ruby Beautify"
-      rubocop_path: "/Users/djreed/.rvm/gems/ruby-2.4.2/bin/rubocop"
   "atom-fuzzy-grep":
     grepCommandString: "ack -i --nocolor --nogroup --column"
-  "autocomplete-ruby":
-    rsensePath: "/Users/djreed/.rvm/gems/ruby-2.4.2/bin/rsense"
+  "autocomplete-ruby": {}
   core:
-    packagesWithKeymapsDisabled: []
+    packagesWithKeymapsDisabled: [
+      "intentions"
+    ]
     telemetryConsent: "no"
     themes: [
       "one-dark-ui"
       "solarized-dark-syntax"
     ]
   editor:
-    fontSize: 12
     invisibles: {}
     preferredLineLength: 100
     showIndentGuide: true
