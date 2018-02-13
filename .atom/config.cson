@@ -9,6 +9,7 @@
   "autocomplete-ruby":
     rsensePath: "/Users/djreed/.rvm/gems/ruby-2.4.2/bin/rsense"
   core:
+    packagesWithKeymapsDisabled: []
     telemetryConsent: "no"
     themes: [
       "one-dark-ui"
