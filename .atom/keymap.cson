@@ -30,7 +30,9 @@
 # If you are unfamiliar with CSON, you can read more about it in the
 # Atom Flight Manual:
 # http://flight-manual.atom.io/using-atom/sections/basic-customization/#configuring-with-cson
+'atom-text-editor':
+  'ctrl-x ctrl-o': 'window:focus-next-pane'
+  'ctrl-x ctrl-g': 'fuzzy-grep:toggle'
 
 'atom-workspace':
-  'ctrl-x ctrl-o': 'window:focus-next-pane'
   'ctrl-cmd-w': 'editor:toggle-soft-wrap'

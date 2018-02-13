@@ -1,4 +1,6 @@
 "*":
+  "atom-fuzzy-grep":
+    grepCommandString: "ack -i --nocolor --nogroup --column"
   core:
     telemetryConsent: "no"
     themes: [
