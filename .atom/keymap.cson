@@ -36,3 +36,4 @@
 
 'atom-workspace':
   'ctrl-cmd-w': 'editor:toggle-soft-wrap'
+  'ctrl-x ctrl-b': 'fuzzy-finder:toggle-buffer-finder'
