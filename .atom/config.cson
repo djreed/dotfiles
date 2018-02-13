@@ -29,6 +29,8 @@
   "exception-reporting":
     userId: "86c92ee3-52e7-4de5-ba8b-fad388245b3f"
   "fuzzy-finder": {}
-  "linter-ui-default": {}
+  "linter-ui-default":
+    showPanel: true
+  "ruby-block": {}
   welcome:
     showOnStartup: false
