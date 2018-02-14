@@ -12,5 +12,6 @@ linter-haml@2.0.2
 linter-ruby@1.2.6
 linter-sass-lint@1.8.3
 linter-ui-default@1.6.10
+platformio-ide-terminal@2.8.0
 ruby-block@0.3.6
 
