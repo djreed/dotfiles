@@ -355,11 +355,8 @@
 *** Flycheck
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package flycheck :ensure t :init (global-flycheck-mode))
-#+END_SRC
-
-*** Hideshow
-#+BEGIN_SRC emacs-lisp :tangle yes
-(hs-minor-mode)
+(package-install 'exec-path-from-shell)
+(exec-path-from-shell-initialize)
 #+END_SRC
 
 *** Ido-mode
