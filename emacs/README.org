@@ -108,7 +108,7 @@
 #+END_SRC
 
 *** Sane defaults
-	 This is used to load customizations that I don't want to track in git.
+    Some helpful defaults
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; Allow pasting selection outside of Emacs
 (setq x-select-enable-clipboard t)
@@ -161,9 +161,6 @@
 (setq line-number-mode t)
 (setq column-number-mode t)
 
-;; Lines should be 80 characters wide, not 72
-(setq fill-column 80)
-
 ;; Save minibuffer history
 (savehist-mode 1)
 (setq history-length 1000)
@@ -196,6 +193,7 @@
 (set-default 'sentence-end-double-space nil)
 
 ;; 100 chars is a good width.
+(setq fill-column 100)
 (set-default 'fill-column 100)
 
 ;; A saner ediff
@@ -354,9 +352,10 @@
 
 *** Flycheck
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package flycheck :ensure t :init (global-flycheck-mode))
-(package-install 'exec-path-from-shell)
-(exec-path-from-shell-initialize)
+(use-package flycheck :ensure t :init (global-flycheck-mode)
+  :config
+  (package-install 'exec-path-from-shell)
+  (exec-path-from-shell-initialize))
 #+END_SRC
 
 *** Ido-mode
@@ -496,11 +495,6 @@
 *** Rest client
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package restclient :ensure t)
-#+END_SRC
-
-*** Ripgrep
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package ripgrep :ensure t)
 #+END_SRC
 
 *** Robe mode
@@ -947,7 +941,6 @@
 (bind-key "C-x f" 'find-file)
 (bind-key "C-x C-f" 'find-file)
 (bind-key "C-x x C-f" 'counsel-projectile-find-file)
-(bind-key "C-x r C-f" 'counsel-projectile-rg)
 
 ;; Directory viewer like we all love
 (push '(direx:direx-mode :position left :width 25 :dedicated t)
@@ -955,10 +948,11 @@
 (bind-key "C-x C-j" 'direx:jump-to-directory-other-window)
 #+END_SRC
 
-*** Ripgrep
+*** Regex and Grep
 #+BEGIN_SRC emacs-lisp :tangle yes
-(bind-key* "C-c r" 'ripgrep-regexp)
-(bind-key "C-x r g" 'ripgrep-regexp)
+(bind-key "C-c r" 'counsel-ack)
+(bind-key "C-x r g" 'counsel-ack)
+(bind-key "C-x r C-f" 'counsel-projectile-ag)
 #+END_SRC
 
 *** Magit
