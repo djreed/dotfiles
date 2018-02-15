@@ -9,3 +9,6 @@
 # atom.workspace.observeTextEditors (editor) ->
 #   editor.onDidSave ->
 #     console.log "Saved! #{editor.getPath()}"
+
+atom.commands.add 'atom-text-editor:not([mini])', 'line-numbers:toggle', ->
+  atom.config.set('editor.showLineNumbers', !atom.config.get('editor.showLineNumbers'))

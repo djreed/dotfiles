@@ -2,14 +2,15 @@
   "atom-beautify":
     general:
       _analyticsUserId: "djreed"
+      beautifyEntireFileOnSave: false
     ruby:
-      beautify_on_save: true
       default_beautifier: "Ruby Beautify"
   "atom-fuzzy-grep":
     grepCommandString: "ack -i --nocolor --nogroup --column"
   "atomic-emacs": {}
   "autocomplete-ruby": {}
   core:
+    openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: [
       "intentions"
     ]
@@ -21,15 +22,18 @@
   editor:
     fontSize: 12
     invisibles: {}
-    preferredLineLength: 100
     showIndentGuide: true
     softWrap: true
+    tabType: "soft"
     zoomFontWhenCtrlScrolling: true
   "exception-reporting":
     userId: "86c92ee3-52e7-4de5-ba8b-fad388245b3f"
   "fuzzy-finder": {}
   "linter-haml": {}
   "linter-ui-default": {}
+  minimap:
+    absoluteMode: true
+    adjustAbsoluteModeHeight: true
   "platformio-ide-terminal":
     core:
       scrollback: 100000

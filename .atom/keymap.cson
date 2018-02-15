@@ -33,7 +33,13 @@
 'atom-text-editor':
   'ctrl-x ctrl-o': 'window:focus-next-pane'
   'ctrl-x ctrl-g': 'fuzzy-grep:toggle'
+  'ctrl-l': 'line-numbers:toggle'
+  'ctrl-i': 'window:toggle-invisibles'
 
 'atom-workspace':
   'ctrl-cmd-w': 'editor:toggle-soft-wrap'
   'ctrl-x ctrl-b': 'fuzzy-finder:toggle-buffer-finder'
+
+'atom-workspace atom-text-editor:not([mini])':
+  'cmd-k m': 'quick-highlight:toggle'
+  'cmd-k M': 'quick-highlight:clear'
