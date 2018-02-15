@@ -952,7 +952,7 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
 (bind-key "C-c r" 'counsel-ack)
 (bind-key "C-x r g" 'counsel-ack)
-(bind-key "C-x r C-f" 'counsel-projectile-ag)
+(bind-key "C-x r C-f" 'counsel-ack)
 #+END_SRC
 
 *** Magit
