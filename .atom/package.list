@@ -1,31 +1,30 @@
-[36mCommunity Packages (29)[39m /Users/djreed/.atom/packages
-├── atom-beautify@0.30.9
-├── atom-fuzzy-grep@0.17.2
-├── atomic-emacs@0.12.1
-├── autocomplete-json@5.5.2
-├── autocomplete-modules@1.11.0
-├── autocomplete-ruby@0.2.8
-├── busy-signal@1.4.3
-├── highlight-selected@0.13.1
-├── intentions@1.1.5
-├── language-haml@0.25.2
-├── linter@2.2.0
-├── linter-haml@2.0.2
-├── linter-ruby@1.2.6
-├── linter-sass-lint@1.8.3
-├── linter-ui-default@1.6.10
-├── minimap@4.29.7
-├── minimap-autohider@1.5.4
-├── minimap-codeglance@0.4.7
-├── minimap-cursorline@0.2.0
-├── minimap-find-and-replace@4.5.2
-├── minimap-git-diff@4.3.1
-├── minimap-hide@0.3.0
-├── minimap-highlight-selected@4.6.1
-├── minimap-pigments@0.2.2
-├── minimap-quick-highlight@1.0.1
-├── minimap-selection@4.5.0
-├── platformio-ide-terminal@2.8.0
-├── quick-highlight@0.12.0
-└── ruby-block@0.3.6
+atom-beautify@0.30.9
+atom-fuzzy-grep@0.17.2
+atomic-emacs@0.12.1
+autocomplete-json@5.5.2
+autocomplete-modules@1.11.0
+autocomplete-ruby@0.2.8
+busy-signal@1.4.3
+highlight-selected@0.13.1
+intentions@1.1.5
+language-haml@0.25.2
+linter@2.2.0
+linter-haml@2.0.2
+linter-ruby@1.2.6
+linter-sass-lint@1.8.3
+linter-ui-default@1.6.10
+minimap@4.29.7
+minimap-autohider@1.5.4
+minimap-codeglance@0.4.7
+minimap-cursorline@0.2.0
+minimap-find-and-replace@4.5.2
+minimap-git-diff@4.3.1
+minimap-hide@0.3.0
+minimap-highlight-selected@4.6.1
+minimap-pigments@0.2.2
+minimap-quick-highlight@1.0.1
+minimap-selection@4.5.0
+platformio-ide-terminal@2.8.0
+quick-highlight@0.12.0
+ruby-block@0.3.6
 
