@@ -5,6 +5,7 @@ autocomplete-json@5.5.2
 autocomplete-modules@1.11.0
 autocomplete-ruby@0.2.8
 busy-signal@1.4.3
+highlight-selected@0.13.1
 intentions@1.1.5
 language-haml@0.25.2
 linter@2.2.0
