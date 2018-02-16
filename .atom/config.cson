@@ -47,6 +47,7 @@
   minimap:
     absoluteMode: true
     adjustAbsoluteModeHeight: true
+    moveCursorOnMinimapClick: true
     plugins:
       codeglance: false
       codeglanceDecorationsZIndex: 0
@@ -68,6 +69,7 @@
       pigmentsDecorationsZIndex: 0
       selection: true
       selectionDecorationsZIndex: 0
+    scrollAnimation: true
   "platformio-ide-terminal":
     core:
       scrollback: 100000

@@ -32,7 +32,7 @@
 # http://flight-manual.atom.io/using-atom/sections/basic-customization/#configuring-with-cson
 'atom-text-editor':
   'ctrl-x ctrl-o': 'window:focus-next-pane'
-  'ctrl-x ctrl-g': 'fuzzy-grep:toggle'
+  'ctrl-x ctrl-g': 'project-find:show'
   'ctrl-l': 'line-numbers:toggle'
   'ctrl-i': 'window:toggle-invisibles'
 
