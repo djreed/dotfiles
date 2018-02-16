@@ -7,8 +7,21 @@
       default_beautifier: "Ruby Beautify"
   "atom-fuzzy-grep":
     grepCommandString: "ack -i --nocolor --nogroup --column"
+  "atom-material-ui":
+    colors:
+      abaseColor: "#7e57c2"
+      accentColor: "#fff9fc"
+      predefinedColor: "Purple"
+    fonts: {}
+    tabs:
+      compactTabs: true
+    ui:
+      panelContrast: true
+      panelShadows: true
   "atomic-emacs": {}
   "autocomplete-ruby": {}
+  "city-lights-ui":
+    showTabsInTreeView: true
   core:
     openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: [
@@ -16,8 +29,8 @@
     ]
     telemetryConsent: "no"
     themes: [
-      "one-dark-ui"
-      "solarized-dark-syntax"
+      "atom-material-ui"
+      "monokai"
     ]
   editor:
     fontSize: 12
@@ -62,5 +75,12 @@
       autoClose: true
       runInsertedText: false
   "ruby-block": {}
+  "seti-ui":
+    compactView: true
   welcome:
     showOnStartup: false
+".html.liquid.text":
+  editor:
+    autoIndent: true
+    autoIndentOnPaste: true
+    showInvisibles: false

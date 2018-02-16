@@ -10,8 +10,8 @@
 ;;(interactive)
 ;;(load-theme 'better-tango-dark))
 ;;(use-default-theme)
-
-(load-theme 'tango-dark t)
+;;(load-theme 'tango-dark t)
+(load-theme 'monokai t)
 
 #+END_SRC
 
@@ -355,7 +355,8 @@
 (use-package flycheck :ensure t :init (global-flycheck-mode)
   :config
   (package-install 'exec-path-from-shell)
-  (exec-path-from-shell-initialize))
+  (exec-path-from-shell-initialize)
+)
 #+END_SRC
 
 *** Ido-mode
@@ -412,10 +413,7 @@
 
 *** Multiple cursors
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package multiple-cursors :ensure t
-  :config
-  (bind-key "C-S-t" 'mc/mark-next-like-this-symbol)
-  (bind-key "C-<" 'mc/mark-all-symbols-like-this))
+(use-package multiple-cursors :ensure t)
 #+END_SRC
 
 *** Nlinum
@@ -506,6 +504,13 @@
 (add-hook 'robe-mode-hook 'ac-robe-setup)
 #+END_SRC
 
+*** RVM
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package rvm :ensure t
+  :config
+  (rvm-use-default) ;; use rvm's default ruby for the current Emacs session
+)
+#+END_SRC
 *** Smartparens
     Doesn't use `use-package`, but I just want this to work
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -1046,6 +1051,9 @@
 (bind-key "C-c c" 'comment-or-uncomment-region)
 (bind-key "C-c u" 'uncomment-region)
 
+;; Multiple Cursors
+(bind-key "C-S-t" 'mc/mark-next-like-this-symbol)
+(bind-key "C-<" 'mc/mark-all-symbols-like-this)
 #+END_SRC
 
 ** Load Local Customizations
