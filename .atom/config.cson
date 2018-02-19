@@ -43,7 +43,8 @@
     userId: "86c92ee3-52e7-4de5-ba8b-fad388245b3f"
   "fuzzy-finder": {}
   "linter-haml": {}
-  "linter-ui-default": {}
+  "linter-ui-default":
+    showPanel: true
   minimap:
     absoluteMode: true
     adjustAbsoluteModeHeight: true
