@@ -10,8 +10,8 @@
 ;;(interactive)
 ;;(load-theme 'better-tango-dark))
 ;;(use-default-theme)
-;;(load-theme 'tango-dark t)
-(load-theme 'monokai t)
+(load-theme 'tango-dark t)
+;;(load-theme 'monokai t)
 
 #+END_SRC
 
@@ -181,7 +181,7 @@
 (setq enable-recursive-minibuffers t)
 
 ;; Don't be so stingy on the memory, we have lots now. It's the distant future.
-(setq gc-cons-threshold 20000000)
+(setq gc-cons-threshold 100000000)
 
 ;; org-mode: Don't ruin S-arrow to switch windows please (use M-+ and M-- instead to toggle)
 (setq org-replace-disputed-keys t)
@@ -347,15 +347,17 @@
 
 *** Exec path from shell
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package exec-path-from-shell :ensure t :init (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize)))
+(use-package exec-path-from-shell :ensure t
+  :init
+  (when (memq window-system '(mac ns x))
+        (exec-path-from-shell-initialize))
+)
 #+END_SRC
 
 *** Flycheck
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package flycheck :ensure t :init (global-flycheck-mode)
-  :config
-  (package-install 'exec-path-from-shell)
-  (exec-path-from-shell-initialize)
+(use-package flycheck :ensure t
+  :init (global-flycheck-mode)
 )
 #+END_SRC
 
@@ -450,7 +452,7 @@
   :config
   (popwin-mode 1))
 (setq display-buffer-function 'popwin:display-buffer)
-(push '("^\\*.*\\*$" :regexp t 
+(push '("^\\*.*\\*$" :regexp t
                  :height 25
                  :position bottom)
   popwin:special-display-config)
@@ -504,13 +506,6 @@
 (add-hook 'robe-mode-hook 'ac-robe-setup)
 #+END_SRC
 
-*** RVM
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package rvm :ensure t
-  :config
-  (rvm-use-default) ;; use rvm's default ruby for the current Emacs session
-)
-#+END_SRC
 *** Smartparens
     Doesn't use `use-package`, but I just want this to work
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -630,11 +625,11 @@
 (defvaralias 'enh-ruby-indent-level 'tab-width)
 
 ;; Use enh-ruby-mode for all common ruby files
-(add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))		 
-(add-to-list 'auto-mode-alist '("\\.rake$" . enh-ruby-mode))	
-(add-to-list 'auto-mode-alist '("Rakefile$" . enh-ruby-mode))	
+(add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.rake$" . enh-ruby-mode))
+(add-to-list 'auto-mode-alist '("Rakefile$" . enh-ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.gemspec$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.ru$" . enh-ruby-mode))		 
+(add-to-list 'auto-mode-alist '("\\.ru$" . enh-ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile$" . enh-ruby-mode))
 (add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
 
