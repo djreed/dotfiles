@@ -30,16 +30,21 @@
 # If you are unfamiliar with CSON, you can read more about it in the
 # Atom Flight Manual:
 # http://flight-manual.atom.io/using-atom/sections/basic-customization/#configuring-with-cson
+
+# General options
 'atom-text-editor':
+  # Project traversing
   'ctrl-x ctrl-o': 'window:focus-next-pane'
   'ctrl-x ctrl-g': 'project-find:show'
-  'ctrl-l': 'line-numbers:toggle'
-  'ctrl-i': 'window:toggle-invisibles'
-
-'atom-workspace':
-  'ctrl-cmd-w': 'editor:toggle-soft-wrap'
   'ctrl-x ctrl-b': 'fuzzy-finder:toggle-buffer-finder'
 
-'atom-workspace atom-text-editor:not([mini])':
+  # Movement
+  'ctrl-,': 'core:move-to-top'
+  'ctrl-.': 'core:move-to-bottom'
+
+  # Utility toggles
+  'ctrl-l': 'line-numbers:toggle'
+  'ctrl-i': 'window:toggle-invisibles'
+  'ctrl-cmd-w': 'editor:toggle-soft-wrap'
   'cmd-k m': 'quick-highlight:toggle'
   'cmd-k M': 'quick-highlight:clear'

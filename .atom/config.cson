@@ -3,8 +3,7 @@
     general:
       _analyticsUserId: "djreed"
       beautifyEntireFileOnSave: false
-    ruby:
-      default_beautifier: "Ruby Beautify"
+    ruby: {}
   "atom-fuzzy-grep":
     grepCommandString: "ack -i --nocolor --nogroup --column"
   "atom-material-ui":
@@ -19,20 +18,27 @@
       panelContrast: true
       panelShadows: true
   "atomic-emacs": {}
-  "autocomplete-ruby": {}
+  "autocomplete-plus":
+    backspaceTriggersAutocomplete: true
+  "autocomplete-ruby":
+    suggestionPriority: true
   "city-lights-ui":
     showTabsInTreeView: true
   core:
-    openEmptyEditorOnStart: false
-    packagesWithKeymapsDisabled: [
-      "intentions"
+    disabledPackages: [
+      "autocomplete-ruby"
+      "pane-layout-plus"
+      "quick-highlight"
     ]
+    openEmptyEditorOnStart: false
+    packagesWithKeymapsDisabled: []
     telemetryConsent: "no"
     themes: [
       "atom-material-ui"
       "monokai"
     ]
   editor:
+    autoIndent: false
     fontSize: 12
     invisibles: {}
     showIndentGuide: true
@@ -42,9 +48,22 @@
   "exception-reporting":
     userId: "86c92ee3-52e7-4de5-ba8b-fad388245b3f"
   "fuzzy-finder": {}
+  "git-blame":
+    colorCommitAuthors: true
+    ignoreWhiteSpaceDiffs: true
+  "go-plus":
+    autocomplete:
+      suppressBuiltinAutocompleteProvider: false
+    config: {}
+    format: {}
+    panel:
+      fontSize: "1em"
+    test: {}
+  "highlight-selected": {}
   "linter-haml": {}
-  "linter-ui-default":
-    showPanel: true
+  "linter-rubocop":
+    disableWhenNoConfigFile: true
+  "linter-ui-default": {}
   minimap:
     absoluteMode: true
     adjustAbsoluteModeHeight: true
@@ -77,13 +96,33 @@
     toggles:
       autoClose: true
       runInsertedText: false
-  "ruby-block": {}
+  "quick-highlight":
+    countDisplayPosition: "Right"
+    displayCountOnStatusBar: false
+  "ruby-block":
+    highlightLineNumber: true
+  "ruby-solargraph": {}
   "seti-ui":
     compactView: true
   welcome:
     showOnStartup: false
+".erb.html.text":
+  editor:
+    autoIndent: true
+".gemfile.ruby.source":
+  editor:
+    autoIndent: true
 ".html.liquid.text":
   editor:
     autoIndent: true
     autoIndentOnPaste: true
     showInvisibles: false
+".html.ruby.text":
+  editor:
+    autoIndent: true
+".js.rails.source source.jquery.js":
+  editor:
+    autoIndent: true
+".ruby.source":
+  editor:
+    autoIndent: true
