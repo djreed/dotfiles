@@ -51,7 +51,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(bundler cp git git-extras github history)
+plugins=(bundler cp git git-extras github history rails)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -60,14 +60,17 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='nano'
+else
+  export EDITOR='emacsclient'
+  export ALTERNATIVE_EDITOR='emacs'
+fi
+
+
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -193,6 +196,7 @@ alias tl='tree | less'
 # Colorized cat
 alias c='highlight -O ansi'
 
+# Alignable jenkins
 alias 'ssh-jenkins'='ssh -L8080:10.15.30.214:8080 alignabledev@34.235.205.232'
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
