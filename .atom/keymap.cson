@@ -33,14 +33,15 @@
 
 # General options
 'atom-text-editor':
+  # File editing
+  'ctrl-w' : 'atomic-emacs:kill-line'
+  'ctrl-,': 'core:move-to-top'
+  'ctrl-.': 'core:move-to-bottom'
+
   # Project traversing
   'ctrl-x ctrl-o': 'window:focus-next-pane'
   'ctrl-x ctrl-g': 'project-find:show'
   'ctrl-x ctrl-b': 'fuzzy-finder:toggle-buffer-finder'
-
-  # Movement
-  'ctrl-,': 'core:move-to-top'
-  'ctrl-.': 'core:move-to-bottom'
 
   # Utility toggles
   'ctrl-l': 'line-numbers:toggle'
