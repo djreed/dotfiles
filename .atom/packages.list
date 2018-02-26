@@ -19,6 +19,8 @@ language-liquid@0.6.0
 linter@2.2.0
 linter-ui-default@1.6.10
 minimap@4.29.8
+minimap-autohider@1.5.4
+minimap-highlight-selected@4.6.1
 monokai@0.24.0
 ruby-block@0.3.6
 
