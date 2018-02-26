@@ -16,6 +16,8 @@ hyperclick@0.1.5
 intentions@1.1.5
 language-haml@0.25.2
 language-liquid@0.6.0
+linter@2.2.0
+linter-ui-default@1.6.10
 minimap@4.29.8
 monokai@0.24.0
 ruby-block@0.3.6
