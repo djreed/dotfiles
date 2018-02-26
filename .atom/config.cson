@@ -9,7 +9,7 @@
   "atom-material-ui":
     colors:
       abaseColor: "#7e57c2"
-      accentColor: "#fff9fc"
+      accentColor: "#ffffff"
       predefinedColor: "Purple"
     fonts: {}
     tabs:
@@ -25,11 +25,6 @@
   "city-lights-ui":
     showTabsInTreeView: true
   core:
-    disabledPackages: [
-      "autocomplete-ruby"
-      "pane-layout-plus"
-      "quick-highlight"
-    ]
     openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: []
     telemetryConsent: "no"
@@ -51,6 +46,7 @@
   "fuzzy-finder": {}
   "git-blame":
     colorCommitAuthors: true
+    columnWidth: 247
     ignoreWhiteSpaceDiffs: true
   "go-plus":
     autocomplete:
@@ -64,7 +60,8 @@
   "linter-haml": {}
   "linter-rubocop":
     disableWhenNoConfigFile: true
-  "linter-ui-default": {}
+  "linter-ui-default":
+    panelHeight: 205
   minimap:
     absoluteMode: true
     adjustAbsoluteModeHeight: true
