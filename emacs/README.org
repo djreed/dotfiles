@@ -165,8 +165,8 @@
 (savehist-mode 1)
 (setq history-length 1000)
 
-;; DO insert tabs
-(set-default 'indent-tabs-mode t)
+;; DO NOT insert tabs
+(set-default 'indent-tabs-mode nil)
 
 ;; Show me empty lines after buffer end
 (set-default 'indicate-empty-lines t)
@@ -291,8 +291,6 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package auto-complete :ensure t
   :config
-  (add-to-list 'ac-dictionary-directories
-    "~/.emacs.d/.cask/24.3.50.1/elpa/auto-complete-20130724.1750/dict")
   (ac-config-default)
   (setq ac-ignore-case nil)
   (add-to-list 'ac-modes 'enh-ruby-mode)
