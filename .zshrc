@@ -202,4 +202,6 @@ alias 'ssh-jenkins'='ssh -L8080:10.15.30.214:8080 alignabledev@34.235.205.232'
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
+eval "$(rbenv init -)"
+
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
