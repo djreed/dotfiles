@@ -104,6 +104,10 @@
     compactView: true
   welcome:
     showOnStartup: false
+  whitespace:
+    ensureSingleTrailingNewline: false
+    ignoreWhitespaceOnlyLines: true
+    removeTrailingWhitespace: false
 ".erb.html.text":
   editor:
     autoIndent: true
