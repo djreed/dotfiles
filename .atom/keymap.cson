@@ -49,9 +49,10 @@
   'ctrl-cmd-w': 'editor:toggle-soft-wrap'
   'cmd-k m': 'quick-highlight:toggle'
   'cmd-k M': 'quick-highlight:clear'
+  'ctrl-b': 'git-blame:toggle'
 
   # Navigation
-  'ctrl-b': 'atomic-emacs:backward-char'
+  #'ctrl-b': 'atomic-emacs:backward-char'
   'left': 'atomic-emacs:backward-char'
   'ctrl-f': 'atomic-emacs:forward-char'
   'right': 'atomic-emacs:forward-char'

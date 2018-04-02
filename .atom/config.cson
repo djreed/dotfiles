@@ -21,10 +21,23 @@
   "autocomplete-plus":
     backspaceTriggersAutocomplete: true
   "autocomplete-ruby":
+    rsensePath: "/Users/djreed/.rvm/gems/ruby-2.4.2/bin/rsense"
     suggestionPriority: true
   "city-lights-ui":
     showTabsInTreeView: true
   core:
+    closeEmptyWindows: false
+    destroyEmptyPanes: false
+    disabledPackages: [
+      "linter-eslint"
+      "linter"
+      "linter-ui-default"
+      "flow-ide"
+      "busy-signal"
+      "language-rust"
+      "hyperclick"
+      "autocomplete-ruby"
+    ]
     openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: []
     telemetryConsent: "no"
@@ -32,12 +45,13 @@
       "atom-material-ui"
       "monokai"
     ]
+  "dbg-gdb":
+    logToConsole: true
   editor:
     autoIndent: false
     fontSize: 12
     invisibles: {}
     showIndentGuide: true
-    softWrap: true
     tabType: "soft"
     zoomFontWhenCtrlScrolling: true
   "emacs-plus": {}
@@ -57,6 +71,8 @@
       fontSize: "1em"
     test: {}
   "highlight-selected": {}
+  "linter-eslint":
+    disableFSCache: true
   "linter-haml": {}
   "linter-rubocop":
     disableWhenNoConfigFile: true
