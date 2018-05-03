@@ -52,7 +52,7 @@
 
 ;; Highlight line, modify line bg
 (global-hl-line-mode 1)
-(set-face-background 'hl-line "#3e4446")
+(set-face-background 'hl-line "#666666")
 (set-face-foreground 'highlight nil)
 #+END_SRC
 
@@ -62,7 +62,7 @@
 ;;(set-face-font "Fantastique Sans Mono-16")
 ;;(set-default-font "DejaVu Sans Mono")
 (set-default-font "Roboto Mono 12")
-(set-face-attribute 'default nil :family "Roboto Mono" :height 110)
+(set-face-attribute 'default nil :family "Roboto Mono" :height 130)
 (global-prettify-symbols-mode)
 #+END_SRC
 
