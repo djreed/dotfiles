@@ -49,7 +49,7 @@
     logToConsole: true
   editor:
     autoIndent: false
-    fontSize: 13
+    fontSize: 12
     invisibles: {}
     showIndentGuide: true
     tabType: "soft"
@@ -57,7 +57,10 @@
   "emacs-plus": {}
   "exception-reporting":
     userId: "86c92ee3-52e7-4de5-ba8b-fad388245b3f"
-  "fuzzy-finder": {}
+  "fuzzy-finder":
+    ignoredNames: [
+      "**/node_modules/*"
+    ]
   "git-blame":
     colorCommitAuthors: true
     columnWidth: 247
