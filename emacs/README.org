@@ -10,8 +10,8 @@
 ;;(interactive)
 ;;(load-theme 'better-tango-dark))
 ;;(use-default-theme)
-(load-theme 'tango-dark t)
-;;(load-theme 'monokai t)
+;;(load-theme 'tango-dark t)
+(load-theme 'monokai t)
 
 #+END_SRC
 
@@ -39,6 +39,7 @@
 (setq-default visible-bell t)
 
 ;; Turn off obnoxious bars
+(when (boundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 
@@ -175,10 +176,14 @@
 (global-subword-mode 1)
 
 ;; Don't break lines for me, please
+;;(setq-default truncate-lines nil)
+
+;; Actually, _DO_ break lines for me, since we scroll
 (setq-default truncate-lines nil)
 
-;; Allow recursive minibuffers
-(setq enable-recursive-minibuffers t)
+;; (Dont) Allow recursive minibuffers
+;;(setq enable-recursive-minibuffers t)
+(setq enable-recursive-minibuffers nil)
 
 ;; Don't be so stingy on the memory, we have lots now. It's the distant future.
 (setq gc-cons-threshold 100000000)
@@ -220,7 +225,6 @@
       (when (= p (point)) ad-do-it))))
 
 (setq set-mark-command-repeat-pop t)
-
 #+END_SRC
 
 ** Packaging
@@ -270,20 +274,6 @@
     Window management made a little easier
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ace-window :ensure t :config (setq-default aw-dispatch-always t))
-#+END_SRC
-
-*** All-the-icons
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package all-the-icons :ensure t
-  :config
-  (setq all-the-icons-color-icons nil))
-#+END_SRC
-
-**** all-the-icons-dired
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package all-the-icons-dired :ensure t
-  :config
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 #+END_SRC
 
 *** Auto-complete
@@ -363,6 +353,7 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package ido :ensure t
   :config
+  (setq ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
   (setq ido-enable-prefix nil)
   (setq ido-create-new-buffer 'always)
   (setq ido-auto-merge-work-directories-length -1)
@@ -397,15 +388,6 @@
                 ivy-buffer-max-buffer-display-length 40))
 #+END_SRC
 
-*** Ledger
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package ledger-mode :ensure t
-  :config
-  (setq-default ledger-mode-should-check-version nil
-                ledger-report-links-in-register nil
-                ledger-binary-path "hledger"))
-#+END_SRC
-
 *** Magit
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package magit :ensure t)
@@ -422,6 +404,7 @@
 		:config
 		(global-nlinum-mode))
 #+END_SRC
+
 *** Org mode
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package org :ensure org-plus-contrib :ensure t)
@@ -490,11 +473,6 @@
 (setq recentf-max-saved-items 100) ;; just 20 is too recent
 #+END_SRC
 
-*** Rest client
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package restclient :ensure t)
-#+END_SRC
-
 *** Robe mode
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package robe :ensure t)
@@ -536,6 +514,10 @@
 (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
 (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 (setq scroll-step 1) ;; keyboard scroll one line at a time
+
+;; Horizontal scroll speed
+(setq hscroll-margin 0)
+(setq hscroll-step 1)
 #+END_SRC
 
 *** Swiper
@@ -677,39 +659,10 @@
 (use-package company-go :ensure t :config (add-to-list 'company-backends 'company-go))
 #+END_SRC
 
-*** Rust
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package flycheck-rust :ensure t
-  :config
-  (add-hook 'flycheck-mode-hook 'flycheck-rust-setup))
-(use-package racer :ensure t)
-(use-package rust-mode :ensure t
-  :config
-  (add-hook 'rust-mode-hook 'racer-mode)
-  (add-hook 'racer-mode-hook 'eldoc-mode)
-  (add-hook 'rust-mode-hook (lambda ()
-                              (setq-local indent-tabs-mode t)
-                              (setq-local tab-width 2)
-                              (setq-local rust-indent-offset 2)))
-  (setq-default rust-format-on-save t)
-	(define-key racer-mode-map (kbd "C-c t d") 'racer-find-definition)
-	(define-key racer-mode-map (kbd "C-c t D") 'racer-describe))
-#+END_SRC
-
 *** MIPS Assembly
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package mips-mode :ensure t)
 #+END_SRC
-*** Prose (the written word)
-#+BEGIN_SRC emacs-lisp :tangle yes
-(vendor-and-load-remote-file "https://raw.githubusercontent.com/amperser/proselint/master/plugins/flycheck/flycheck-proselint.el"
-                             "flycheck-proselint.el")
-
-(vendor-and-load-remote-file "https://raw.githubusercontent.com/abingham/flycheck-vale/master/flycheck-vale.el"
-                             "flycheck-vale.el")
-(add-to-list 'flycheck-checkers 'vale 'proselint)
-#+END_SRC
-
 *** C / C++ / CMake
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package cmake-mode :ensure t)
@@ -726,12 +679,6 @@
 					 ("\\.md\\'" . markdown-mode)
 					 ("\\.markdown\\'" . markdown-mode))
 		:init (setq markdown-command "pandoc -f markdown_github -t html"))
-#+END_SRC
-*** Terraform
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package terraform-mode :ensure t)
-(custom-set-variables
- '(terraform-indent-level 2))
 #+END_SRC
 
 *** Web mode
@@ -902,48 +849,44 @@
 *** Quit
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; REALLY QUIT
-(bind-key "C-c r q" 'save-buffers-kill-emacs)
+(bind-key* "C-x r q" 'save-buffers-kill-emacs)
 #+END_SRC
 
 *** M-x replacement
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; Smart M-x
-(bind-key "M-x" 'smex)
-(bind-key "M-X" 'smex-major-mode-commands)
+(bind-key* "M-x" 'smex)
+(bind-key* "M-X" 'smex-major-mode-commands)
 ;; This is your old M-x.
-(bind-key "C-c C-c M-x" 'execute-extended-command)
+(bind-key* "C-c C-c M-x" 'execute-extended-command)
 #+END_SRC
 
 *** Window management
 #+BEGIN_SRC emacs-lisp :tangle yes
 
 ;; Frame management
-(bind-key "C-c w o" 'ace-window)
-(bind-key "C-c w F" 'make-frame)
-(bind-key "C-c w x" 'delete-frame)
-(bind-key "C-c w f" 'other-frame)
+(bind-key* "C-c w o" 'ace-window)
+(bind-key* "C-c w F" 'make-frame)
+(bind-key* "C-c w x" 'delete-frame)
+(bind-key* "C-c w f" 'other-frame)
 
 ;; Move windows with or without C-x
-(bind-key "C-x C-o" 'other-window)
-(bind-key "C-x o" 'other-window)
+(bind-key* "C-x C-o" 'other-window)
+(bind-key* "C-x o" 'other-window)
 
-(bind-key "C-x 3" 'split-window-right-and-move-there-dammit)
 
+
+(bind-key* "C-x 3" 'split-window-right-and-move-there-dammit)
 #+END_SRC
 
 *** File Finding
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; Find files by name and display results in dired
-(bind-key "M-s f" 'counsel-projectile-find-dir)
+(bind-key* "M-s f" 'counsel-projectile-find-dir)
 
-(bind-key "C-x f" 'find-file)
-(bind-key "C-x C-f" 'find-file)
-(bind-key "C-x x C-f" 'counsel-projectile-find-file)
-
-;; Directory viewer like we all love
-(push '(direx:direx-mode :position left :width 25 :dedicated t)
-      popwin:special-display-config)
-(bind-key "C-x C-j" 'direx:jump-to-directory-other-window)
+(bind-key* "C-x f" 'find-file)
+(bind-key* "C-x C-f" 'find-file)
+(bind-key* "C-x x C-f" 'counsel-projectile-find-file)
 #+END_SRC
 
 *** Ack and Ag file finding
@@ -962,39 +905,43 @@
 
 *** undo-tree
 #+BEGIN_SRC emacs-lisp :tangle yes
-(bind-key "C-c U" 'undo-tree-visualize)
+(bind-key* "C-c U" 'undo-tree-visualize)
 #+END_SRC
 
 *** Buffers
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; Eval buffer
-(bind-key "C-c C-k" 'eval-buffer)
+(bind-key* "C-c C-k" 'eval-buffer)
 
 ;; Delete buffer file
-(bind-key "C-x C-k" `delete-current-buffer-file)
+(bind-key* "C-x C-k" `delete-current-buffer-file)
 
 ;; Rename buffer file
-(bind-key "C-x C-r" `rename-current-buffer-file)
+(bind-key* "C-x C-r" `rename-current-buffer-file)
 
 ;; Use Ivy for buffer switch
 ;; (bind-key "C-x b" 'ido-switch-buffer) ;; Or dont
-(bind-key "C-x b" 'ivy-switch-buffer)
+(bind-key* "C-x b" 'ivy-switch-buffer)
 
 ;; Multi-occur
 (bind-key "M-s m" 'multi-occur)
 (bind-key "M-s M" 'multi-occur-in-matching-buffers)
 
 ;; Display and edit occurances of regexp in buffer
-(bind-key "C-c o" 'occur)
+(bind-key* "C-c o" 'occur)
 
 ;; Like isearch-*-use-region, but doesn't fuck with the active region
-(bind-key "C-S-s" 'isearch-forward)
-(bind-key "C-S-r" 'isearch-backward)
+(bind-key* "C-S-s" 'isearch-forward)
+(bind-key* "C-S-r" 'isearch-backward)
 
 ;; View occurrence in occur mode
 (define-key occur-mode-map (kbd "v") 'occur-mode-display-occurrence)
 (define-key occur-mode-map (kbd "n") 'next-line)
 (define-key occur-mode-map (kbd "p") 'previous-line)
+
+;; Turn on horizontal scrolling with mouse wheel
+(bind-key "<wheel-right>" (lambda () (interactive) (scroll-left 2)))
+(bind-key "<wheel-left>" (lambda () (interactive) (scroll-right 2)))
 
 ;; Replace i-search with swiper, better i-search
 (bind-key "C-s" 'swiper)
@@ -1056,7 +1003,7 @@
 #+END_SRC
 
 ** Etc.
-		Rando commando changes that don't have a proper place.
+	 Rando commando changes that don't have a proper place.
 #+BEGIN_SRC emacs-lisp :tangle yes
 ;; Seed the RNG
 (random t)
