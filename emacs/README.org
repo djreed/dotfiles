@@ -454,10 +454,6 @@
   :config
   (counsel-projectile-mode))
 
-(use-package projectile-rails
-  :config
-  (projectile-rails-global-mode))
-
 #+END_SRC
 
 *** Rainbow-delimiters
