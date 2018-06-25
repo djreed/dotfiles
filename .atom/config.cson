@@ -9,7 +9,6 @@
   "atom-material-ui":
     colors:
       abaseColor: "#7e57c2"
-      accentColor: "#ffffff"
       predefinedColor: "Purple"
     fonts: {}
     tabs:
