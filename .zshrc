@@ -1,6 +1,9 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# Use GCC 8
+alias gcc="gcc-8"
+
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
@@ -69,7 +72,6 @@ else
   export EDITOR='emacsclient'
   export ALTERNATIVE_EDITOR='emacs'
 fi
-
 
 
 # Compilation flags
