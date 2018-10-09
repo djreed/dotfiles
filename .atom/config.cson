@@ -27,16 +27,6 @@
   core:
     closeEmptyWindows: false
     destroyEmptyPanes: false
-    disabledPackages: [
-      "linter-eslint"
-      "linter"
-      "linter-ui-default"
-      "flow-ide"
-      "busy-signal"
-      "language-rust"
-      "hyperclick"
-      "autocomplete-ruby"
-    ]
     openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: []
     telemetryConsent: "no"
@@ -67,7 +57,8 @@
   "go-plus":
     autocomplete:
       suppressBuiltinAutocompleteProvider: false
-    config: {}
+    config:
+      compileOnSave: false
     format: {}
     panel:
       fontSize: "1em"
