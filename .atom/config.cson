@@ -62,7 +62,8 @@
     format: {}
     panel:
       fontSize: "1em"
-    test: {}
+    test:
+      coverageDisplayMode: "gutter"
   "highlight-selected": {}
   "linter-eslint":
     disableFSCache: true
