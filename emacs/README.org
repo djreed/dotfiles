@@ -284,7 +284,6 @@
   :config
   (ac-config-default)
   (setq ac-ignore-case nil)
-  (add-to-list 'ac-modes 'enh-ruby-mode)
   (add-to-list 'ac-modes 'web-mode))
 #+END_SRC
 
@@ -470,61 +469,9 @@
 (setq recentf-max-saved-items 100) ;; just 20 is too recent
 #+END_SRC
 
-*** Robe mode
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package robe :ensure t)
-(add-hook 'ruby-mode-hook 'robe-mode)
-(eval-after-load 'company
-  '(push 'company-robe company-backends))
-(add-hook 'robe-mode-hook 'ac-robe-setup)
-#+END_SRC
-
-*** Smartparens
-    Doesn't use `use-package`, but I just want this to work
-#+BEGIN_SRC emacs-lisp :tangle yes
-(require 'smartparens-config)
-(require 'smartparens-ruby)
-(smartparens-global-mode t)
-(show-smartparens-global-mode t)
-(sp-with-modes '(rhtml-mode)
-  (sp-local-pair "<" ">")
-  (sp-local-pair "<%" "%>"))
-#+END_SRC
-
-*** Smart-tabs
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package smart-tabs-mode :ensure t :config (smart-tabs-insinuate 'c 'c++ 'javascript))
-#+END_SRC
-
-*** Smex
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package smex :ensure t)
-(smex-initialize)
-#+END_SRC
-
-*** Smooth scrolling
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package smooth-scrolling :ensure t :config (smooth-scrolling-mode 1))
-
-;; scroll one line at a time (less "jumpy" than defaults)
-(setq mouse-wheel-scroll-amount '(2 ((shift) . 1))) ;; one line at a time
-(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
-(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
-(setq scroll-step 1) ;; keyboard scroll one line at a time
-
-;; Horizontal scroll speed
-(setq hscroll-margin 0)
-(setq hscroll-step 1)
-#+END_SRC
-
 *** Swiper
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package swiper :ensure t)
-#+END_SRC
-
-*** Undo-tree
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package undo-tree :ensure t :init (global-undo-tree-mode))
 #+END_SRC
 
 *** Which-key
@@ -538,12 +485,6 @@
 (setq-default whitespace-line-column 80
               whitespace-style '(face lines-tail))
 (global-whitespace-mode -1) ;; 1 to enable
-#+END_SRC
-
-*** Zoom
-#+BEGIN_SRC emacs-lisp :tangle yes
-;; Zoom affect frame instead of buffer
-(use-package zoom-frm :ensure t)
 #+END_SRC
 
 ** Programming languages
@@ -569,47 +510,6 @@
 (use-package elixir-mode :ensure t
   :config
   (add-hook 'elixir-mode #'subword-mode))
-#+END_SRC
-
-*** Ruby
-#+BEGIN_SRC emacs-lisp :tangle yes
-(use-package enh-ruby-mode :ensure t
-  :config
-  (add-hook 'enh-ruby-mode-hook #'subword-mode)
-  (add-hook 'enh-ruby-mode-hook 'robe-mode)
-  (setq ruby-indent-tabs-mode nil)
-  (setq enh-ruby-indent-tabs-mode nil)
-)
-
-(require 'hideshow)
-
-;; Set up hs-mode (HideShow) for Ruby
-(add-to-list 'hs-special-modes-alist
-             `(enh-ruby-mode
-	       ,(rx (or "def" "class" "module" "do")) ; Block start
-               ,(rx (or "end"))                       ; Block end
-               ,(rx (or "#" "=begin"))                ; Comment start
-               enh-ruby-forward-sexp nil))
-
-(add-hook 'enh-ruby-mode-hook 'hs-minor-mode)
-
-(bind-key "C-c s" 'hs-show-block)
-(bind-key "C-c h" 'hs-hide-block)
-(bind-key "C-c x C-h" 'hs-hide-all)
-(bind-key "C-c x C-s" 'hs-show-all)
-
-(defvaralias 'ruby-indent-level 'tab-width)
-(defvaralias 'enh-ruby-indent-level 'tab-width)
-
-;; Use enh-ruby-mode for all common ruby files
-(add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.rake$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("Rakefile$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.gemspec$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.ru$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist '("Gemfile$" . enh-ruby-mode))
-(add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
-
 #+END_SRC
 
 *** Haml
@@ -810,8 +710,6 @@
   (insert " ")
   (backward-delete-char 1)
   (save-buffer))
-
-(require 'find-file-in-project)
 #+END_SRC
 
 *** Buffers
@@ -849,18 +747,8 @@
 (bind-key* "C-x r q" 'save-buffers-kill-emacs)
 #+END_SRC
 
-*** M-x replacement
-#+BEGIN_SRC emacs-lisp :tangle yes
-;; Smart M-x
-(bind-key* "M-x" 'smex)
-(bind-key* "M-X" 'smex-major-mode-commands)
-;; This is your old M-x.
-(bind-key* "C-c C-c M-x" 'execute-extended-command)
-#+END_SRC
-
 *** Window management
 #+BEGIN_SRC emacs-lisp :tangle yes
-
 ;; Frame management
 (bind-key* "C-c w o" 'ace-window)
 (bind-key* "C-c w F" 'make-frame)
@@ -870,9 +758,6 @@
 ;; Move windows with or without C-x
 (bind-key* "C-x C-o" 'other-window)
 (bind-key* "C-x o" 'other-window)
-
-
-
 (bind-key* "C-x 3" 'split-window-right-and-move-there-dammit)
 #+END_SRC
 
@@ -898,11 +783,6 @@
 #+BEGIN_SRC emacs-lisp :tangle yes
 (bind-key "C-c g" 'magit-status)
 
-#+END_SRC
-
-*** undo-tree
-#+BEGIN_SRC emacs-lisp :tangle yes
-(bind-key* "C-c U" 'undo-tree-visualize)
 #+END_SRC
 
 *** Buffers
