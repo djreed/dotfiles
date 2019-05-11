@@ -145,7 +145,7 @@ alias g="git"
 alias ga='git add'
 alias gb='git branch'
 alias gbs='git-branches'
-alias gc='git commit -S'
+alias gc='git commit'
 alias gcb='git checkout -b'
 alias gco='git checkout'
 alias gcp='git cherry-pick'
@@ -191,13 +191,30 @@ alias dps="docker ps"
 alias t='tree'
 alias tl='tree | less'
 
+# Maven
+alias mcv='mvn clean verify'
+alias mvc='mvn clean verify'
+alias m='mvn'
+
 # Colorized cat
 alias c='highlight -O ansi'
 
+# SSH as Root
+function rootssh() {
+  ssh $1 -t 'sudo su'
+}
+
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+# Initialize rbenv
+eval "$(rbenv init -)"
+export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/djreed/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/djreed/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/dreed/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/dreed/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/djreed/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/djreed/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/Users/dreed/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/dreed/google-cloud-sdk/completion.zsh.inc'; fi
+
+# Added by nex: https://git.hubteam.com/HubSpot/nex
+. ~/.hubspot/shellrc

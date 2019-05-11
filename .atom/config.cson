@@ -6,6 +6,9 @@
     ruby: {}
   "atom-fuzzy-grep":
     grepCommandString: "ack -i --nocolor --nogroup --column"
+  "atom-ide-ui":
+    "atom-ide-code-format":
+      formatOnSave: true
   "atom-material-ui":
     colors:
       abaseColor: "#7e57c2"
@@ -19,6 +22,7 @@
   "atomic-emacs": {}
   "autocomplete-plus":
     backspaceTriggersAutocomplete: true
+    enableExtendedUnicodeSupport: true
   "autocomplete-ruby":
     rsensePath: "/Users/djreed/.rvm/gems/ruby-2.4.2/bin/rsense"
     suggestionPriority: true
@@ -27,6 +31,9 @@
   core:
     closeEmptyWindows: false
     destroyEmptyPanes: false
+    disabledPackages: [
+      "linter"
+    ]
     openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: []
     telemetryConsent: "no"
@@ -38,7 +45,7 @@
     logToConsole: true
   editor:
     autoIndent: false
-    fontSize: 12
+    fontSize: 15
     invisibles: {}
     showIndentGuide: true
     tabType: "soft"
@@ -66,12 +73,13 @@
       coverageDisplayMode: "gutter"
   "highlight-selected": {}
   "linter-eslint":
-    disableFSCache: true
+    advanced:
+      disableFSCache: true
   "linter-haml": {}
   "linter-rubocop":
     disableWhenNoConfigFile: true
   "linter-ui-default":
-    panelHeight: 205
+    panelHeight: 300
   minimap:
     absoluteMode: true
     adjustAbsoluteModeHeight: true
@@ -104,6 +112,10 @@
     toggles:
       autoClose: true
       runInsertedText: false
+  "prettier-atom":
+    formatOnSaveOptions:
+      showInStatusBar: true
+    useEslint: true
   "quick-highlight":
     countDisplayPosition: "Right"
     displayCountOnStatusBar: false
@@ -120,10 +132,22 @@
     ensureSingleTrailingNewline: false
     ignoreWhitespaceOnlyLines: true
     removeTrailingWhitespace: false
+".console.python.text":
+  editor:
+    autoIndent: true
 ".erb.html.text":
   editor:
     autoIndent: true
 ".gemfile.ruby.source":
+  editor:
+    autoIndent: true
+".go.source":
+  editor:
+    autoIndent: true
+".gohtml.html.text":
+  editor:
+    autoIndent: true
+".gotemplate.source":
   editor:
     autoIndent: true
 ".html.liquid.text":
@@ -135,6 +159,17 @@
   editor:
     autoIndent: true
 ".js.rails.source source.jquery.js":
+  editor:
+    autoIndent: true
+".python.regexp.source":
+  editor:
+    autoIndent: true
+    autoIndentOnPaste: true
+".python.source":
+  editor:
+    autoIndent: true
+    autoIndentOnPaste: true
+".python.text.traceback":
   editor:
     autoIndent: true
 ".ruby.source":

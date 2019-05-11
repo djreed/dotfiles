@@ -41,7 +41,6 @@
 
 ;; Turn off obnoxious bars
 (when (boundp 'scroll-bar-mode) (scroll-bar-mode -1))
-(tool-bar-mode 0)
 (menu-bar-mode 0)
 
 (defun my/disable-scroll-bars (frame)
