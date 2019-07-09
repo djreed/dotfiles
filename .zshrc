@@ -105,8 +105,9 @@ export CODE="~/Code/"
 
 # export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
 
-# export NVM_DIR="/home/djreed/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 
 # Golang
 export GOPATH=~/Code/
