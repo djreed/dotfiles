@@ -106,6 +106,7 @@ export CODE="~/Code/"
 # export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
 
 export NVM_DIR="$HOME/.nvm"
+source /usr/local/opt/nvm/nvm.sh
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 
