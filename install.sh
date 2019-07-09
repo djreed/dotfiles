@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 ln -sfn ~/dotfiles/emacs/ ~/.emacs.d
 ln -sfn ~/dotfiles/.zshrc ~/.zshrc
