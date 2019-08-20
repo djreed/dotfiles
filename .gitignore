@@ -27,3 +27,5 @@ nvim/files/plugged
 nvim/files/plugged/*
 
 \#*\
+
+.atom/.atom-socket-secret-*
