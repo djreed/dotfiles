@@ -196,6 +196,7 @@ alias tl='tree | less'
 # Maven
 alias mcv='mvn clean verify'
 alias mvc='mvn clean verify'
+alias mc='mvn clean'
 alias m='mvn'
 
 # Colorized cat
@@ -207,6 +208,7 @@ function rootssh() {
 }
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
 
 # Initialize rbenv
 eval "$(rbenv init -)"

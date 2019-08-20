@@ -45,7 +45,7 @@
     logToConsole: true
   editor:
     autoIndent: false
-    fontSize: 15
+    fontSize: 12
     invisibles: {}
     showIndentGuide: true
     tabType: "soft"
@@ -81,8 +81,7 @@
   "linter-ui-default":
     panelHeight: 300
   minimap:
-    absoluteMode: true
-    adjustAbsoluteModeHeight: true
+    displayCodeHighlights: false
     moveCursorOnMinimapClick: true
     plugins:
       codeglance: false
@@ -93,9 +92,9 @@
       "find-and-replaceDecorationsZIndex": 0
       "git-diff": true
       "git-diffDecorationsZIndex": 0
-      "highlight-selected": true
+      "highlight-selected": false
       "highlight-selectedDecorationsZIndex": 0
-      "minimap-autohider": true
+      "minimap-autohider": false
       "minimap-autohiderDecorationsZIndex": 0
       "minimap-hide": true
       "minimap-hideDecorationsZIndex": 0
@@ -125,7 +124,8 @@
   "seti-ui":
     compactView: true
   "tree-view":
-    hideVcsIgnoredFiles: true
+    alwaysOpenExisting: true
+    focusOnReveal: false
   welcome:
     showOnStartup: false
   whitespace:
