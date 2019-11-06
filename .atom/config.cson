@@ -48,6 +48,7 @@
     fontSize: 12
     invisibles: {}
     showIndentGuide: true
+    showInvisibles: true
     tabType: "soft"
     zoomFontWhenCtrlScrolling: true
   "emacs-plus": {}
