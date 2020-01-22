@@ -208,6 +208,9 @@ function rootssh() {
 eval $(thefuck --alias)
 alias re='fuck'
 
+# GPG env vars
+export GPG_TTY=$(tty)
+
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # Initialize rbenv
@@ -233,3 +236,13 @@ alias tf_tail="$DRIFT_HOME/platform-ops/bin/tail_logs -u $(whoami)"
 alias tf_debug="$DRIFT_HOME/platform-ops/bin/debug_container -u $(whoami)"
 alias qa_creds="tf_assume_role qa ops-admin credstash getall"
 alias prod_creds="tf_assume_role prod ops-admin credstash getall"
+cs () {
+  query=${1// /%20} 
+  echo "$query"
+  open "https://code-search.drifttools.com/?q=$query&i=nope&files=&repos="
+}
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+# added by travis gem
+[ -f /Users/dreed/.travis/travis.sh ] && source /Users/dreed/.travis/travis.sh
