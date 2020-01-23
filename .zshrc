@@ -7,7 +7,10 @@ export ZSH=~/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="powerlevel10k/powerlevel10k" #"robbyrussell"
+# P10k configuration
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -51,9 +54,18 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(bundler cp git git-extras github history rails zsh-syntax-highlighting)
-
 source $ZSH/oh-my-zsh.sh
+plugins=(
+  bundler
+  cp
+  git
+  git-extras
+  github
+  history
+  rails
+  zsh-syntax-highlighting
+  zsh-kubectl-prompt
+)
 
 # User configuration
 
@@ -236,11 +248,20 @@ alias tf_tail="$DRIFT_HOME/platform-ops/bin/tail_logs -u $(whoami)"
 alias tf_debug="$DRIFT_HOME/platform-ops/bin/debug_container -u $(whoami)"
 alias qa_creds="tf_assume_role qa ops-admin credstash getall"
 alias prod_creds="tf_assume_role prod ops-admin credstash getall"
+
+# Code search alias
 cs () {
   query=${1// /%20} 
   echo "$query"
   open "https://code-search.drifttools.com/?q=$query&i=nope&files=&repos="
 }
+
+# Kube context swapping
+export KUBECONFIG=$HOME/.kube/drift-eks
+alias kops='kubectl config use-context drift-ops'
+alias kqa='kubectl config use-context drift-qa'
+alias kprod='kubectl config use-context drift-prod'
+
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 

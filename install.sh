@@ -1,7 +1,8 @@
 #!/bin/sh
 
-ln -sfn ~/dotfiles/emacs/ ~/.emacs.d
-ln -sfn ~/dotfiles/.zshrc ~/.zshrc
+ln -sfn ~/dotfiles/emacs/ ~/
+ln -sfn ~/dotfiles/.zshrc ~/
+ln -sfn ~/dotfiles/.p10k.zsh ~/
+ln -sfn ~/dotfiles/.atom/ ~/
 
-ln -sfn ~/dotfiles/.atom/ ~/.atom
 sh ~/dotfiles/.atom/install-packages.sh
