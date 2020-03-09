@@ -125,6 +125,8 @@ export GOPATH=~/Code/
 export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:$GOPATH/bin
 
+export GO111MODULE=on
+
 # navigation shortcuts
 alias ..="cd .."
 alias ...="cd ../.."
@@ -154,6 +156,7 @@ fi
 # git
 alias g="git"
 alias ga='git add'
+alias gaa='git add --all'
 alias gb='git branch'
 alias gbs='git-branches'
 alias gc='git commit -S'
@@ -211,6 +214,9 @@ alias m='mvn'
 # Colorized cat
 alias c='highlight -O ansi'
 
+# Kubectl
+alias k='kubectl'
+
 # SSH as Root
 function rootssh() {
   ssh $1 -t 'sudo su'
@@ -256,11 +262,30 @@ cs () {
   open "https://code-search.drifttools.com/?q=$query&i=nope&files=&repos="
 }
 
-# Kube context swapping
+# Kube shortcuts and context swapping
 export KUBECONFIG=$HOME/.kube/drift-eks
-alias kops='kubectl config use-context drift-ops'
-alias kqa='kubectl config use-context drift-qa'
-alias kprod='kubectl config use-context drift-prod'
+alias k='kubectl'
+alias kg='k get'
+alias kd='k describe'
+alias kops='k config use-context drift-ops'
+alias kqa='k config use-context drift-qa'
+alias kprod='k config use-context drift-prod'
+alias kns='k config set-context $(kubectl config current-context) --namespace '
+alias kgp='kg pods'
+alias kdp='kd pod'
+alias kexec='k exec -ti '
+alias kgn='kg nodes'
+alias klog='k logs'
+
+# Istio shortcuts
+alias i='istioctl'
+alias ist='istioctl'
+alias istio='istioctl'
+
+# EKS shortcuts
+alias e='e'
+alias eks='eksctl'
+alias eg='e get'
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"

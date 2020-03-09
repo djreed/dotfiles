@@ -1,4 +1,15 @@
 "*":
+  "activate-power-mode":
+    comboMode: {}
+    playAudio:
+      enabled: true
+      volume: 0.25
+    plugins:
+      playAudio: true
+      screenShake: true
+    screenShake:
+      maxIntensity: 20
+      minIntensity: 5
   "atom-beautify":
     general:
       _analyticsUserId: "djreed"

@@ -1,3 +1,4 @@
+activate-power-mode@2.7.0
 atom-beautify@0.33.4
 atom-fuzzy-grep@0.17.2
 atom-ide-ui@0.13.0
@@ -7,7 +8,7 @@ auto-update-packages@1.0.1
 autoclose-html@0.23.0
 autocomplete-modules@2.3.0
 autocomplete-plus@2.42.3
-file-icons@2.1.38
+file-icons@2.1.39
 git-blame@1.8.0
 go-debug@1.7.0
 go-plus@6.1.0
