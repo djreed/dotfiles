@@ -249,7 +249,7 @@ if [ -f '/Users/dreed/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/dreed/goo
 if [ -f '/Users/dreed/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/dreed/google-cloud-sdk/completion.zsh.inc'; fi
 export PATH="/usr/local/opt/maven@3.5/bin:$PATH"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="/usr/local/opt/maven@3.5/bin:$PATH"
 
@@ -277,12 +277,21 @@ alias kd='k describe'
 alias kops='k config use-context drift-ops'
 alias kqa='k config use-context drift-qa'
 alias kprod='k config use-context drift-prod'
+alias kqamsg='k config use-context drift-qa-messaging'
+alias kprodmsg='k config use-context drift-prod-messaging'
 alias kns='k config set-context $(kubectl config current-context) --namespace '
 alias kgp='kg pods'
+alias kgd='kg deploy'
+alias kgi='kg ingress'
+alias kgs='kg service'
+alias kgn='kg nodes'
 alias kdp='kd pod'
 alias kexec='k exec -ti '
-alias kgn='kg nodes'
 alias klog='k logs'
+alias kdel='k delete'
+
+# Get node CPU and Mem usage
+alias kutil='kubectl get nodes --no-headers | awk '\''{print $1}'\'' | xargs -I {} sh -c '\''echo {} ; kubectl describe node {} | grep Allocated -A 5 | grep -ve Event -ve Allocated -ve percent -ve -- ; echo '\'''
 
 # Istio shortcuts
 alias i='istioctl'
@@ -299,5 +308,31 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 # added by travis gem
 [ -f /Users/dreed/.travis/travis.sh ] && source /Users/dreed/.travis/travis.sh
+
+function java11() {
+    echo 'Enabling Java 11'
+    export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home
+}
+
+function java8 () {
+    echo 'Enabling Java 8'
+    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home
+}
+
+### Zoom Shortcuts
+function zt() { icalBuddy eventsToday | egrep -o 'https:\/\/drift.zoom.us\/j\/([0-9]+)'; }
+function joinZoom() {
+    if [ ! "$1" ]; then
+        echo "Please provide a meeting ID..."
+    else
+        open "zoommtg://zoom.us/join?action=join&confid=$1&confno=$1"
+    fi
+}
+function zoh() {
+    joinZoom 7744303035
+}
+function zmm() {
+    joinZoom 4346421930
+}
 
 source ~/powerlevel10k/powerlevel10k.zsh-theme
