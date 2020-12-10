@@ -23,7 +23,8 @@
       formatOnSave: true
   "atom-material-ui":
     colors:
-      abaseColor: "#7e57c2"
+      abaseColor: "#7c57c2"
+      accentColor: "#fefdff"
       predefinedColor: "Purple"
     fonts: {}
     tabs:
@@ -57,7 +58,7 @@
     logToConsole: true
   editor:
     autoIndent: false
-    fontSize: 12
+    fontSize: 13
     invisibles: {}
     showIndentGuide: true
     showInvisibles: true
