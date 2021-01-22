@@ -206,6 +206,7 @@ alias t='tree'
 alias tl='tree | less'
 
 # Maven
+alias mvn_clean_install="mvn clean install -U -Dmaven.test.skip=true"
 alias mcv='mvn clean verify'
 alias mvc='mvn clean verify'
 alias mc='mvn clean'
