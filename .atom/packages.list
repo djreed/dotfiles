@@ -7,14 +7,14 @@ atomic-emacs@0.15.0
 auto-update-packages@1.0.1
 autoclose-html@0.23.0
 autocomplete-modules@2.3.0
-autocomplete-plus@2.42.3
-file-icons@2.1.45
+autocomplete-plus@2.42.5
+file-icons@2.1.47
 git-blame@1.8.0
 go-debug@1.7.0
 go-plus@6.1.0
 go-signature-statusbar@1.2.3
 highlight-selected@0.17.0
-ide-python@1.6.2
+ide-python@1.7.4
 intentions@1.1.5
 language-docker@1.1.8
 language-sml@0.7.0
