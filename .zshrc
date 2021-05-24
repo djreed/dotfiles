@@ -120,6 +120,7 @@ source /usr/local/opt/nvm/nvm.sh
 [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 
 # Golang
+export GOROOT=/usr/local/go
 export GOPATH=~/Code/
 
 export PATH=$PATH:$GOROOT/bin
@@ -241,8 +242,10 @@ if [ -f '/Users/dreed/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/dreed/goo
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/dreed/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/dreed/google-cloud-sdk/completion.zsh.inc'; fi
-export PATH="/usr/local/opt/maven@3.5/bin:$PATH"
+
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Java things
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="/usr/local/opt/maven@3.5/bin:$PATH"
@@ -266,25 +269,28 @@ cs () {
 # Kube shortcuts and context swapping
 export KUBECONFIG=$HOME/.kube/drift-eks
 alias k='kubectl'
-alias kg='k get'
-alias kd='k describe'
-alias kops='k config use-context drift-ops'
-alias kqa='k config use-context drift-qa'
-alias kprod='k config use-context drift-prod'
-alias kqamsg='k config use-context drift-messaging-qa'
-alias kprodmsg='k config use-context drift-messaging-prod'
-alias kqaml='k config use-context drift-maclear-qa'
-alias kprodml='k config use-context drift-maclear-prod'
-alias kns='k config set-context $(kubectl config current-context) --namespace '
-alias kgp='kg pods'
-alias kgd='kg deploy'
-alias kgi='kg ingress'
-alias kgs='kg service'
-alias kgn='kg nodes'
-alias kdp='kd pod'
-alias kexec='k exec -ti '
-alias klog='k logs'
-alias kdel='k delete'
+alias kg='kubectl get'
+alias kd='kubectl describe'
+
+alias kops='kubectl config use-context drift-ops'
+alias kqa='kubectl config use-context drift-qa'
+alias kprod='kubectl config use-context drift-prod'
+alias kqamsg='kubectl config use-context drift-messaging-qa'
+alias kprodmsg='kubectl config use-context drift-messaging-prod'
+alias kqaml='kubectl config use-context drift-maclear-qa'
+alias kprodml='kubectl config use-context drift-maclear-prod'
+alias kloam='kubectl config use-context drift-loam-qa'
+
+alias kns='kubectl config set-context $(kubectl config current-context) --namespace '
+alias kgp='kubectl get pods'
+alias kgd='kubectl get deploy'
+alias kgi='kubectl get ingress'
+alias kgs='kubectl get service'
+alias kgn='kubectl get nodes'
+alias kdp='kubectl get pod'
+alias kexec='kubectl exec -ti '
+alias klog='kubectl logs'
+alias kdel='kubectl delete'
 
 # Get node CPU and Mem usage
 alias kutil='kubectl get nodes --no-headers | awk '\''{print $1}'\'' | xargs -I {} sh -c '\''echo {} ; kubectl describe node {} | grep Allocated -A 5 | grep -ve Event -ve Allocated -ve percent -ve -- ; echo '\'''
@@ -295,7 +301,6 @@ alias ist='istioctl'
 alias istio='istioctl'
 
 # EKS shortcuts
-alias e='e'
 alias eks='eksctl'
 alias eg='e get'
 
@@ -330,3 +335,6 @@ function zoh() {
 function zmm() {
     joinZoom 4346421930
 }
+
+# Krew binary, for Kube
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
