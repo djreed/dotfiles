@@ -44,9 +44,6 @@
   core:
     closeEmptyWindows: false
     destroyEmptyPanes: false
-    disabledPackages: [
-      "linter"
-    ]
     openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: []
     telemetryConsent: "no"

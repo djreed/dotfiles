@@ -120,8 +120,8 @@ source /usr/local/opt/nvm/nvm.sh
 [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 
 # Golang
-export GOROOT=/usr/local/go
-export GOPATH=~/Code/
+export GOPATH=$HOME/Code
+export GOROOT=/usr/local/opt/go/libexec
 
 export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:$GOPATH/bin
@@ -271,15 +271,22 @@ export KUBECONFIG=$HOME/.kube/drift-eks
 alias k='kubectl'
 alias kg='kubectl get'
 alias kd='kubectl describe'
+alias kc='kubectl config'
 
-alias kops='kubectl config use-context drift-ops'
-alias kqa='kubectl config use-context drift-qa'
-alias kprod='kubectl config use-context drift-prod'
-alias kqamsg='kubectl config use-context drift-messaging-qa'
-alias kprodmsg='kubectl config use-context drift-messaging-prod'
-alias kqaml='kubectl config use-context drift-maclear-qa'
-alias kprodml='kubectl config use-context drift-maclear-prod'
-alias kloam='kubectl config use-context drift-loam-qa'
+alias keutools='kubectl config use-context prod-eu-central'
+alias keumain='kubectl config use-context prod-eu-main'
+alias keumsg='kubectl config use-context prod-eu-messaging'
+
+alias kprodtools='kubectl config use-context prod-central'
+alias kprodmain='kubectl config use-context prod-main'
+alias kprodmsg='kubectl config use-context prod-messaging'
+alias kprodml='kubectl config use-context prod-ml'
+
+alias kqatools='kubectl config use-context qa-central'
+alias kqaloam='kubectl config use-context qa-loam'
+alias kqamain='kubectl config use-context qa-main'
+alias kqamsg='kubectl config use-context qa-messaging'
+alias kqaml='kubectl config use-context qa-ml'
 
 alias kns='kubectl config set-context $(kubectl config current-context) --namespace '
 alias kgp='kubectl get pods'
@@ -338,3 +345,4 @@ function zmm() {
 
 # Krew binary, for Kube
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export HISTTIMEFORMAT="%d/%m/%y %T "
