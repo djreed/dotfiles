@@ -44,6 +44,9 @@
   core:
     closeEmptyWindows: false
     destroyEmptyPanes: false
+    disabledPackages: [
+      "activate-power-mode"
+    ]
     openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: []
     telemetryConsent: "no"
@@ -55,7 +58,7 @@
     logToConsole: true
   editor:
     autoIndent: false
-    fontSize: 13
+    fontSize: 12
     invisibles: {}
     showIndentGuide: true
     showInvisibles: true

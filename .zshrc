@@ -179,6 +179,7 @@ alias gss='git stash save'
 
 alias gp='git push'
 alias gpo='git push origin'
+alias gposu='git push --set-upstream origin'
 
 # golang
 alias gob="go build"
@@ -297,7 +298,6 @@ alias kgn='kubectl get nodes'
 alias kdp='kubectl get pod'
 alias kexec='kubectl exec -ti '
 alias klog='kubectl logs'
-alias kdel='kubectl delete'
 
 # Get node CPU and Mem usage
 alias kutil='kubectl get nodes --no-headers | awk '\''{print $1}'\'' | xargs -I {} sh -c '\''echo {} ; kubectl describe node {} | grep Allocated -A 5 | grep -ve Event -ve Allocated -ve percent -ve -- ; echo '\'''
