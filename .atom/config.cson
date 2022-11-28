@@ -142,6 +142,7 @@
     focusOnReveal: false
   welcome:
     showOnStartup: false
+    showSunsettingOnStartup: false
   whitespace:
     ensureSingleTrailingNewline: false
     ignoreWhitespaceOnlyLines: true
