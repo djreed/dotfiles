@@ -35,7 +35,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k" #"robbyrussell"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -113,11 +113,6 @@ export NOTES="~/Notes/"
 export CODE="~/Code/"
 
 # export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
-
-export NVM_DIR="$HOME/.nvm"
-source /usr/local/opt/nvm/nvm.sh
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 
 # Golang
 export GOPATH=$HOME/Code
@@ -233,10 +228,6 @@ alias re='fuck'
 export GPG_TTY=$(tty)
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-# Initialize rbenv
-eval "$(rbenv init -)"
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/dreed/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/dreed/google-cloud-sdk/path.zsh.inc'; fi
