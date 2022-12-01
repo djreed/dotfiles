@@ -242,6 +242,12 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="/usr/local/opt/maven@3.5/bin:$PATH"
 
+. $(brew --prefix asdf)/libexec/asdf.sh
+. ~/.asdf/plugins/java/set-java-home.zsh
+export JAVA_HOME=
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="/usr/local/opt/maven@3.5/bin:$PATH"
+
 export DRIFT_HOME=~/Drift
 alias tf=$DRIFT_HOME/platform-ops/bin/tf
 alias tf_deploy=$DRIFT_HOME/platform-ops/bin/deploy

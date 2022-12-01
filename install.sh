@@ -5,4 +5,4 @@ ln -sfn ~/dotfiles/.zshrc ~/
 ln -sfn ~/dotfiles/.p10k.zsh ~/
 ln -sfn ~/dotfiles/.atom/ ~/
 
-sh ~/dotfiles/.atom/install-packages.sh
+cd .atom && sh install-packages.sh
