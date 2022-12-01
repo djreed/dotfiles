@@ -116,12 +116,9 @@ export CODE="~/Code/"
 
 # Golang
 export GOPATH=$HOME/Code
-export GOROOT=/usr/local/opt/go/libexec
-
+export GOROOT=
 export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:$GOPATH/bin
-
-export GO111MODULE=on
 
 # navigation shortcuts
 alias ..="cd .."
@@ -238,10 +235,6 @@ if [ -f '/Users/dreed/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/dre
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Java things
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-export PATH="/usr/local/opt/maven@3.5/bin:$PATH"
-
 . $(brew --prefix asdf)/libexec/asdf.sh
 . ~/.asdf/plugins/java/set-java-home.zsh
 export JAVA_HOME=
@@ -343,3 +336,30 @@ function zmm() {
 # Krew binary, for Kube
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export HISTTIMEFORMAT="%d/%m/%y %T "
+
+# Add an update_credstash "command" to the users's environment that will log into ops ECR
+# and pull the latest version of our containerized Credstash.
+function update_credstash {
+  # ops account
+  if [ $(aws --version|cut -f2 -d/|cut -f1 -d.) -ge 2 ]
+  then
+    aws --profile ops --region us-east-1 ecr get-login-password | docker login --username AWS --password-stdin 227298829890.dkr.ecr.us-east-1.amazonaws.com
+  else
+    $(aws --profile ops --region us-east-1 ecr get-login | sed 's/-e none //') 2>&1 | grep -v 'password-stdin'
+  fi
+  local img="227298829890.dkr.ecr.us-east-1.amazonaws.com/credstash"
+
+  docker pull "${img}"
+  docker tag "${img}" credstash:latest
+}
+
+# Add a credstash "command" to the user's environment that executes our containerized
+# version of Credstash.
+function credstash {
+  docker run -it --rm -v "$HOME/.aws/credentials:/root/.aws/credentials" credstash "$@"
+}
+
+export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
+export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
+
+alias cdocker='colima start --runtime docker'
