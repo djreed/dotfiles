@@ -67,6 +67,7 @@
     alwaysOpenExisting: true
     focusOnReveal: false
   welcome:
+    lastViewedChangeLog: "1.101.0-beta"
     showOnStartup: false
     showSunsettingOnStartup: false
   whitespace:
