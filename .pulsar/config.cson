@@ -1,0 +1,9 @@
+"*":
+  "atomic-emacs":
+    alwaysUseKillRing: true
+  core:
+    packagesWithKeymapsDisabled: []
+  editor:
+    fontSize: 12
+  "exception-reporting":
+    userId: "7ff5a775-6228-446b-8b14-5572a938725e"

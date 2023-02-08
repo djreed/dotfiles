@@ -264,6 +264,8 @@ alias kg='kubectl get'
 alias kd='kubectl describe'
 alias kc='kubectl config'
 
+alias kopsmain='kubectl config use-context main-ops'
+
 alias keutools='kubectl config use-context prod-eu-central'
 alias keumain='kubectl config use-context prod-eu-main'
 alias keumsg='kubectl config use-context prod-eu-messaging'
