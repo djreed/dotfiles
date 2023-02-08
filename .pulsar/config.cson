@@ -1,9 +1,118 @@
 "*":
-  "atomic-emacs":
-    alwaysUseKillRing: true
+  "atom-beautify":
+    general:
+      _analyticsUserId: "djreed"
+      beautifyEntireFileOnSave: false
+  "atom-fuzzy-grep":
+    grepCommandString: "ack -i --nocolor --nogroup --column"
+  "atom-ide-ui":
+    "atom-ide-code-format":
+      formatOnSave: true
+  "atom-material-ui":
+    colors:
+      abaseColor: "#7c57c2"
+      accentColor: "#fefdff"
+      predefinedColor: "Purple"
+    fonts: {}
+    tabs:
+      compactTabs: true
+    ui:
+      panelContrast: true
+      panelShadows: true
+  "autocomplete-plus":
+    backspaceTriggersAutocomplete: true
+    enableExtendedUnicodeSupport: true
   core:
+    closeEmptyWindows: false
+    destroyEmptyPanes: false
+    openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: []
+    telemetryConsent: "no"
+    themes: [
+      "atom-material-ui"
+      "monokai"
+    ]
   editor:
+    autoIndent: false
     fontSize: 12
+    invisibles: {}
+    showIndentGuide: true
+    showInvisibles: true
+    tabType: "soft"
+    zoomFontWhenCtrlScrolling: true
   "exception-reporting":
-    userId: "7ff5a775-6228-446b-8b14-5572a938725e"
+    userId: "86c92ee3-52e7-4de5-ba8b-fad388245b3f"
+  "fuzzy-finder":
+    ignoredNames: [
+      "**/node_modules/*"
+    ]
+  "git-blame":
+    colorCommitAuthors: true
+    columnWidth: 247
+    ignoreWhiteSpaceDiffs: true
+  "go-plus":
+    autocomplete:
+      suppressBuiltinAutocompleteProvider: false
+    config:
+      compileOnSave: false
+    format: {}
+    panel:
+      fontSize: "1em"
+    test:
+      coverageDisplayMode: "gutter"
+  "ide-python": {}
+  "linter-ui-default":
+    panelHeight: 300
+  "tree-view":
+    alwaysOpenExisting: true
+    focusOnReveal: false
+  welcome:
+    showOnStartup: false
+    showSunsettingOnStartup: false
+  whitespace:
+    ensureSingleTrailingNewline: false
+    ignoreWhitespaceOnlyLines: true
+    removeTrailingWhitespace: false
+".console.python.text":
+  editor:
+    autoIndent: true
+".erb.html.text":
+  editor:
+    autoIndent: true
+".gemfile.ruby.source":
+  editor:
+    autoIndent: true
+".go.source":
+  editor:
+    autoIndent: true
+".gohtml.html.text":
+  editor:
+    autoIndent: true
+".gotemplate.source":
+  editor:
+    autoIndent: true
+".html.liquid.text":
+  editor:
+    autoIndent: true
+    autoIndentOnPaste: true
+    showInvisibles: false
+".html.ruby.text":
+  editor:
+    autoIndent: true
+".js.rails.source source.jquery.js":
+  editor:
+    autoIndent: true
+".python.regexp.source":
+  editor:
+    autoIndent: true
+    autoIndentOnPaste: true
+".python.source":
+  editor:
+    autoIndent: true
+    autoIndentOnPaste: true
+".python.text.traceback":
+  editor:
+    autoIndent: true
+".ruby.source":
+  editor:
+    autoIndent: true
