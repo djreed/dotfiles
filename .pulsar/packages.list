@@ -22,6 +22,7 @@ go-debug@1.7.0
 go-plus@6.1.0
 go-signature-statusbar@1.2.3
 highlight-selected@0.17.0
+ide-python@1.9.7
 intentions@2.1.1
 linter@3.4.0
 linter-ui-default@3.4.1
