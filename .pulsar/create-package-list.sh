@@ -1,2 +1,2 @@
 #/bin/sh
-apm list --installed --bare > packages.list
+ppm list --installed --bare > packages.list
