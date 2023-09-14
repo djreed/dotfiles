@@ -45,7 +45,7 @@ COMPLETION_WAITING_DOTS="true"
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
+HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -102,6 +102,7 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 export HISTFILE=~/.history
 export HISTSIZE=100000000
 export SAVEHIST=$HISTSIZE
+export HISTTIMEFORMAT="%F %d/%m/%y %T "
 setopt inc_append_history
 setopt hist_ignore_dups
 setopt hist_ignore_space
@@ -114,11 +115,9 @@ export CODE="~/Code/"
 
 # export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
 
-# Golang
-export GOPATH=$HOME/Code
-export GOROOT=
-export PATH=$PATH:$GOROOT/bin
-export PATH=$PATH:$GOPATH/bin
+#############################
+# Universal ZSH utils
+#############################
 
 # navigation shortcuts
 alias ..="cd .."
@@ -146,7 +145,38 @@ if [[ $(uname -a | grep Ubuntu) ]]; then
   alias ls="ls --color"
 fi
 
-# git
+# Tree
+alias t='tree'
+alias tl='tree | less'
+
+# Colorized cat
+alias c='highlight -O ansi'
+
+# SSH as Root
+function rootssh() {
+  ssh $1 -t 'sudo su'
+}
+
+# Fuck
+eval $(thefuck --alias)
+alias re='fuck'
+
+# GPG env vars
+export GPG_TTY=$(tty)
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# added by travis gem
+[ -f /Users/dreed/.travis/travis.sh ] && source /Users/dreed/.travis/travis.sh
+
+#############################
+# git[hub] tooling
+#############################
+
 alias g="git"
 alias ga='git add'
 alias gaa='git add --all'
@@ -173,15 +203,19 @@ alias gp='git push'
 alias gpo='git push origin'
 alias gposu='git push --set-upstream origin'
 
-# golang
-alias gob="go build"
-alias gof="go fmt"
-alias gog="go get"
-alias goi="go install"
 
 # party parrot
 alias celebrate="terminal-parrot -delay 50 -loops 3"
 alias parrot="terminal-parrot"
+
+#############################
+# docker and docker-compose tooling
+#############################
+
+# docker
+alias d="docker"
+alias dim="docker images"
+alias dps="docker ps"
 
 # docker-compose
 alias dc="docker-compose"
@@ -190,72 +224,14 @@ alias dcl="docker-compose pull"
 alias dcu="docker-compose up"
 alias dcud="docker-compose up -d"
 
-# docker
-alias d="docker"
-alias dim="docker images"
-alias dps="docker ps"
+alias cdocker='colima start --runtime docker'
 
-# Tree
-alias t='tree'
-alias tl='tree | less'
+export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
+export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
 
-# Maven
-alias mvn_clean_install="mvn clean install -U -Dmaven.test.skip=true"
-alias mcv='mvn clean verify'
-alias mvc='mvn clean verify'
-alias mc='mvn clean'
-alias m='mvn'
-
-# Colorized cat
-alias c='highlight -O ansi'
-
-# Kubectl
-alias k='kubectl'
-
-# SSH as Root
-function rootssh() {
-  ssh $1 -t 'sudo su'
-}
-
-# Fuck
-eval $(thefuck --alias)
-alias re='fuck'
-
-# GPG env vars
-export GPG_TTY=$(tty)
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/dreed/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/dreed/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/dreed/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/dreed/google-cloud-sdk/completion.zsh.inc'; fi
-
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# Java things
-. $(brew --prefix asdf)/libexec/asdf.sh
-. ~/.asdf/plugins/java/set-java-home.zsh
-export JAVA_HOME=
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-export PATH="/usr/local/opt/maven@3.5/bin:$PATH"
-
-export DRIFT_HOME=~/Drift
-alias tf=$DRIFT_HOME/platform-ops/bin/tf
-alias tf_deploy=$DRIFT_HOME/platform-ops/bin/deploy
-alias tf_assume_role=$DRIFT_HOME/platform-ops/bin/assume_role
-alias tf_tail="$DRIFT_HOME/platform-ops/bin/tail_logs -u $(whoami)"
-alias tf_debug="$DRIFT_HOME/platform-ops/bin/debug_container -u $(whoami)"
-alias qa_creds="tf_assume_role qa ops-admin credstash getall"
-alias prod_creds="tf_assume_role prod ops-admin credstash getall"
-
-# Code search alias
-cs () {
-  query=${1// /%20} 
-  echo "$query"
-  open "https://code-search.drifttools.com/?q=$query&i=nope&files=&repos="
-}
+#############################
+# Kubectl / Drift clusters
+#############################
 
 # Kube shortcuts and context swapping
 export KUBECONFIG=$HOME/.kube/drift-eks
@@ -264,17 +240,21 @@ alias kg='kubectl get'
 alias kd='kubectl describe'
 alias kc='kubectl config'
 
+# Ops cluster(s)
 alias kopsmain='kubectl config use-context main-ops'
 
+# EU clusters (deprecated)
 alias keutools='kubectl config use-context prod-eu-central'
 alias keumain='kubectl config use-context prod-eu-main'
 alias keumsg='kubectl config use-context prod-eu-messaging'
 
+# Prod clusters
 alias kprodtools='kubectl config use-context prod-central'
 alias kprodmain='kubectl config use-context prod-main'
 alias kprodmsg='kubectl config use-context prod-messaging'
 alias kprodml='kubectl config use-context prod-ml'
 
+# QA Clusters
 alias kqatools='kubectl config use-context qa-central'
 alias kqaloam='kubectl config use-context qa-loam'
 alias kqamain='kubectl config use-context qa-main'
@@ -303,11 +283,42 @@ alias istio='istioctl'
 alias eks='eksctl'
 alias eg='e get'
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+# Krew binary, for Kube
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
-# added by travis gem
-[ -f /Users/dreed/.travis/travis.sh ] && source /Users/dreed/.travis/travis.sh
+#############################
+# Terraform
+#############################
+
+export DRIFT_HOME=~/Drift
+alias tf=$DRIFT_HOME/platform-ops/bin/tf
+alias tf_deploy=$DRIFT_HOME/platform-ops/bin/deploy
+alias tf_assume_role=$DRIFT_HOME/platform-ops/bin/assume_role
+alias tf_tail="$DRIFT_HOME/platform-ops/bin/tail_logs -u $(whoami)"
+alias tf_debug="$DRIFT_HOME/platform-ops/bin/debug_container -u $(whoami)"
+alias qa_creds="tf_assume_role qa ops-admin credstash getall"
+alias prod_creds="tf_assume_role prod ops-admin credstash getall"
+
+alias TFCLEAR="rm -rf ./tmp && rm -rf ~/.terraform.d"
+alias TFCLEAN=TFCLEAR
+
+#############################
+# Java / Maven / ASDF
+#############################
+
+# Maven
+alias mvn_clean_install="mvn clean install -U -Dmaven.test.skip=true"
+alias mcv='mvn clean verify'
+alias mvc='mvn clean verify'
+alias mc='mvn clean'
+alias m='mvn'
+
+. $(brew --prefix asdf)/libexec/asdf.sh
+. ~/.asdf/plugins/java/set-java-home.zsh
+
+export JAVA_HOME=
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="/usr/local/opt/maven@3.5/bin:$PATH"
 
 function java11() {
     echo 'Enabling Java 11'
@@ -319,7 +330,33 @@ function java8 () {
     export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home
 }
 
-### Zoom Shortcuts
+#############################
+# Golang
+#############################
+
+# golang
+alias gob="go build"
+alias gof="go fmt"
+alias gog="go get"
+alias goi="go install"
+
+export GOPATH=$HOME/Code
+export GOROOT=
+export PATH=$PATH:$GOROOT/bin
+export PATH=$PATH:$GOPATH/bin
+
+#############################
+# Python / pyenv
+###
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+#############################
+# Drift Shortcuts
+#############################
+
 function zt() { icalBuddy eventsToday | egrep -o 'https:\/\/drift.zoom.us\/j\/([0-9]+)'; }
 function joinZoom() {
     if [ ! "$1" ]; then
@@ -335,9 +372,16 @@ function zmm() {
     joinZoom 4346421930
 }
 
-# Krew binary, for Kube
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-export HISTTIMEFORMAT="%d/%m/%y %T "
+# Code search alias
+function cs() {
+  query=${1// /%20} 
+  echo "$query"
+  open "https://code-search.drifttools.com/?q=$query&i=nope&files=&repos="
+}
+
+#############################
+# Credstash
+#############################
 
 # Add an update_credstash "command" to the users's environment that will log into ops ECR
 # and pull the latest version of our containerized Credstash.
@@ -361,7 +405,3 @@ function credstash {
   docker run -it --rm -v "$HOME/.aws/credentials:/root/.aws/credentials" credstash "$@"
 }
 
-export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
-export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
-
-alias cdocker='colima start --runtime docker'
