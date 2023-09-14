@@ -157,21 +157,25 @@ function rootssh() {
   ssh $1 -t 'sudo su'
 }
 
-# Fuck
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+#############################
+# Command line tooling
+#############################
+
+# Fuck (retry command if typed wrong)
 eval $(thefuck --alias)
 alias re='fuck'
 
+# LaTeX path update for tooling autocomplete
+export PATH=/usr/local/texlive/2023/bin/universal-darwin:$PATH
+
+# party parrot
+alias celebrate="terminal-parrot -delay 50 -loops 3"
+alias parrot="terminal-parrot"
+
 # GPG env vars
 export GPG_TTY=$(tty)
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# added by travis gem
-[ -f /Users/dreed/.travis/travis.sh ] && source /Users/dreed/.travis/travis.sh
 
 #############################
 # git[hub] tooling
@@ -202,11 +206,6 @@ alias gss='git stash save'
 alias gp='git push'
 alias gpo='git push origin'
 alias gposu='git push --set-upstream origin'
-
-
-# party parrot
-alias celebrate="terminal-parrot -delay 50 -loops 3"
-alias parrot="terminal-parrot"
 
 #############################
 # docker and docker-compose tooling
@@ -347,11 +346,26 @@ export PATH=$PATH:$GOPATH/bin
 
 #############################
 # Python / pyenv
-###
+#############################
 
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+#############################
+# Node / NVM
+#############################
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+#############################
+# CI/CD
+#############################
+
+# added by travis gem
+[ -f /Users/dreed/.travis/travis.sh ] && source /Users/dreed/.travis/travis.sh
 
 #############################
 # Drift Shortcuts
@@ -404,4 +418,3 @@ function update_credstash {
 function credstash {
   docker run -it --rm -v "$HOME/.aws/credentials:/root/.aws/credentials" credstash "$@"
 }
-

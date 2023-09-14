@@ -10,8 +10,8 @@
       formatOnSave: true
   "atom-material-ui":
     colors:
-      abaseColor: "#7c57c2"
-      accentColor: "#fefdff"
+      abaseColor: "#7e57c2"
+      accentColor: "#b0e457"
       predefinedColor: "Purple"
     fonts: {}
     tabs:
@@ -25,6 +25,12 @@
   core:
     closeEmptyWindows: false
     destroyEmptyPanes: false
+    disabledPackages: [
+      "linter-terraform-syntax"
+      "terminal-plus"
+      "go-debug"
+      "go-signature-statusbar"
+    ]
     openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: []
     telemetryConsent: "no"
@@ -66,6 +72,7 @@
   "tree-view":
     alwaysOpenExisting: true
     focusOnReveal: false
+    hideVcsIgnoredFiles: true
   welcome:
     lastViewedChangeLog: "1.101.0-beta"
     showOnStartup: false
