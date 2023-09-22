@@ -68,7 +68,7 @@
       coverageDisplayMode: "gutter"
   "ide-python": {}
   "linter-ui-default":
-    panelHeight: 300
+    panelHeight: 299
   "tree-view":
     alwaysOpenExisting: true
     focusOnReveal: false

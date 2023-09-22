@@ -167,8 +167,8 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 eval $(thefuck --alias)
 alias re='fuck'
 
-# LaTeX path update for tooling autocomplete
-export PATH=/usr/local/texlive/2023/bin/universal-darwin:$PATH
+# LaTeX (for pdflatex)
+export PATH="/usr/local/texlive/2023/bin/universal-darwin:$PATH"
 
 # party parrot
 alias celebrate="terminal-parrot -delay 50 -loops 3"
@@ -176,6 +176,9 @@ alias parrot="terminal-parrot"
 
 # GPG env vars
 export GPG_TTY=$(tty)
+
+# PostgreSQL 11
+export PATH="/opt/homebrew/opt/postgresql@11/bin:$PATH"
 
 #############################
 # git[hub] tooling
