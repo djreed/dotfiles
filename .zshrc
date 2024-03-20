@@ -406,7 +406,7 @@ function update_credstash {
   # ops account
   if [ $(aws --version|cut -f2 -d/|cut -f1 -d.) -ge 2 ]
   then
-    aws --profile ops --region us-east-1 ecr get-login-password | docker login --username AWS --password-stdin 227298829890.dkr.ecr.us-east-1.amazonaws.com
+    aws --profile ops --region us-east-1 ecr get-login-password | AWS_PROFILE=ops docker login --username AWS --password-stdin 227298829890.dkr.ecr.us-east-1.amazonaws.com
   else
     $(aws --profile ops --region us-east-1 ecr get-login | sed 's/-e none //') 2>&1 | grep -v 'password-stdin'
   fi

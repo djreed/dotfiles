@@ -62,7 +62,7 @@
 
 ;;(set-face-font "Fantastique Sans Mono-16")
 ;;(set-default-font "DejaVu Sans Mono")
-(set-default-font "Roboto Mono 12")
+(set-frame-font "Roboto Mono 12")
 (set-face-attribute 'default nil :family "Roboto Mono" :height 130)
 (global-prettify-symbols-mode)
 #+END_SRC
