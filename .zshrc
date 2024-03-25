@@ -83,42 +83,36 @@ plugins=(
   github
   history
   rails
+  zsh-syntax-highlighting
+  zsh-kubectl-prompt
 )
-# zsh-syntax-highlighting
-# zsh-kubectl-prompt
 
-# User configuration
+### User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
-# You may need to manually set your language environment
+### You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='nano'
-else
-  export EDITOR='emacsclient'
-  export ALTERNATIVE_EDITOR='emacs'
-fi
+### Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='nano'
+# else
+#   export EDITOR='emacsclient'
+#   export ALTERNATIVE_EDITOR='emacs'
+# fi
+
+### Instead of nano-or-emacs just go with nano for now
+export EDITOR='nano'
 
 
-# Compilation flags
+### Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# ssh
+### ssh
 export SSH_KEY_PATH="~/.ssh/rsa_id"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# History
+### History
 export HISTFILE=~/.history
 export HISTSIZE=100000000
 export SAVEHIST=$HISTSIZE
@@ -134,16 +128,16 @@ export CODE="~/Code/"
 # export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
 
 #############################
-# Universal ZSH utils
+### Universal ZSH utils
 #############################
 
-# navigation shortcuts
+### navigation shortcuts
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
-# listing shortcuts
+### listing shortcuts
 if [[ $(uname) == "Darwin" ]]; then
   alias l="ls -lAhG"
   alias la="ls -lAGh"
@@ -163,14 +157,14 @@ if [[ $(uname -a | grep Ubuntu) ]]; then
   alias ls="ls --color"
 fi
 
-# Tree
+### Tree
 alias t='tree'
 alias tl='tree | less'
 
-# Colorized cat
+### Colorized cat
 alias c='highlight -O ansi'
 
-# SSH as Root
+### SSH as Root
 function rootssh() {
   ssh $1 -t 'sudo su'
 }
@@ -178,21 +172,21 @@ function rootssh() {
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 #############################
-# Command line tooling
+### Command line tooling
 #############################
 
-# LaTeX (for pdflatex)
-export PATH="/usr/local/texlive/2023/bin/universal-darwin:$PATH"
+### LaTeX (for pdflatex)
+# export PATH="/usr/local/texlive/2023/bin/universal-darwin:$PATH"
 
-# party parrot
+### party parrot
 alias celebrate="terminal-parrot -delay 50 -loops 3"
 alias parrot="terminal-parrot"
 
-# GPG env vars
+### GPG env vars
 export GPG_TTY=$(tty)
 
 #############################
-# git[hub] tooling
+### git[hub] tooling
 #############################
 
 alias g="git"
@@ -222,31 +216,26 @@ alias gpo='git push origin'
 alias gposu='git push --set-upstream origin'
 
 #############################
-# docker and docker-compose tooling
+### docker and docker-compose tooling
 #############################
 
-# docker
+### docker
 alias d="docker"
 alias dim="docker images"
 alias dps="docker ps"
 
-# docker-compose
+### docker-compose
 alias dc="docker-compose"
 alias dcd="docker-compose down"
 alias dcl="docker-compose pull"
 alias dcu="docker-compose up"
 alias dcud="docker-compose up -d"
 
-alias cdocker='colima start --runtime docker'
-
-export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
-export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
-
 #############################
-# Kubectl / Drift clusters
+### Kubectl / Drift clusters
 #############################
 
-# Kube shortcuts and context swapping
+### Kube shortcuts and context swapping
 # export KUBECONFIG=$HOME/.kube/drift-eks
 alias k='kubectl'
 alias kg='kubectl get'
@@ -263,23 +252,23 @@ alias kdp='kubectl get pod'
 alias kexec='kubectl exec -ti '
 alias klog='kubectl logs'
 
-# Get node CPU and Mem usage
+### Get node CPU and Mem usage
 alias kutil='kubectl get nodes --no-headers | awk '\''{print $1}'\'' | xargs -I {} sh -c '\''echo {} ; kubectl describe node {} | grep Allocated -A 5 | grep -ve Event -ve Allocated -ve percent -ve -- ; echo '\'''
 
-# Istio shortcuts
+### Istio shortcuts
 alias i='istioctl'
 alias ist='istioctl'
 alias istio='istioctl'
 
-# EKS shortcuts
+### EKS shortcuts
 alias eks='eksctl'
 alias eg='e get'
 
 #############################
-# Java / Maven / ASDF
+### Java / Maven / ASDF
 #############################
 
-# Maven
+### Maven
 alias mvn_clean_install="mvn clean install -U -Dmaven.test.skip=true"
 alias mcv='mvn clean verify'
 alias mvc='mvn clean verify'
@@ -287,10 +276,9 @@ alias mc='mvn clean'
 alias m='mvn'
 
 #############################
-# Golang
+### Golang
 #############################
 
-# golang
 alias gob="go build"
 alias gof="go fmt"
 alias gog="go get"
@@ -300,4 +288,11 @@ export GOPATH=$HOME/Code
 export GOROOT=
 export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:$GOPATH/bin
+
+#############################
+### Klaviyo
+#############################
+
+export KL_NO_SET_S2A_PROMPT_COLORS=true
+export KL_DISABLE_ELEVATED_PROMPT=true
 
