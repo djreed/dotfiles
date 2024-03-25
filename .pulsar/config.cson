@@ -22,7 +22,11 @@
   "autocomplete-plus":
     backspaceTriggersAutocomplete: true
     enableExtendedUnicodeSupport: true
+  "autocomplete-python":
+    outputProviderErrors: true
+    useKite: false
   core:
+    automaticallyUpdate: true
     closeEmptyWindows: false
     destroyEmptyPanes: false
     disabledPackages: [
@@ -69,6 +73,7 @@
   "ide-python": {}
   "linter-ui-default":
     panelHeight: 300
+  "python-tools": {}
   "tree-view":
     alwaysOpenExisting: true
     focusOnReveal: false

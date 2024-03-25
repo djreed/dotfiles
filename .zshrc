@@ -121,9 +121,8 @@ setopt inc_append_history
 setopt hist_ignore_dups
 setopt hist_ignore_space
 
-export GIT_HOME="~/Code/src/github.com/djreed/"
-export NOTES="~/Notes/"
-export CODE="~/Code/"
+export CODE="$HOME/Code"
+export NOTES="$HOME/Notes"
 
 # export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
 
@@ -265,7 +264,7 @@ alias eks='eksctl'
 alias eg='e get'
 
 #############################
-### Java / Maven / ASDF
+### Java / Maven
 #############################
 
 ### Maven
@@ -290,9 +289,18 @@ export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:$GOPATH/bin
 
 #############################
+### Python
+#############################
+
+alias python="/usr/bin/python3"
+
+#############################
 ### Klaviyo
 #############################
 
 export KL_NO_SET_S2A_PROMPT_COLORS=true
 export KL_DISABLE_ELEVATED_PROMPT=true
+
+export KLAVIYO="$CODE/klaviyo"
+source $KLAVIYO/infrastructure-deployment/bashenv/source.sh
 
