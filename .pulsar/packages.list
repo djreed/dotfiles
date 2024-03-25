@@ -14,7 +14,6 @@ atomic-emacs@0.15.0
 auto-update-packages@1.0.1
 autoclose-html@0.23.0
 autocomplete-modules@2.3.0
-autocomplete-plus@2.42.5
 busy-signal@2.0.1
 file-icons@2.1.47
 git-blame@1.8.0
