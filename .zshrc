@@ -7,10 +7,28 @@ export ZSH=~/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k" #"robbyrussell"
-# P10k configuration
+
+
+#############################
+# Powerlevel10k
+#############################
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+ZSH_THEME="robbyrussell" # "powerlevel10k/powerlevel10k"
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+#############################
+# ZSH Defaults
+#############################
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -50,6 +68,8 @@ HIST_STAMPS="mm/dd/yyyy"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -63,9 +83,9 @@ plugins=(
   github
   history
   rails
-  zsh-syntax-highlighting
-  zsh-kubectl-prompt
 )
+# zsh-syntax-highlighting
+# zsh-kubectl-prompt
 
 # User configuration
 
@@ -108,9 +128,7 @@ setopt hist_ignore_dups
 setopt hist_ignore_space
 
 export GIT_HOME="~/Code/src/github.com/djreed/"
-
 export NOTES="~/Notes/"
-
 export CODE="~/Code/"
 
 # export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
@@ -163,10 +181,6 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # Command line tooling
 #############################
 
-# Fuck (retry command if typed wrong)
-eval $(thefuck --alias)
-alias re='fuck'
-
 # LaTeX (for pdflatex)
 export PATH="/usr/local/texlive/2023/bin/universal-darwin:$PATH"
 
@@ -176,9 +190,6 @@ alias parrot="terminal-parrot"
 
 # GPG env vars
 export GPG_TTY=$(tty)
-
-# PostgreSQL 11
-export PATH="/opt/homebrew/opt/postgresql@11/bin:$PATH"
 
 #############################
 # git[hub] tooling
@@ -236,32 +247,11 @@ export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
 #############################
 
 # Kube shortcuts and context swapping
-export KUBECONFIG=$HOME/.kube/drift-eks
+# export KUBECONFIG=$HOME/.kube/drift-eks
 alias k='kubectl'
 alias kg='kubectl get'
 alias kd='kubectl describe'
 alias kc='kubectl config'
-
-# Ops cluster(s)
-alias kopsmain='kubectl config use-context main-ops'
-
-# EU clusters (deprecated)
-alias keutools='kubectl config use-context prod-eu-central'
-alias keumain='kubectl config use-context prod-eu-main'
-alias keumsg='kubectl config use-context prod-eu-messaging'
-
-# Prod clusters
-alias kprodtools='kubectl config use-context prod-central'
-alias kprodmain='kubectl config use-context prod-main'
-alias kprodmsg='kubectl config use-context prod-messaging'
-alias kprodml='kubectl config use-context prod-ml'
-
-# QA Clusters
-alias kqatools='kubectl config use-context qa-central'
-alias kqaloam='kubectl config use-context qa-loam'
-alias kqamain='kubectl config use-context qa-main'
-alias kqamsg='kubectl config use-context qa-messaging'
-alias kqaml='kubectl config use-context qa-ml'
 
 alias kns='kubectl config set-context $(kubectl config current-context) --namespace '
 alias kgp='kubectl get pods'
@@ -285,25 +275,6 @@ alias istio='istioctl'
 alias eks='eksctl'
 alias eg='e get'
 
-# Krew binary, for Kube
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
-#############################
-# Terraform
-#############################
-
-export DRIFT_HOME=~/Drift
-alias tf=$DRIFT_HOME/platform-ops/bin/tf
-alias tf_deploy=$DRIFT_HOME/platform-ops/bin/deploy
-alias tf_assume_role=$DRIFT_HOME/platform-ops/bin/assume_role
-alias tf_tail="$DRIFT_HOME/platform-ops/bin/tail_logs -u $(whoami)"
-alias tf_debug="$DRIFT_HOME/platform-ops/bin/debug_container -u $(whoami)"
-alias qa_creds="tf_assume_role qa ops-admin credstash getall"
-alias prod_creds="tf_assume_role prod ops-admin credstash getall"
-
-alias TFCLEAR="rm -rf ./tmp && rm -rf ~/.terraform.d"
-alias TFCLEAN=TFCLEAR
-
 #############################
 # Java / Maven / ASDF
 #############################
@@ -314,23 +285,6 @@ alias mcv='mvn clean verify'
 alias mvc='mvn clean verify'
 alias mc='mvn clean'
 alias m='mvn'
-
-. $(brew --prefix asdf)/libexec/asdf.sh
-. ~/.asdf/plugins/java/set-java-home.zsh
-
-export JAVA_HOME=
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-export PATH="/usr/local/opt/maven@3.5/bin:$PATH"
-
-function java11() {
-    echo 'Enabling Java 11'
-    export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home
-}
-
-function java8 () {
-    echo 'Enabling Java 8'
-    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home
-}
 
 #############################
 # Golang
@@ -347,77 +301,3 @@ export GOROOT=
 export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:$GOPATH/bin
 
-#############################
-# Python / pyenv
-#############################
-
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-#############################
-# Node / NVM
-#############################
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-#############################
-# CI/CD
-#############################
-
-# added by travis gem
-[ -f /Users/dreed/.travis/travis.sh ] && source /Users/dreed/.travis/travis.sh
-
-#############################
-# Drift Shortcuts
-#############################
-
-function zt() { icalBuddy eventsToday | egrep -o 'https:\/\/drift.zoom.us\/j\/([0-9]+)'; }
-function joinZoom() {
-    if [ ! "$1" ]; then
-        echo "Please provide a meeting ID..."
-    else
-        open "zoommtg://zoom.us/join?action=join&confid=$1&confno=$1"
-    fi
-}
-function zoh() {
-    joinZoom 7744303035
-}
-function zmm() {
-    joinZoom 4346421930
-}
-
-# Code search alias
-function cs() {
-  query=${1// /%20} 
-  echo "$query"
-  open "https://code-search.drifttools.com/?q=$query&i=nope&files=&repos="
-}
-
-#############################
-# Credstash
-#############################
-
-# Add an update_credstash "command" to the users's environment that will log into ops ECR
-# and pull the latest version of our containerized Credstash.
-function update_credstash {
-  # ops account
-  if [ $(aws --version|cut -f2 -d/|cut -f1 -d.) -ge 2 ]
-  then
-    aws --profile ops --region us-east-1 ecr get-login-password | AWS_PROFILE=ops docker login --username AWS --password-stdin 227298829890.dkr.ecr.us-east-1.amazonaws.com
-  else
-    $(aws --profile ops --region us-east-1 ecr get-login | sed 's/-e none //') 2>&1 | grep -v 'password-stdin'
-  fi
-  local img="227298829890.dkr.ecr.us-east-1.amazonaws.com/credstash"
-
-  docker pull "${img}"
-  docker tag "${img}" credstash:latest
-}
-
-# Add a credstash "command" to the user's environment that executes our containerized
-# version of Credstash.
-function credstash {
-  docker run -it --rm -v "$HOME/.aws/credentials:/root/.aws/credentials" credstash "$@"
-}

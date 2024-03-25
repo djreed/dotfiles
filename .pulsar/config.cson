@@ -74,7 +74,7 @@
     focusOnReveal: false
     hideVcsIgnoredFiles: true
   welcome:
-    lastViewedChangeLog: "1.101.0-beta"
+    lastViewedChangeLog: "1.114.2024032215"
     showOnStartup: false
     showSunsettingOnStartup: false
   whitespace:
