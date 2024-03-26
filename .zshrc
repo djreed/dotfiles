@@ -283,7 +283,7 @@ alias gof="go fmt"
 alias gog="go get"
 alias goi="go install"
 
-export GOPATH=$HOME/Code
+export GOPATH=$CODE
 export GOROOT=
 export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:$GOPATH/bin
@@ -298,9 +298,8 @@ alias python="/usr/bin/python3"
 ### Klaviyo
 #############################
 
+export KLAVIYO="$CODE/klaviyo"
 export KL_NO_SET_S2A_PROMPT_COLORS=true
 export KL_DISABLE_ELEVATED_PROMPT=true
-
-export KLAVIYO="$CODE/klaviyo"
 source $KLAVIYO/infrastructure-deployment/bashenv/source.sh
 
