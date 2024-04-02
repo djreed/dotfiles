@@ -35,6 +35,7 @@
       "go-debug"
       "go-signature-statusbar"
     ]
+    excludeVcsIgnoredPaths: false
     openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: []
     telemetryConsent: "no"
