@@ -29,3 +29,4 @@ nvim/files/plugged/*
 \#*\
 
 .atom/.atom-socket-secret-*
+db-secrets.zsh

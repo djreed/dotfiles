@@ -299,7 +299,56 @@ alias python="/usr/bin/python3"
 #############################
 
 export KLAVIYO="$CODE/klaviyo"
+export KL_APP="$KLAVIYO/app"
 export KL_NO_SET_S2A_PROMPT_COLORS=true
 export KL_DISABLE_ELEVATED_PROMPT=true
 source $KLAVIYO/infrastructure-deployment/bashenv/source.sh
+
+export PATH="/Users/david.reed/.klaviyocli/.bin:$PATH"
+eval "$(_KLAVIYOCLI_COMPLETE=zsh_source klaviyocli)"
+
+### Env Var Setup
+
+for _kl_package in $(brew --prefix zlib lbzip2 bzip2 sqlite readline openssl@1.1 snappy libmemcached mysql@5.7); do
+  if [[ ! -d "${_kl_package}" ]]; then
+    echo "Package $(basename $_kl_package)'s path ${_kl_package} not found; try 'brew install'ing it. Klaviyo Python may not work well without this dependency." >&2
+  fi
+  export CFLAGS="${CFLAGS} -I${_kl_package}/include"
+  export CPPFLAGS="${CPPFLAGS} -I${_kl_package}/include"
+  export LDFLAGS="${LDFLAGS} -L${_kl_package}/lib"
+done
+
+# Based on which architecture you're on we need to set the ARCHFLAGS as well
+if [[ "$(arch)" == "arm64" ]]; then
+  export ARCHFLAGS="-arch arm64"
+  export CFLAGS="$CFLAGS -maltivec"
+else
+  export ARCHFLAGS="-arch x86_64"
+fi
+
+# Make sure the xcode tools (OSX development headers) are locatable by scripts:
+export SDKROOT=$(xcrun --show-sdk-path)
+export CFLAGS="${CFLAGS} -I${SDKROOT}/usr/include"
+export CPPFLAGS="${CFLAGS} -I${SDKROOT}/usr/include"
+export LDFLAGS="${LDFLAGS} -L${SDKROOT}/usr/lib"
+# Allows pip and some other package resolvers to correctly determine what OSX is running in compilation steps during
+# installations, where otherwise they use flawed heuristics.
+export MACOSX_DEPLOYMENT_TARGET=$(sw_vers -productVersion | cut -d'.' -f1-2)
+# Allows low level debugger tools like py-spy to work with some pyenv-installed Pythons where they'd otherwise have
+# trouble: (CAVEAT: do not use this on M1 machines)
+if [[ "$(arch)" != "arm64" ]]; then
+  export PYTHON_CONFIGURE_OPTS="--enable-framework"
+fi
+# Useful when installing virtualenv management outside of/before pyenv. Not using
+# quotes permits tilde expansion.
+export PYENV_ROOT=${PYENV_ROOT:-~/.pyenv/}
+
+# Useful for Docker
+export CURRENT_UID="$(id -u):$(id -g)"
+
+# Pulled from `python local app` => `python which python`
+export MAINLINE_PYTHON="${/Users/david.reed/.pyenv/versions/app/bin/python}"
+
+# export KL_LOCAL_MYSQL_ROOT_PASSWORD=$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 20 ; echo)
+source ~/dotfiles/db-secrets.zsh
 
