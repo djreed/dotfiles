@@ -156,9 +156,9 @@ if [[ $(uname -a | grep Ubuntu) ]]; then
   alias ls="ls --color"
 fi
 
-### Tree
-alias t='tree'
-alias tl='tree | less'
+# ### Tree
+# alias t='tree'
+# alias tl='tree | less'
 
 ### Colorized cat
 alias c='highlight -O ansi'
@@ -183,6 +183,22 @@ alias parrot="terminal-parrot"
 
 ### GPG env vars
 export GPG_TTY=$(tty)
+
+#############################
+### tmux
+#############################
+
+alias t="tmux"
+
+alias td="tmux detach"
+alias ta="tmux attach"
+alias detach="tmux detach"
+alias attach="tmux attach"
+
+alias tn="tmux new-session"
+
+alias tl='tmux ls'
+alias tls="tmux ls"
 
 #############################
 ### git[hub] tooling
@@ -348,6 +364,9 @@ export CURRENT_UID="$(id -u):$(id -g)"
 
 # Pulled from `python local app` => `python which python`
 export MAINLINE_PYTHON="${/Users/david.reed/.pyenv/versions/app/bin/python}"
+export KCLI_PYTHON_VERSION="3.10.9"
+
+export NOTES="$HOME/Documents/Klaviyo Vault/Klaviyo"
 
 # export KL_LOCAL_MYSQL_ROOT_PASSWORD=$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 20 ; echo)
 source ~/dotfiles/db-secrets.zsh
