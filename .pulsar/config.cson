@@ -45,7 +45,6 @@
     ]
   editor:
     autoIndent: false
-    fontSize: 12
     invisibles: {}
     showIndentGuide: true
     showInvisibles: true

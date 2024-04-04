@@ -2,7 +2,9 @@ atom-beautify@0.33.4
 atom-fuzzy-grep@0.17.2
 atom-ide-base@3.4.0
 atom-ide-code-format@1.0.3
+atom-ide-console@0.0.2
 atom-ide-datatip@0.25.0
+atom-ide-debugger@0.0.3
 atom-ide-definitions@0.4.2
 atom-ide-hyperclick@1.0.11
 atom-ide-markdown-service@2.1.0
@@ -23,6 +25,7 @@ go-signature-statusbar@1.2.3
 highlight-selected@0.17.0
 ide-python@1.9.7
 intentions@2.1.1
+language-terraform@0.9.7
 linter@3.4.0
 linter-ui-default@3.4.1
 monokai@0.28.0

@@ -74,7 +74,6 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-source $ZSH/oh-my-zsh.sh
 plugins=(
   bundler
   cp
@@ -86,9 +85,9 @@ plugins=(
   zsh-syntax-highlighting
   zsh-kubectl-prompt
 )
+source $ZSH/oh-my-zsh.sh
 
 ### User configuration
-
 # export MANPATH="/usr/local/man:$MANPATH"
 
 ### You may need to manually set your language environment
@@ -311,6 +310,30 @@ export PATH=$PATH:$GOPATH/bin
 alias python="/usr/bin/python3"
 
 #############################
+### NVM / NPM / Node
+#############################
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+# place this after nvm initialization!
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local node_version="$(nvm version)"
+  local nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" != "$node_version" ]; then
+      nvm use
+    fi
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+
+#############################
 ### Klaviyo
 #############################
 
@@ -322,6 +345,8 @@ source $KLAVIYO/infrastructure-deployment/bashenv/source.sh
 
 export PATH="/Users/david.reed/.klaviyocli/.bin:$PATH"
 eval "$(_KLAVIYOCLI_COMPLETE=zsh_source klaviyocli)"
+
+alias kcli="klaviyocli"
 
 ### Env Var Setup
 
@@ -355,18 +380,24 @@ export MACOSX_DEPLOYMENT_TARGET=$(sw_vers -productVersion | cut -d'.' -f1-2)
 if [[ "$(arch)" != "arm64" ]]; then
   export PYTHON_CONFIGURE_OPTS="--enable-framework"
 fi
-# Useful when installing virtualenv management outside of/before pyenv. Not using
-# quotes permits tilde expansion.
-export PYENV_ROOT=${PYENV_ROOT:-~/.pyenv/}
 
-# Useful for Docker
-export CURRENT_UID="$(id -u):$(id -g)"
 
 # Pulled from `python local app` => `python which python`
 export MAINLINE_PYTHON="${/Users/david.reed/.pyenv/versions/app/bin/python}"
 export KCLI_PYTHON_VERSION="3.10.9"
 
+### Notes directory for Obsidian
 export NOTES="$HOME/Documents/Klaviyo Vault/Klaviyo"
+
+# Useful when installing virtualenv management outside of/before pyenv. Not using
+# quotes permits tilde expansion.
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# Useful for Docker
+export CURRENT_UID="$(id -u):$(id -g)"
+
 
 # export KL_LOCAL_MYSQL_ROOT_PASSWORD=$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 20 ; echo)
 source ~/dotfiles/db-secrets.zsh
