@@ -3,6 +3,7 @@
     general:
       _analyticsUserId: "djreed"
       beautifyEntireFileOnSave: false
+    go: {}
   "atom-fuzzy-grep":
     grepCommandString: "ack -i --nocolor --nogroup --column"
   "atom-ide-ui":
@@ -31,9 +32,9 @@
     destroyEmptyPanes: false
     disabledPackages: [
       "linter-terraform-syntax"
+      "ide-python"
       "terminal-plus"
       "go-debug"
-      "go-signature-statusbar"
     ]
     excludeVcsIgnoredPaths: false
     openEmptyEditorOnStart: false
@@ -45,10 +46,10 @@
     ]
   editor:
     autoIndent: false
+    fontSize: 12
     invisibles: {}
     showIndentGuide: true
     showInvisibles: true
-    tabType: "soft"
     zoomFontWhenCtrlScrolling: true
   "exception-reporting":
     userId: "86c92ee3-52e7-4de5-ba8b-fad388245b3f"
@@ -66,10 +67,13 @@
     config:
       compileOnSave: false
     format: {}
+    lint:
+      tool: "golangci-lint"
     panel:
       fontSize: "1em"
     test:
       coverageDisplayMode: "gutter"
+  "ide-gopls": {}
   "ide-python": {}
   "linter-ui-default":
     panelHeight: 300
@@ -127,5 +131,8 @@
   editor:
     autoIndent: true
 ".ruby.source":
+  editor:
+    autoIndent: true
+".source.sum":
   editor:
     autoIndent: true
