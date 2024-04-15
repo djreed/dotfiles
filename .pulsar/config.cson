@@ -76,14 +76,14 @@
   "ide-gopls": {}
   "ide-python": {}
   "linter-ui-default":
-    panelHeight: 300
+    panelHeight: 173
   "python-tools": {}
   "tree-view":
     alwaysOpenExisting: true
     focusOnReveal: false
     hideVcsIgnoredFiles: true
   welcome:
-    lastViewedChangeLog: "1.114.2024032215"
+    lastViewedChangeLog: "1.115.0"
     showOnStartup: false
     showSunsettingOnStartup: false
   whitespace:
