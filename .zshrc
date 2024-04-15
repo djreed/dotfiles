@@ -303,16 +303,24 @@ export PATH=$PATH:$GOPATH/bin
 ### Python
 #############################
 
+### By default alias python to the system python3 install
+### ( Some Pulsar packages rely on whatever `python` executes )
 alias python="/usr/bin/python3"
 
 #############################
 ### NVM / NPM / Node
 #############################
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-# place this after nvm initialization!
+# NVM home directory
+export NVM_DIR="$HOME/.nvm"
+
+# Load NVM
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+
+# Load NVM bash_completion
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" 
+
+# Post-NVM-initialization
 autoload -U add-zsh-hook
 load-nvmrc() {
   local node_version="$(nvm version)"
@@ -326,6 +334,7 @@ load-nvmrc() {
     fi
   fi
 }
+
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
 
@@ -338,6 +347,10 @@ export KL_APP="$KLAVIYO/app"
 export KL_NO_SET_S2A_PROMPT_COLORS=true
 export KL_DISABLE_ELEVATED_PROMPT=true
 source $KLAVIYO/infrastructure-deployment/bashenv/source.sh
+
+### 8-hour long session by default
+alias s2a-login="s2a-login --session-duration=28800"
+alias s2a="s2a-login --session-duration=28800"
 
 export PATH="/Users/david.reed/.klaviyocli/.bin:$PATH"
 eval "$(_KLAVIYOCLI_COMPLETE=zsh_source klaviyocli)"
@@ -394,7 +407,7 @@ eval "$(pyenv init -)"
 # Useful for Docker
 export CURRENT_UID="$(id -u):$(id -g)"
 
-
+### For local dev, randomized MySQL password in a local file not in version control
 # export KL_LOCAL_MYSQL_ROOT_PASSWORD=$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 20 ; echo)
 source ~/dotfiles/db-secrets.zsh
 
