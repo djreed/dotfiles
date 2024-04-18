@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -262,6 +262,9 @@ alias kdp='kubectl get pod'
 alias kexec='kubectl exec -ti '
 alias klog='kubectl logs'
 
+alias kcluster='kubectl config use-context'
+alias kcontext='kubectl config use-context'
+
 ### Get node CPU and Mem usage
 alias kutil='kubectl get nodes --no-headers | awk '\''{print $1}'\'' | xargs -I {} sh -c '\''echo {} ; kubectl describe node {} | grep Allocated -A 5 | grep -ve Event -ve Allocated -ve percent -ve -- ; echo '\'''
 
@@ -289,15 +292,25 @@ alias m='mvn'
 ### Golang
 #############################
 
+### Golang version selection
+### See: https://go.dev/doc/manage-install
+### Can install multiple versions at a time, e.g.
+### `go install golang.org/dl/go1.19@latest`
+### `go1.19 download`
+alias go="go1.19"
+
+### Go $PATH setup
+export GOPATH=$CODE
+export PATH=$PATH:$GOPATH/bin
+
+export GOROOT=$(go env GOROOT)
+export PATH=$PATH:$GOROOT/bin
+
 alias gob="go build"
 alias gof="go fmt"
 alias gog="go get"
 alias goi="go install"
 
-export GOPATH=$CODE
-export GOROOT=
-export PATH=$PATH:$GOROOT/bin
-export PATH=$PATH:$GOPATH/bin
 
 #############################
 ### Python
@@ -337,6 +350,13 @@ load-nvmrc() {
 
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
+
+#############################
+### Sublime Text CLI
+#############################
+
+### Support for `subl` from command-line
+export PATH="/Applications/Sublime Text.app/Contents/SharedSupport/bin:$PATH"
 
 #############################
 ### Klaviyo
