@@ -118,6 +118,8 @@ setopt hist_ignore_space
 
 export CODE="$HOME/Code"
 export NOTES="$HOME/Notes"
+export SCRIPTS="$HOME/Scripts"
+export PATH="$SCRIPTS:$PATH"
 
 # export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
 
@@ -220,6 +222,9 @@ alias gs='git status'
 alias gsl='git stash list'
 alias gsp='git stash pop'
 alias gss='git stash save'
+
+alias stash='git stash'
+alias pop='git stash pop'
 
 alias gp='git push'
 alias gpo='git push origin'
@@ -352,13 +357,6 @@ add-zsh-hook chpwd load-nvmrc
 load-nvmrc
 
 #############################
-### Sublime Text CLI
-#############################
-
-### Support for `subl` from command-line
-export PATH="/Applications/Sublime Text.app/Contents/SharedSupport/bin:$PATH"
-
-#############################
 ### Klaviyo
 #############################
 
@@ -429,5 +427,5 @@ export CURRENT_UID="$(id -u):$(id -g)"
 
 ### For local dev, randomized MySQL password in a local file not in version control
 # export KL_LOCAL_MYSQL_ROOT_PASSWORD=$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 20 ; echo)
-source ~/dotfiles/db-secrets.zsh
+source ~/dotfiles/secrets.zsh
 

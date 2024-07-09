@@ -27,4 +27,4 @@ nvim/files/plugged
 nvim/files/plugged/*
 
 .atom/.atom-socket-secret-*
-db-secrets.zsh
+secrets.zsh
