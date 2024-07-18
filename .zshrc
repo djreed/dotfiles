@@ -8,7 +8,6 @@ export ZSH=~/.oh-my-zsh
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 
-
 #############################
 # Powerlevel10k
 #############################
@@ -68,8 +67,6 @@ HIST_STAMPS="mm/dd/yyyy"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-
-
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -86,6 +83,7 @@ plugins=(
   zsh-kubectl-prompt
 )
 source $ZSH/oh-my-zsh.sh
+autoload -Uz compinit && compinit
 
 ### User configuration
 export MANPATH="/usr/local/man:$MANPATH"
@@ -117,9 +115,12 @@ setopt hist_ignore_dups
 setopt hist_ignore_space
 
 export CODE="$HOME/Code"
-export NOTES="$HOME/Notes"
 export SCRIPTS="$HOME/Scripts"
 export PATH="$SCRIPTS:$PATH"
+
+### Notes directory for Obsidian
+export NOTES="$HOME/Documents/Klaviyo Vault/Klaviyo"
+# export NOTES="$HOME/Notes"
 
 # export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
 
@@ -316,7 +317,6 @@ alias gof="go fmt"
 alias gog="go get"
 alias goi="go install"
 
-
 #############################
 ### Python
 #############################
@@ -364,63 +364,38 @@ export KLAVIYO="$CODE/klaviyo"
 export KL_APP="$KLAVIYO/app"
 export KL_NO_SET_S2A_PROMPT_COLORS=true
 export KL_DISABLE_ELEVATED_PROMPT=true
+
+### The infra-deployment script is lesser-updated, while
+### .s2a_login was provided by the k-repo local setup script,
+### so we'll source both based on recency
 source $KLAVIYO/infrastructure-deployment/bashenv/source.sh
+source /Users/david.reed/.s2a_login
 
 ### 8-hour long session by default
 alias s2a-login="s2a-login --session-duration=28800"
 alias s2a="s2a-login --session-duration=28800"
 
-export PATH="/Users/david.reed/.klaviyocli/.bin:$PATH"
+export PATH="$HOME/.klaviyocli/.bin:$PATH"
 eval "$(_KLAVIYOCLI_COMPLETE=zsh_source klaviyocli)"
 
 alias kcli="klaviyocli"
 
-### Env Var Setup
+### Klaviyo Local Dev & Env Var Setup
 
-for _kl_package in $(brew --prefix zlib lbzip2 bzip2 sqlite readline openssl@1.1 snappy libmemcached mysql@5.7); do
-  if [[ ! -d "${_kl_package}" ]]; then
-    echo "Package $(basename $_kl_package)'s path ${_kl_package} not found; try 'brew install'ing it. Klaviyo Python may not work well without this dependency." >&2
-  fi
-  export CFLAGS="${CFLAGS} -I${_kl_package}/include"
-  export CPPFLAGS="${CPPFLAGS} -I${_kl_package}/include"
-  export LDFLAGS="${LDFLAGS} -L${_kl_package}/lib"
-done
+# Soft limit on open file descriptors
+ulimit -Sn 10240
 
-# Based on which architecture you're on we need to set the ARCHFLAGS as well
-if [[ "$(arch)" == "arm64" ]]; then
-  export ARCHFLAGS="-arch arm64"
-  export CFLAGS="$CFLAGS -maltivec"
-else
-  export ARCHFLAGS="-arch x86_64"
-fi
-
-# Make sure the xcode tools (OSX development headers) are locatable by scripts:
-export SDKROOT=$(xcrun --show-sdk-path)
-export CFLAGS="${CFLAGS} -I${SDKROOT}/usr/include"
-export CPPFLAGS="${CFLAGS} -I${SDKROOT}/usr/include"
-export LDFLAGS="${LDFLAGS} -L${SDKROOT}/usr/lib"
-# Allows pip and some other package resolvers to correctly determine what OSX is running in compilation steps during
-# installations, where otherwise they use flawed heuristics.
-export MACOSX_DEPLOYMENT_TARGET=$(sw_vers -productVersion | cut -d'.' -f1-2)
-# Allows low level debugger tools like py-spy to work with some pyenv-installed Pythons where they'd otherwise have
-# trouble: (CAVEAT: do not use this on M1 machines)
-if [[ "$(arch)" != "arm64" ]]; then
-  export PYTHON_CONFIGURE_OPTS="--enable-framework"
-fi
-
+# Sets up system and Python flags for Klaviyo Python (specifically in App)
+source /Users/david.reed/.apprc
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 
 # Pulled from `python local app` => `python which python`
-export MAINLINE_PYTHON="${/Users/david.reed/.pyenv/versions/app/bin/python}"
+export MAINLINE_PYTHON=/Users/david.reed/.pyenv/versions/app/bin/python
 export KCLI_PYTHON_VERSION="3.10.9"
 
-### Notes directory for Obsidian
-export NOTES="$HOME/Documents/Klaviyo Vault/Klaviyo"
-
-# Useful when installing virtualenv management outside of/before pyenv. Not using
-# quotes permits tilde expansion.
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+eval "$(pyenv init --path)"
+eval "$(pyenv virtualenv-init -)"
 
 # Useful for Docker
 export CURRENT_UID="$(id -u):$(id -g)"
@@ -429,3 +404,4 @@ export CURRENT_UID="$(id -u):$(id -g)"
 # export KL_LOCAL_MYSQL_ROOT_PASSWORD=$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 20 ; echo)
 source ~/dotfiles/secrets.zsh
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
