@@ -240,12 +240,15 @@ alias d="docker"
 alias dim="docker images"
 alias dps="docker ps"
 
-### docker-compose
-alias dc="docker-compose"
-alias dcd="docker-compose down"
-alias dcl="docker-compose pull"
-alias dcu="docker-compose up"
-alias dcud="docker-compose up -d"
+### docker compose (formerly docker-compose)
+alias dc="docker compose"
+alias dcu="docker compose up"
+alias dcd="docker compose down"
+alias dcl="docker compose pull"
+alias dcud="docker compose up -d"
+
+alias nuke_docker="docker stop $(docker ps -aq); docker rm $(docker ps -aq) && docker system prune -af --volumes"
+alias docker_nuke="nuke_docker"
 
 #############################
 ### Kubectl / Drift clusters
@@ -323,7 +326,7 @@ alias goi="go install"
 
 ### By default alias python to the system python3 install
 ### ( Some Pulsar packages rely on whatever `python` executes )
-alias python="/usr/bin/python3"
+alias python="python3"
 
 #############################
 ### NVM / NPM / Node
@@ -369,7 +372,7 @@ export KL_DISABLE_ELEVATED_PROMPT=true
 ### .s2a_login was provided by the k-repo local setup script,
 ### so we'll source both based on recency
 source $KLAVIYO/infrastructure-deployment/bashenv/source.sh
-source /Users/david.reed/.s2a_login
+source $HOME/.s2a_login
 
 ### 8-hour long session by default
 alias s2a-login="s2a-login --session-duration=28800"
@@ -386,16 +389,16 @@ alias kcli="klaviyocli"
 ulimit -Sn 10240
 
 # Sets up system and Python flags for Klaviyo Python (specifically in App)
-source /Users/david.reed/.apprc
+source $HOME/.apprc
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-
-# Pulled from `python local app` => `python which python`
-export MAINLINE_PYTHON=/Users/david.reed/.pyenv/versions/app/bin/python
-export KCLI_PYTHON_VERSION="3.10.9"
-
 eval "$(pyenv init -)"
 eval "$(pyenv init --path)"
 eval "$(pyenv virtualenv-init -)"
+
+# Pulled from `python local app` => `python which python`
+export MAINLINE_PYTHON=$HOME/.pyenv/versions/app/bin/python
+export KCLI_PYTHON_VERSION="3.10.9"
+
 
 # Useful for Docker
 export CURRENT_UID="$(id -u):$(id -g)"
