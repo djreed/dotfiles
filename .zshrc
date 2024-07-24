@@ -382,6 +382,7 @@ export PATH="$HOME/.klaviyocli/.bin:$PATH"
 eval "$(_KLAVIYOCLI_COMPLETE=zsh_source klaviyocli)"
 
 alias kcli="klaviyocli"
+alias kl="klaviyocli"
 
 ### Klaviyo Local Dev & Env Var Setup
 
