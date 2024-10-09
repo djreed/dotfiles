@@ -9,7 +9,7 @@ export ZSH=~/.oh-my-zsh
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 
 #############################
-# Powerlevel10k
+# Powerlevel10k and ZSH Defaults
 #############################
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -19,71 +19,81 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-ZSH_THEME="robbyrussell" # "powerlevel10k/powerlevel10k"
+if [[ -f "/opt/homebrew/bin/brew" ]] then
+  # If you're using macOS, you'll want this enabled
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# Set the directory we want to store zinit and plugins
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+
+# Download Zinit, if it's not there yet
+if [ ! -d "$ZINIT_HOME" ]; then
+   mkdir -p "$(dirname $ZINIT_HOME)"
+   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
+
+# Source/Load zinit
+source "${ZINIT_HOME}/zinit.zsh"
+
+# Add in Powerlevel10k
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+
+# Add in zsh plugins
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+
+# Add in snippets
+zinit snippet OMZL::git.zsh
+zinit snippet OMZP::git
+zinit snippet OMZP::sudo
+zinit snippet OMZP::aws
+zinit snippet OMZP::kubectl
+zinit snippet OMZP::kubectx
+zinit snippet OMZP::command-not-found
+
+# Load completions
+autoload -Uz compinit && compinit
+
+zinit cdreplay -q
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-#############################
-# ZSH Defaults
-#############################
+# Keybindings
+bindkey -e
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+bindkey '^[w' kill-region
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+### History
+export HISTFILE=~/.history
+export HISTSIZE=100000000
+export SAVEHIST=$HISTSIZE
+export HISTTIMEFORMAT="%F %d/%m/%y %T "
 
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+setopt inc_append_history
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+### Completion styling
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  bundler
-  cp
-  git
-  git-extras
-  github
-  history
-  rails
-  zsh-syntax-highlighting
-  zsh-kubectl-prompt
-)
-source $ZSH/oh-my-zsh.sh
-autoload -Uz compinit && compinit
 
 ### User configuration
 export MANPATH="/usr/local/man:$MANPATH"
@@ -102,18 +112,10 @@ fi
 ### Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-### ssh
+### SSH
 export SSH_KEY_PATH="~/.ssh/rsa_id"
 
-### History
-export HISTFILE=~/.history
-export HISTSIZE=100000000
-export SAVEHIST=$HISTSIZE
-export HISTTIMEFORMAT="%F %d/%m/%y %T "
-setopt inc_append_history
-setopt hist_ignore_dups
-setopt hist_ignore_space
-
+### Shortcuts
 export CODE="$HOME/Code"
 export SCRIPTS="$HOME/Scripts"
 export PATH="$SCRIPTS:$PATH"
@@ -122,7 +124,8 @@ export PATH="$SCRIPTS:$PATH"
 export NOTES="$HOME/Documents/Klaviyo Vault/Klaviyo"
 # export NOTES="$HOME/Notes"
 
-# export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
+### Less
+export LESS='-RiF --mouse --wheel-lines=3'
 
 #############################
 ### Universal ZSH utils
@@ -306,7 +309,7 @@ alias m='mvn'
 ### Can install multiple versions at a time, e.g.
 ### `go install golang.org/dl/go1.19@latest`
 ### `go1.19 download`
-alias go="go1.19"
+alias go="go1.22.2"
 
 ### Go $PATH setup
 export GOPATH=$CODE
@@ -400,12 +403,17 @@ eval "$(pyenv virtualenv-init -)"
 export MAINLINE_PYTHON=$HOME/.pyenv/versions/app/bin/python
 export KCLI_PYTHON_VERSION="3.10.9"
 
+export CHARIOT_SETTINGS=$KLAVIYO/k-repo/python/klaviyo/kms/config/settings/settings_development.py
 
 # Useful for Docker
 export CURRENT_UID="$(id -u):$(id -g)"
 
 ### For local dev, randomized MySQL password in a local file not in version control
 # export KL_LOCAL_MYSQL_ROOT_PASSWORD=$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 20 ; echo)
-source ~/dotfiles/secrets.zsh
+source $HOME/dotfiles/secrets.zsh
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+### Macro to check traffic on a DB before deletion
+pre-delete() {
+  aws cloudwatch get-metric-statistics --namespace AWS/RDS --metric-name DatabaseConnections --dimensions "[{\"Name\": \"DBClusterIdentifier\", \"Value\": \"$1\"}]" --start-time $(date -v-1d -u +"%Y-%m-%dT%H:%M:%SZ") --end-time $(date -u +"%Y-%m-%dT%H:%M:%SZ") --period 3600 --statistics Average | jq '.Datapoints[].Average'
+}
+
