@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -8,16 +15,9 @@ export ZSH=~/.oh-my-zsh
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 
-#############################
-# Powerlevel10k and ZSH Defaults
-#############################
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+##################################
+# ZSH Defaults
+##################################
 
 if [[ -f "/opt/homebrew/bin/brew" ]] then
   # If you're using macOS, you'll want this enabled
@@ -49,6 +49,7 @@ zinit snippet OMZL::git.zsh
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
 zinit snippet OMZP::aws
+zinit snippet OMZP::archlinux
 zinit snippet OMZP::kubectl
 zinit snippet OMZP::kubectx
 zinit snippet OMZP::command-not-found
@@ -58,10 +59,11 @@ autoload -Uz compinit && compinit
 
 zinit cdreplay -q
 
+### Theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Keybindings
+### Keybindings
 bindkey -e
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
@@ -73,6 +75,7 @@ export HISTSIZE=100000000
 export SAVEHIST=$HISTSIZE
 export HISTTIMEFORMAT="%F %d/%m/%y %T "
 
+### ZSH options
 setopt appendhistory
 setopt sharehistory
 setopt hist_ignore_space
@@ -87,11 +90,14 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 
-# Uncomment the following line to display red dots whilst waiting for completion.
+### Aliases
+alias ls='ls --color'
+alias vim='nvim'
+alias c='clear'
+
+# Display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS="mm/dd/yyyy"
 
@@ -124,7 +130,7 @@ export PATH="$SCRIPTS:$PATH"
 export NOTES="$HOME/Documents/Klaviyo Vault/Klaviyo"
 # export NOTES="$HOME/Notes"
 
-### Less
+### Less mouse support by default
 export LESS='-RiF --mouse --wheel-lines=3'
 
 #############################
@@ -416,4 +422,3 @@ source $HOME/dotfiles/secrets.zsh
 pre-delete() {
   aws cloudwatch get-metric-statistics --namespace AWS/RDS --metric-name DatabaseConnections --dimensions "[{\"Name\": \"DBClusterIdentifier\", \"Value\": \"$1\"}]" --start-time $(date -v-1d -u +"%Y-%m-%dT%H:%M:%SZ") --end-time $(date -u +"%Y-%m-%dT%H:%M:%SZ") --period 3600 --statistics Average | jq '.Datapoints[].Average'
 }
-
