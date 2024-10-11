@@ -9,20 +9,24 @@ fi
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=~/.oh-my-zsh
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME=robbyrussell
+ZSH_THEME="robbyrussell"
 
 ##################################
 # ZSH Defaults
 ##################################
 
-if [[ -f "/opt/homebrew/bin/brew" ]] then
+if [[ -f "/opt/homebrew/bin/brew" ]]; then
   # If you're using macOS, you'll want this enabled
   eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+if [ ! -d "$ZSH/themes/powerlevel10k" ]; then
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH/themes/powerlevel10k
 fi
 
 # Set the directory we want to store zinit and plugins
@@ -38,7 +42,8 @@ fi
 source "${ZINIT_HOME}/zinit.zsh"
 
 # Add in Powerlevel10k
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+zinit ice depth "1" # Set to 1 to avoid loading all dependencies
+zinit light romkatv/powerlevel10k
 
 # Add in zsh plugins
 zinit light zsh-users/zsh-syntax-highlighting
@@ -50,7 +55,6 @@ zinit snippet OMZL::git.zsh
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
 zinit snippet OMZP::aws
-zinit snippet OMZP::archlinux
 zinit snippet OMZP::kubectl
 zinit snippet OMZP::kubectx
 zinit snippet OMZP::command-not-found
@@ -62,7 +66,7 @@ zinit cdreplay -q
 
 ### Theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
 
 ### Keybindings
 bindkey -e
@@ -144,6 +148,10 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
+alias 1="cd -1"
+alias 2="cd -2"
+alias 3="cd -3"
+
 ### listing shortcuts
 if [[ $(uname) == "Darwin" ]]; then
   alias l="ls -lAhG"
@@ -163,10 +171,6 @@ if [[ $(uname -a | grep Ubuntu) ]]; then
   alias ll="ls -l --color"
   alias ls="ls --color"
 fi
-
-# ### Tree
-# alias t='tree'
-# alias tl='tree | less'
 
 ### Colorized cat
 alias c='highlight -O ansi'
