@@ -14,6 +14,7 @@ export ZSH=~/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME=robbyrussell
 
 ##################################
 # ZSH Defaults
@@ -376,6 +377,7 @@ export KLAVIYO="$CODE/klaviyo"
 export KL_APP="$KLAVIYO/app"
 export KL_NO_SET_S2A_PROMPT_COLORS=true
 export KL_DISABLE_ELEVATED_PROMPT=true
+export KL_SSH_USERNAME="davidreed"
 
 ### The infra-deployment script is lesser-updated, while
 ### .s2a_login was provided by the k-repo local setup script,
@@ -418,7 +420,16 @@ export CURRENT_UID="$(id -u):$(id -g)"
 # export KL_LOCAL_MYSQL_ROOT_PASSWORD=$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 20 ; echo)
 source $HOME/dotfiles/secrets.zsh
 
-### Macro to check traffic on a DB before deletion
+# Macro to check traffic on a DB before deletion
 pre-delete() {
   aws cloudwatch get-metric-statistics --namespace AWS/RDS --metric-name DatabaseConnections --dimensions "[{\"Name\": \"DBClusterIdentifier\", \"Value\": \"$1\"}]" --start-time $(date -v-1d -u +"%Y-%m-%dT%H:%M:%SZ") --end-time $(date -u +"%Y-%m-%dT%H:%M:%SZ") --period 3600 --statistics Average | jq '.Datapoints[].Average'
+}
+
+# list all hosts from a certain cluster
+function list-cluster() {
+  aws ec2 describe-instances --filters \
+    "Name=tag:cluster,Values=$1" \
+    'Name=instance-state-name,Values=running' \
+    | jq -r '.Reservations[].Instances[]' \
+    | jq -r '.Tags[] | select(.Key == "Name") | .Value'
 }
