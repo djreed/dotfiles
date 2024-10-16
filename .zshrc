@@ -328,12 +328,14 @@ alias m='mvn'
 ### `go install golang.org/dl/go1.19@latest`
 ### `go1.19 download`
 # alias go="go1.22.2"
+alias go="go1.23.2"
 
 ### Go $PATH setup
 export GOPATH=$CODE
 export PATH=$PATH:$GOPATH/bin
 
-export GOROOT=$(go env GOROOT)
+# export GOROOT=$(go env GOROOT)
+export GOROOT=$HOME/sdk/go1.23.2
 export PATH=$PATH:$GOROOT/bin
 
 alias gob="go build"
