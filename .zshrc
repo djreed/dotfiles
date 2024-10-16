@@ -1,9 +1,9 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -13,7 +13,7 @@ export CONFIG="${XDG_CONFIG_HOME:-${HOME}/.config}"
 export LOCAL_SHARE="${LOCAL}/share"
 
 # Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+# export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -31,9 +31,9 @@ fi
 
 ### Powerlevel10k
 
-if [ ! -d "$ZSH/themes/powerlevel10k" ]; then
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH/themes/powerlevel10k
-fi
+# if [ ! -d "$ZSH/themes/powerlevel10k" ]; then
+#   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH/themes/powerlevel10k
+# fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
@@ -53,8 +53,8 @@ fi
 source "${ZINIT_HOME}/zinit.zsh"
 
 # Add in Powerlevel10k
-# zinit ice depth "1" # Set to 1 to avoid loading all dependencies
-# zinit light romkatv/powerlevel10k
+zinit ice depth "1" # Set to 1 to avoid loading all dependencies
+zinit light romkatv/powerlevel10k
 
 # Add in zsh plugins
 zinit light zsh-users/zsh-syntax-highlighting
@@ -327,7 +327,7 @@ alias m='mvn'
 ### Can install multiple versions at a time, e.g.
 ### `go install golang.org/dl/go1.19@latest`
 ### `go1.19 download`
-alias go="go1.22.2"
+# alias go="go1.22.2"
 
 ### Go $PATH setup
 export GOPATH=$CODE
@@ -407,27 +407,26 @@ alias kcli="klaviyocli"
 alias kl="klaviyocli"
 
 ### Klaviyo Local Dev & Env Var Setup
+export CHARIOT_SETTINGS=$KLAVIYO/k-repo/python/klaviyo/kms/config/settings/settings_development.py
+source $HOME/.apprc
+# Pulled from `python local app` => `python which python`
+export MAINLINE_PYTHON=$HOME/.pyenv/versions/app/bin/python
+export KCLI_PYTHON_VERSION="3.10.9"
 
 # Soft limit on open file descriptors
 ulimit -Sn 10240
 
 # Sets up system and Python flags for Klaviyo Python (specifically in App)
-source $HOME/.apprc
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv init --path)"
 eval "$(pyenv virtualenv-init -)"
 
-# Pulled from `python local app` => `python which python`
-export MAINLINE_PYTHON=$HOME/.pyenv/versions/app/bin/python
-export KCLI_PYTHON_VERSION="3.10.9"
-
-export CHARIOT_SETTINGS=$KLAVIYO/k-repo/python/klaviyo/kms/config/settings/settings_development.py
-
 # Useful for Docker
 export CURRENT_UID="$(id -u):$(id -g)"
 
 ### For local dev, randomized MySQL password in a local file not in version control
+# Generated via:
 # export KL_LOCAL_MYSQL_ROOT_PASSWORD=$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 20 ; echo)
 source $HOME/dotfiles/secrets.zsh
 
