@@ -304,9 +304,9 @@ alias m='mvn'
 ### Golang version selection
 ### See: https://go.dev/doc/manage-install
 ### Can install multiple versions at a time, e.g.
-### `go install golang.org/dl/go1.19@latest`
-### `go1.19 download`
-alias go="go1.19"
+### `go install golang.org/dl/go1.23.2@latest`
+### `go1.23.3 download`
+alias go="go1.23.2"
 
 ### Go $PATH setup
 export GOPATH=$CODE
@@ -367,6 +367,7 @@ export KLAVIYO="$CODE/klaviyo"
 export KL_APP="$KLAVIYO/app"
 export KL_NO_SET_S2A_PROMPT_COLORS=true
 export KL_DISABLE_ELEVATED_PROMPT=true
+export KL_SSH_USERNAME="david.reed"
 
 ### The infra-deployment script is lesser-updated, while
 ### .s2a_login was provided by the k-repo local setup script,
