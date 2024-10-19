@@ -325,7 +325,6 @@ alias goi="go install"
 #############################
 
 ### By default alias python to the system python3 install
-### ( Some Pulsar packages rely on whatever `python` executes )
 alias python="python3"
 
 #############################
