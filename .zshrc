@@ -304,9 +304,9 @@ alias m='mvn'
 ### Golang version selection
 ### See: https://go.dev/doc/manage-install
 ### Can install multiple versions at a time, e.g.
-### `go install golang.org/dl/go1.23.2@latest`
+### `go install golang.org/dl/go1.23.3@latest`
 ### `go1.23.3 download`
-alias go="go1.23.2"
+alias go="go1.23.3"
 
 ### Go $PATH setup
 export GOPATH=$CODE
@@ -314,6 +314,11 @@ export PATH=$PATH:$GOPATH/bin
 
 export GOROOT=$(go env GOROOT)
 export PATH=$PATH:$GOROOT/bin
+
+export GOPROXY=https://proxy.golang.org,direct
+export GOSUMDB=sum.golang.org
+
+export GOTOOLCHAIN=auto
 
 alias gob="go build"
 alias gof="go fmt"
@@ -331,32 +336,32 @@ alias python="python3"
 ### NVM / NPM / Node
 #############################
 
-# NVM home directory
-export NVM_DIR="$HOME/.nvm"
+# # NVM home directory
+# export NVM_DIR="$HOME/.nvm"
 
-# Load NVM
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+# # Load NVM
+# [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
 
-# Load NVM bash_completion
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" 
+# # Load NVM bash_completion
+# [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" 
 
-# Post-NVM-initialization
-autoload -U add-zsh-hook
-load-nvmrc() {
-  local node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
+# # Post-NVM-initialization
+# autoload -U add-zsh-hook
+# load-nvmrc() {
+#   local node_version="$(nvm version)"
+#   local nvmrc_path="$(nvm_find_nvmrc)"
 
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+#   if [ -n "$nvmrc_path" ]; then
+#     local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
 
-    if [ "$nvmrc_node_version" != "$node_version" ]; then
-      nvm use
-    fi
-  fi
-}
+#     if [ "$nvmrc_node_version" != "$node_version" ]; then
+#       nvm use
+#     fi
+#   fi
+# }
 
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
+# add-zsh-hook chpwd load-nvmrc
+# load-nvmrc
 
 #############################
 ### Klaviyo
@@ -366,7 +371,7 @@ export KLAVIYO="$CODE/klaviyo"
 export KL_APP="$KLAVIYO/app"
 export KL_NO_SET_S2A_PROMPT_COLORS=true
 export KL_DISABLE_ELEVATED_PROMPT=true
-export KL_SSH_USERNAME="david.reed"
+export KL_SSH_USERNAME="davidreed"
 
 ### The infra-deployment script is lesser-updated, while
 ### .s2a_login was provided by the k-repo local setup script,
@@ -375,7 +380,6 @@ source $KLAVIYO/infrastructure-deployment/bashenv/source.sh
 source $HOME/.s2a_login
 
 ### 8-hour long session by default
-alias s2a-login="s2a-login --session-duration=28800"
 alias s2a="s2a-login --session-duration=28800"
 
 export PATH="$HOME/.klaviyocli/.bin:$PATH"
@@ -390,16 +394,17 @@ alias kl="klaviyocli"
 ulimit -Sn 10240
 
 # Sets up system and Python flags for Klaviyo Python (specifically in App)
-source $HOME/.apprc
+# source $HOME/.apprc
+source /Users/david.reed/.apprc
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv init --path)"
 eval "$(pyenv virtualenv-init -)"
 
 # Pulled from `python local app` => `python which python`
-export MAINLINE_PYTHON=$HOME/.pyenv/versions/app/bin/python
+# export MAINLINE_PYTHON=$HOME/.pyenv/versions/app/bin/python
+export MAINLINE_PYTHON=/Users/david.reed/.pyenv/versions/app/bin/python
 export KCLI_PYTHON_VERSION="3.10.9"
-
 
 # Useful for Docker
 export CURRENT_UID="$(id -u):$(id -g)"
@@ -409,3 +414,4 @@ export CURRENT_UID="$(id -u):$(id -g)"
 source ~/dotfiles/secrets.zsh
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
+export CHARIOT_SETTINGS=/Users/david.reed/Klaviyo/Repos/k-repo/python/klaviyo/kms/config/settings/settings_development.py
