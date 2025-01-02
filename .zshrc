@@ -306,7 +306,7 @@ alias m='mvn'
 ### Can install multiple versions at a time, e.g.
 ### `go install golang.org/dl/go1.23.3@latest`
 ### `go1.23.3 download`
-alias go="go1.23.3"
+# alias go="go1.23.4"
 
 ### Go $PATH setup
 export GOPATH=$CODE
@@ -368,7 +368,9 @@ alias python="python3"
 #############################
 
 export KLAVIYO="$CODE/klaviyo"
-export KL_APP="$KLAVIYO/app"
+export KL_APP="$KLAVIYO/Repos/app"
+export KL_INFRA="$KLAVIYO/Repos/infrastructure-deployment"
+export KL_KREPO="$KLAVIYO/Repos/k-repo"
 export KL_NO_SET_S2A_PROMPT_COLORS=true
 export KL_DISABLE_ELEVATED_PROMPT=true
 export KL_SSH_USERNAME="davidreed"
