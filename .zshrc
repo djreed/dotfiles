@@ -247,7 +247,15 @@ alias dcd="docker compose down"
 alias dcl="docker compose pull"
 alias dcud="docker compose up -d"
 
-alias nuke_docker="docker stop $(docker ps -aq); docker rm $(docker ps -aq) && docker system prune -af --volumes"
+# alias nuke_docker="docker stop $(docker ps -aq); docker rm $(docker ps -aq) && docker system prune -af --volumes"
+function nuke_docker() {
+  docker rm -f $(docker ps -aq); \
+  docker rmi -f $(docker images -aq); \
+  docker volume rm $(docker volume ls -q); \
+  docker system prune -af --volumes; \
+  docker builder prune -a -f; \
+  docker network rm $(docker network ls -q)
+}
 alias docker_nuke="nuke_docker"
 
 #############################
@@ -304,9 +312,9 @@ alias m='mvn'
 ### Golang version selection
 ### See: https://go.dev/doc/manage-install
 ### Can install multiple versions at a time, e.g.
-### `go install golang.org/dl/go1.23.3@latest`
-### `go1.23.3 download`
-# alias go="go1.23.4"
+### `go install golang.org/dl/go1.23.4@latest`
+### `go1.23.4 download`
+alias go="go1.23.4"
 
 ### Go $PATH setup
 export GOPATH=$CODE
