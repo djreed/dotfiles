@@ -314,7 +314,7 @@ alias m='mvn'
 ### Can install multiple versions at a time, e.g.
 ### `go install golang.org/dl/go1.23.4@latest`
 ### `go1.23.4 download`
-alias go="go1.23.4"
+# alias go="go1.23.4"
 
 ### Go $PATH setup
 export GOPATH=$CODE
@@ -425,3 +425,6 @@ source ~/dotfiles/secrets.zsh
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export CHARIOT_SETTINGS=/Users/david.reed/Klaviyo/Repos/k-repo/python/klaviyo/kms/config/settings/settings_development.py
+export KL_AWS_CUSTOM_S3_ENDPOINT=http://localhost:9000
+export KL_LOCAL_DYNAMODB_ENDPOINT=http://localhost:4566
+export KL_LOCAL_KMS_ENDPOINT=http://localhost:4566
