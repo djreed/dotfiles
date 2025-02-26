@@ -398,6 +398,11 @@ eval "$(_KLAVIYOCLI_COMPLETE=zsh_source klaviyocli)"
 alias kcli="klaviyocli"
 alias kl="klaviyocli"
 
+### Kubernetes debugging
+function kdebug() {
+  kubectl -n sre debug $1 -it --image=368154587575.dkr.ecr.us-east-1.amazonaws.com/klaviyo-python-debug:latest
+}
+
 ### Klaviyo Local Dev & Env Var Setup
 
 # Soft limit on open file descriptors
@@ -415,6 +420,7 @@ eval "$(pyenv virtualenv-init -)"
 # export MAINLINE_PYTHON=$HOME/.pyenv/versions/app/bin/python
 export MAINLINE_PYTHON=/Users/david.reed/.pyenv/versions/app/bin/python
 export KCLI_PYTHON_VERSION="3.10.9"
+export PANTS_TEST_USE_COVERAGE=true
 
 # Useful for Docker
 export CURRENT_UID="$(id -u):$(id -g)"
