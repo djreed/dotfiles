@@ -351,32 +351,32 @@ alias python="python3"
 ### NVM / NPM / Node
 #############################
 
-# # NVM home directory
-# export NVM_DIR="$HOME/.nvm"
+# NVM home directory
+export NVM_DIR="$HOME/.nvm"
 
-# # Load NVM
-# [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+# Load NVM
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
 
-# # Load NVM bash_completion
-# [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" 
+# Load NVM bash_completion
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-# # Post-NVM-initialization
-# autoload -U add-zsh-hook
-# load-nvmrc() {
-#   local node_version="$(nvm version)"
-#   local nvmrc_path="$(nvm_find_nvmrc)"
+# Post-NVM-initialization
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local node_version="$(nvm version)"
+  local nvmrc_path="$(nvm_find_nvmrc)"
 
-#   if [ -n "$nvmrc_path" ]; then
-#     local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
 
-#     if [ "$nvmrc_node_version" != "$node_version" ]; then
-#       nvm use
-#     fi
-#   fi
-# }
+    if [ "$nvmrc_node_version" != "$node_version" ]; then
+      nvm use
+    fi
+  fi
+}
 
-# add-zsh-hook chpwd load-nvmrc
-# load-nvmrc
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
 
 #############################
 ### Klaviyo
